@@ -37,7 +37,7 @@ export default function AuthCallbackPage() {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <p className="text-lg font-medium">Carregando, aguarde...</p>
+      <p className="text-lg font-medium">Loading, wait...</p>
     </div>
   );
 }

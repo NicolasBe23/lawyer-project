@@ -86,3 +86,9 @@ export interface AuthResponse {
     email: string;
   };
 }
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+}

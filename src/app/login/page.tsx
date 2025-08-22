@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Cookies from "js-cookie";
 import {
   Card,
   CardHeader,
@@ -29,7 +30,11 @@ export default function LoginPage() {
         `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/auth/local`,
         { identifier, password }
       );
-      localStorage.setItem("strapi_token", res.data.jwt);
+
+      Cookies.set("strapi_token", res.data.jwt, { expires: 7 });
+
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
       router.push("/dashboard");
     } catch (err: unknown) {
       setError("Invalid credentials");
