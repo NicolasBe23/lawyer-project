@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { AuthResponse } from "@/types/types";
 
 export default function AuthCallbackPage() {
@@ -23,7 +24,11 @@ export default function AuthCallbackPage() {
           `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/auth/google/callback?access_token=${accessToken}`
         );
 
-        localStorage.setItem("strapi_token", res.data.jwt);
+        Cookies.set("strapi_token", res.data.jwt, { expires: 7 });
+
+        Cookies.set("strapi_user", JSON.stringify(res.data.user), {
+          expires: 7,
+        });
 
         router.push("/dashboard");
       } catch (error) {

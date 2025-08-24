@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Cookies from "js-cookie";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const { user, loading } = useUser();
@@ -13,6 +15,7 @@ export default function ProfilePage() {
   const [password, setPassword] = useState("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     if (user) {
@@ -47,6 +50,9 @@ export default function ProfilePage() {
 
       setMessage("Profile updated successfully!");
       setPassword("");
+
+      const updatedUser = { ...user, username, email };
+      Cookies.set("strapi_user", JSON.stringify(updatedUser), { expires: 7 });
     } catch (err: unknown) {
       const error = err as Error;
       setMessage(error.message);
@@ -58,7 +64,16 @@ export default function ProfilePage() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow">
+    <div className="mx-auto bg-white p-12 rounded-lg shadow w-full gap-8 flex flex-col">
+      <div>
+        <Button
+          variant="outline"
+          className="cursor-pointer"
+          onClick={() => router.push("/dashboard")}
+        >
+          <ArrowLeft size={20} /> Back to Dashboard
+        </Button>
+      </div>
       <h1 className="text-2xl font-bold mb-4">My Profile</h1>
 
       <div className="space-y-4">

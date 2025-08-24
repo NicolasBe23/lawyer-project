@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import { Client, Document, Process, Schedule } from "../types/types";
 
 const API_URL =
@@ -13,7 +14,7 @@ export const strapiApi = axios.create({
 
 strapiApi.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("strapi_token");
+    const token = Cookies.get("strapi_token");
     if (token) {
       config.headers = {
         ...config.headers,
@@ -25,8 +26,8 @@ strapiApi.interceptors.request.use((config) => {
 });
 
 export const clientService = {
-  getAll: () => strapiApi.get("/clients?populate=*"),
-  getById: (id: string) => strapiApi.get(`/clients/${id}?populate=*`),
+  getAll: () => strapiApi.get("/clients"),
+  getById: (id: string) => strapiApi.get(`/clients/${id}`),
   create: (data: Client) => strapiApi.post("/clients", { data }),
   update: (id: string, data: Client) =>
     strapiApi.put(`/clients/${id}`, { data }),

@@ -33,8 +33,7 @@ export default function RegisterPage() {
       );
 
       Cookies.set("strapi_token", res.data.jwt, { expires: 7 });
-
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      Cookies.set("strapi_user", JSON.stringify(res.data.user), { expires: 7 });
 
       router.push("/dashboard");
     } catch (err: unknown) {
