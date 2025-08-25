@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FcGoogle } from "react-icons/fc";
-import { AuthResponse } from "@/types/types";
+import { AuthResponse, StrapiError } from "@/types/types";
+import { Loading } from "@/components/ui/loading";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -23,26 +23,38 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
+
     try {
-      const res = await axios.post<AuthResponse>(
+      const registerPromise = axios.post<AuthResponse>(
         `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/auth/local/register`,
         { username, email, password }
       );
+
+      const delayPromise = new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const [res] = await Promise.all([registerPromise, delayPromise]);
 
       Cookies.set("strapi_token", res.data.jwt, { expires: 7 });
       Cookies.set("strapi_user", JSON.stringify(res.data.user), { expires: 7 });
 
       router.push("/dashboard");
     } catch (err: unknown) {
-      setError("Error registering. Please try again.");
-    }
-  };
+      const errorMessage = (err as StrapiError).response?.data?.error?.message;
 
-  const handleGoogleRegister = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/connect/google`;
+      if (errorMessage) {
+        setError(errorMessage);
+      } else {
+        setError("Error creating account. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -65,6 +77,7 @@ export default function RegisterPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              disabled={loading}
             />
 
             <Input
@@ -73,6 +86,7 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
 
             <Input
@@ -81,27 +95,17 @@ export default function RegisterPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
 
-            <Button type="submit" className="w-full">
-              Register
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? (
+                <Loading text="Creating account..." size="md" />
+              ) : (
+                "Register"
+              )}
             </Button>
           </form>
-
-          <div className="mt-4 flex items-center justify-center">
-            <div className="w-full border-t"></div>
-            <span className="px-2 text-sm text-muted-foreground">or</span>
-            <div className="w-full border-t"></div>
-          </div>
-
-          <Button
-            onClick={handleGoogleRegister}
-            variant="outline"
-            className="w-full mt-4 flex items-center justify-center gap-2"
-          >
-            <FcGoogle size={20} />
-            Register with Google
-          </Button>
         </CardContent>
 
         <CardFooter className="text-sm text-center flex flex-col gap-2">

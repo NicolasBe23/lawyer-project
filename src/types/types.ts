@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react";
+
 export interface Client {
   id: number;
   attributes: {
@@ -91,4 +93,27 @@ export interface User {
   id: number;
   username: string;
   email: string;
+  confirmed: boolean;
+  provider?: string;
+  documentId?: string;
+}
+
+export interface StatCardProps {
+  title: string;
+  value: string | number;
+  subtitle: string;
+  icon: LucideIcon;
+  iconColor: string;
+}
+
+export interface StrapiError {
+  response?: {
+    data?: {
+      error?: {
+        message?: string;
+        name?: string;
+        status?: number;
+      };
+    };
+  };
 }

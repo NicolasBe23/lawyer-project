@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { User } from "@/types/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StatCard } from "@/components/statCard/page";
 import { Users, FileText, Calendar, Folder } from "lucide-react";
 import {
   LineChart,
@@ -13,12 +15,43 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   PieChart,
   Pie,
-  Cell,
   ResponsiveContainer,
+  Legend,
+  Cell,
 } from "recharts";
+
+const statsData = [
+  {
+    title: "Clients",
+    value: 120,
+    subtitle: "+15 this month",
+    icon: Users,
+    iconColor: "text-blue-600",
+  },
+  {
+    title: "Processes",
+    value: 35,
+    subtitle: "+3 active",
+    icon: FileText,
+    iconColor: "text-green-600",
+  },
+  {
+    title: "Schedules",
+    value: 12,
+    subtitle: "2 this week",
+    icon: Calendar,
+    iconColor: "text-yellow-600",
+  },
+  {
+    title: "Documents",
+    value: 58,
+    subtitle: "5 new",
+    icon: Folder,
+    iconColor: "text-purple-600",
+  },
+];
 
 const clientsByMonth = [
   { month: "Jan", clients: 10 },
@@ -38,71 +71,81 @@ const processesByStatus = [
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const token = Cookies.get("strapi_token");
+    const fetchUser = async () => {
+      try {
+        const token = Cookies.get("strapi_token");
+        if (!token) {
+          router.push("/login");
+          return;
+        }
 
-    if (token) {
-      axios
-        .get(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/users/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => setUser(res.data as User))
-        .catch(() => setUser(null));
-    }
-  }, []);
+        const userFromCookie = Cookies.get("strapi_user");
+        if (userFromCookie) {
+          setUser(JSON.parse(userFromCookie));
+        }
+
+        if (
+          token.startsWith("google_") ||
+          token.startsWith("temp_") ||
+          token.startsWith("fallback_")
+        ) {
+          return;
+        }
+
+        if (
+          token &&
+          !token.startsWith("google_") &&
+          !token.startsWith("temp_") &&
+          !token.startsWith("fallback_")
+        ) {
+          const response = await axios.get(
+            `${
+              process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337"
+            }/api/users/me`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.data) {
+            setUser(response.data as User);
+            Cookies.set("strapi_user", JSON.stringify(response.data), {
+              expires: 7,
+            });
+          }
+        }
+      } catch {
+        const userFromCookie = Cookies.get("strapi_user");
+        if (userFromCookie) {
+          setUser(JSON.parse(userFromCookie));
+        }
+      }
+    };
+
+    fetchUser();
+  }, [router]);
 
   if (!user) return <p>Loading...</p>;
 
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-4 gap-6">
-        <Card className="shadow-md">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Clients</CardTitle>
-            <Users className="text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">120</p>
-            <p className="text-sm text-gray-500">+15 this month</p>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-md">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Processes</CardTitle>
-            <FileText className="text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">35</p>
-            <p className="text-sm text-gray-500">+3 active</p>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-md">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Schedules</CardTitle>
-            <Calendar className="text-yellow-600" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">12</p>
-            <p className="text-sm text-gray-500">2 this week</p>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-md">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Documents</CardTitle>
-            <Folder className="text-purple-600" />
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">58</p>
-            <p className="text-sm text-gray-500">5 new</p>
-          </CardContent>
-        </Card>
+        {statsData.map((stat, index) => (
+          <StatCard
+            key={index}
+            title={stat.title}
+            value={stat.value}
+            subtitle={stat.subtitle}
+            icon={stat.icon}
+            iconColor={stat.iconColor}
+          />
+        ))}
       </div>
 
       <div className="grid grid-cols-2 gap-6">

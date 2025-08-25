@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import Cookies from "js-cookie";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Loading } from "@/components/ui/loading";
 
 export default function ProfilePage() {
   const { user, loading } = useUser();
@@ -48,14 +49,12 @@ export default function ProfilePage() {
 
       if (!res.ok) throw new Error("Error updating profile");
 
+      const updatedUser = await res.json();
+      Cookies.set("strapi_user", JSON.stringify(updatedUser), { expires: 7 });
       setMessage("Profile updated successfully!");
       setPassword("");
-
-      const updatedUser = { ...user, username, email };
-      Cookies.set("strapi_user", JSON.stringify(updatedUser), { expires: 7 });
-    } catch (err: unknown) {
-      const error = err as Error;
-      setMessage(error.message);
+    } catch {
+      setMessage("Error updating profile");
     } finally {
       setSaving(false);
     }
@@ -100,7 +99,7 @@ export default function ProfilePage() {
         </div>
 
         <Button onClick={handleSave} disabled={saving}>
-          {saving ? "Saving..." : "Save Changes"}
+          {saving ? <Loading text="Saving..." size="md" /> : "Save Changes"}
         </Button>
 
         {message && <p className="mt-2 text-sm">{message}</p>}

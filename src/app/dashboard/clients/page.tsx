@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Client } from "@/types/types";
 import Cookies from "js-cookie";
+import { Loading } from "@/components/ui/loading";
 
 export default function ClientsPage() {
   const [clients, setClients] = useState<Client[]>([]);
@@ -13,21 +14,28 @@ export default function ClientsPage() {
       try {
         const token = Cookies.get("strapi_token");
         if (!token) {
-          console.error("Token not found");
           return;
         }
 
-        const res = await fetch("http://localhost:1337/api/clients", {
+        const fetchPromise = fetch("http://localhost:1337/api/clients", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        const data = await res.json();
+        const delayPromise = new Promise((resolve) =>
+          setTimeout(resolve, 1000)
+        );
 
+        const [res] = await Promise.all([fetchPromise, delayPromise]);
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
         setClients(data.data || []);
-      } catch (err) {
-        console.error("Error fetching clients:", err);
+      } catch {
       } finally {
         setLoading(false);
       }
@@ -36,7 +44,13 @@ export default function ClientsPage() {
     fetchClients();
   }, []);
 
-  if (loading) return <p>Loading clients...</p>;
+  if (loading) {
+    return (
+      <div className="p-6">
+        <Loading text="Loading clients..." size="md" />
+      </div>
+    );
+  }
 
   return (
     <div className="p-6">
