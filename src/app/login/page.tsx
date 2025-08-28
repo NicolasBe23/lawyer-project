@@ -82,7 +82,11 @@ export default function LoginPage() {
               disabled={loading}
             />
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full bg-gray-900 hover:bg-gray-800"
+              disabled={loading}
+            >
               {loading ? <Loading text="Signing in..." size="md" /> : "Login"}
             </Button>
           </form>
@@ -91,7 +95,7 @@ export default function LoginPage() {
         <CardFooter className="text-sm text-center flex flex-col gap-2">
           <p>
             Don&apos;t have an account?{" "}
-            <a href="/register" className="text-blue-600 hover:underline">
+            <a href="/register" className="text-blue-700 hover:underline">
               Register
             </a>
           </p>

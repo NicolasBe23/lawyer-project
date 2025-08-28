@@ -12,28 +12,26 @@ export interface Client {
     active: boolean;
     createdAt: string;
     updatedAt: string;
+    publishedAt: string;
   };
 }
 
 export interface Process {
   id: number;
-  attributes: {
-    processNumber: string;
-    title: string;
-    description?: string;
-    status: "active" | "archived" | "completed";
-    startDate: string;
-    completionDate?: string;
-    value?: number;
-    client: {
-      data: Client;
-    };
-    documents?: {
-      data: Document[];
-    };
-    createdAt: string;
-    updatedAt: string;
-  };
+  documentId: string;
+  processNumber: string;
+  title: string;
+  description?: string;
+  processStatus: "active" | "archived" | "completed";
+  startDate: string;
+  completionDate?: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  client: Client; // Cliente vem diretamente, não em data
+  process_documents: Document[];
+  schedules: Schedule[];
+  documents?: null; // Parece ser sempre null baseado na resposta
 }
 
 export interface Document {
@@ -116,4 +114,32 @@ export interface StrapiError {
       };
     };
   };
+}
+
+export interface DashboardStats {
+  clients: number;
+  processes: number;
+  documents: number;
+  schedules: number;
+  clientsThisMonth: number;
+  activeProcesses: number;
+  schedulesThisWeek: number;
+  newDocuments: number;
+}
+
+export interface StrapiResponse<T> {
+  data: T[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
+export interface StrapiSingleResponse<T> {
+  data: T;
+  meta?: Record<string, unknown>;
 }

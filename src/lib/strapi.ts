@@ -44,12 +44,12 @@ export const processService = {
 };
 
 export const documentService = {
-  getAll: () => strapiApi.get("/documents?populate=*"),
-  getById: (id: string) => strapiApi.get(`/documents/${id}?populate=*`),
-  create: (data: Document) => strapiApi.post("/documents", { data }),
+  getAll: () => strapiApi.get("/process-documents?populate=*"),
+  getById: (id: string) => strapiApi.get(`/process-documents/${id}?populate=*`),
+  create: (data: Document) => strapiApi.post("/process-documents", { data }),
   update: (id: string, data: Document) =>
-    strapiApi.put(`/documents/${id}`, { data }),
-  delete: (id: string) => strapiApi.delete(`/documents/${id}`),
+    strapiApi.put(`/process-documents/${id}`, { data }),
+  delete: (id: string) => strapiApi.delete(`/process-documents/${id}`),
 };
 
 export const scheduleService = {

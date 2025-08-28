@@ -2,13 +2,11 @@
 
 import { Home, Calendar, FileText, LogOut, User, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@/lib/useUser";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
 
 export default function Sidebar() {
-  const { user, loading } = useUser();
   const router = useRouter();
 
   const navigationLinks = [
@@ -28,20 +26,8 @@ export default function Sidebar() {
 
   return (
     <div className="flex h-screen">
-      <aside className="w-64 bg-gray-900 text-white flex flex-col p-4">
-        <h2 className="text-xl font-bold mb-6 mt-4">⚖️ Lawyer App</h2>
-
-        <div className="mb-8">
-          {loading ? (
-            <p className="text-sm text-gray-400">Loading...</p>
-          ) : user ? (
-            <>
-              <p className="font-medium">Lawyer: Mr. {user.username}</p>
-            </>
-          ) : (
-            <p className="text-sm text-red-400">User not found</p>
-          )}
-        </div>
+      <aside className="w-50 bg-gray-900 text-white flex flex-col p-4">
+        <h2 className="text-xl font-bold mb-8 mt-4">⚖️ Lawyer App</h2>
 
         <nav className="flex flex-col gap-3 flex-1">
           {navigationLinks.map((link) => {

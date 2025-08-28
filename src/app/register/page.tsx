@@ -98,7 +98,11 @@ export default function RegisterPage() {
               disabled={loading}
             />
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full bg-gray-900 hover:bg-gray-800"
+              disabled={loading}
+            >
               {loading ? (
                 <Loading text="Creating account..." size="md" />
               ) : (
@@ -111,7 +115,7 @@ export default function RegisterPage() {
         <CardFooter className="text-sm text-center flex flex-col gap-2">
           <p>
             Already have an account?{" "}
-            <a href="/login" className="text-blue-600 hover:underline">
+            <a href="/login" className="text-blue-700 hover:underline">
               Login
             </a>
           </p>

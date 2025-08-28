@@ -1,47 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Client } from "@/types/types";
-import Cookies from "js-cookie";
 import { Loading } from "@/components/ui/loading";
+import { Client } from "@/types/types";
+import { getAllClients } from "@/services/getAllClients";
+import { useState, useEffect } from "react";
 
 export default function ClientsPage() {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const token = Cookies.get("strapi_token");
-        if (!token) {
-          return;
-        }
-
-        const fetchPromise = fetch("http://localhost:1337/api/clients", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const delayPromise = new Promise((resolve) =>
-          setTimeout(resolve, 1000)
-        );
-
-        const [res] = await Promise.all([fetchPromise, delayPromise]);
-
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-
-        const data = await res.json();
-        setClients(data.data || []);
-      } catch {
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchClients();
+    getAllClients().then((res) => {
+      setClients(res.data);
+      setLoading(false);
+    });
   }, []);
 
   if (loading) {
