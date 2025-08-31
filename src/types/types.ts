@@ -28,54 +28,23 @@ export interface Process {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  client: Client; // Cliente vem diretamente, não em data
-  process_documents: Document[];
+  client: Client;
+  process_documents: DocumentData[];
   schedules: Schedule[];
-  documents?: null; // Parece ser sempre null baseado na resposta
-}
-
-export interface Document {
-  id: number;
-  attributes: {
-    title: string;
-    description?: string;
-    file: {
-      data: {
-        id: number;
-        attributes: {
-          name: string;
-          url: string;
-          size: number;
-          ext: string;
-        };
-      };
-    };
-    process?: {
-      data: Process;
-    };
-    uploadDate: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  documents?: null;
 }
 
 export interface Schedule {
   id: number;
-  attributes: {
-    title: string;
-    description?: string;
-    dateTime: string;
-    location?: string;
-    client?: {
-      data: Client;
-    };
-    process?: {
-      data: Process;
-    };
-    completed: boolean;
-    createdAt: string;
-    updatedAt: string;
-  };
+  title: string;
+  description?: string;
+  dateTime: string;
+  location?: string;
+  completed: boolean;
+  client?: Client;
+  process?: Process;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface AuthResponse {
@@ -142,4 +111,23 @@ export interface StrapiResponse<T> {
 export interface StrapiSingleResponse<T> {
   data: T;
   meta?: Record<string, unknown>;
+}
+
+export interface DocumentData {
+  id: number;
+  title: string;
+  description?: string;
+  file?: File;
+  process?: {
+    id: number;
+    title: string;
+    client: {
+      id: number;
+      name: string;
+      email: string;
+    };
+  };
+  uploadDate?: string;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import {
   Client,
   Process,
-  Document,
+  DocumentData,
   Schedule,
   DashboardStats,
   StrapiResponse,
@@ -34,7 +34,8 @@ export const useGetDashboardStats = () => {
 
         const clients = (clientsRes.data as StrapiResponse<Client>).data;
         const processes = (processesRes.data as StrapiResponse<Process>).data;
-        const documents = (documentsRes.data as StrapiResponse<Document>).data;
+        const documents = (documentsRes.data as StrapiResponse<DocumentData>)
+          .data;
         const schedules = (schedulesRes.data as StrapiResponse<Schedule>).data;
 
         const activeProcesses = processes.filter((p: Process) => {
@@ -72,7 +73,7 @@ export const useGetDashboardStats = () => {
 
         setClientsData(clients);
       } catch (error) {
-        console.error("Erro ao buscar dados do dashboard:", error);
+        console.error("Error fetching dashboard stats:", error);
       } finally {
         setLoading(false);
       }

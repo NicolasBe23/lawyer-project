@@ -8,6 +8,10 @@ import Header from "@/components/header/page";
 import { StatsCards } from "@/components/dashboard/StatsCards";
 import { ClientsChart } from "@/components/dashboard/ClientsChart";
 import { ProcessesChart } from "@/components/dashboard/ProcessesChart";
+import { RecentClientsCard } from "@/components/dashboard/RecentClientsCard";
+import { RecentProcessesCard } from "@/components/dashboard/RecentProcessesCard";
+import { UpcomingSchedulesCard } from "@/components/dashboard/UpcomingSchedulesCard";
+import { PendingDocumentsCard } from "@/components/dashboard/PendingDocumentsCard";
 import { useGetDashboardStats } from "@/services/getDashboardStats";
 
 export default function DashboardPage() {
@@ -55,6 +59,16 @@ export default function DashboardPage() {
         <div className="col-span-2">
           <ProcessesChart stats={stats} />
         </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-6 mt-6">
+        <RecentClientsCard />
+        <RecentProcessesCard />
+      </div>
+
+      <div className="grid grid-cols-2 gap-6 mt-6">
+        <UpcomingSchedulesCard />
+        <PendingDocumentsCard />
       </div>
     </div>
   );
