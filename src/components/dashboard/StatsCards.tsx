@@ -1,11 +1,7 @@
 import Link from "next/link";
 import { Users, FileText, Calendar, Folder } from "lucide-react";
 import { StatCard } from "@/components/statCard/page";
-import { DashboardStats } from "@/types/types";
-
-interface StatsCardsProps {
-  stats: DashboardStats;
-}
+import { StatsCardsProps } from "@/types/types";
 
 export const StatsCards = ({ stats }: StatsCardsProps) => {
   return (

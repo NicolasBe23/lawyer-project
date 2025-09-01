@@ -8,11 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Client } from "@/types/types";
-
-interface ClientsChartProps {
-  clientsData: Client[];
-}
+import { ClientsChartProps } from "@/types/types";
 
 export const ClientsChart = ({ clientsData }: ClientsChartProps) => {
   const clientsByMonth = Array.from({ length: 12 }, (_, monthIndex) => {

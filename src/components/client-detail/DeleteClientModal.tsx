@@ -8,14 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
-interface DeleteClientModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  clientName: string;
-  isLoading?: boolean;
-}
+import { DeleteClientModalProps } from "@/types/types";
 
 export const DeleteClientModal = ({
   isOpen,

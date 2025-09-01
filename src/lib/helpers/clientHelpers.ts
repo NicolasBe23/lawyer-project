@@ -59,3 +59,27 @@ export const updateClient = async (
 
   return null;
 };
+
+export const createClient = async (
+  clientData: Partial<Client["attributes"]>
+) => {
+  const dataToSend = Object.entries(clientData).reduce((acc, [key, value]) => {
+    if (key === "active" && typeof value === "boolean") {
+      acc[key] = value;
+    } else if (typeof value === "string" && value.trim()) {
+      acc[key] = value.trim();
+    }
+    return acc;
+  }, {} as Record<string, string | boolean>);
+
+  const response = await strapiApi.post("/clients", {
+    data: dataToSend,
+  });
+
+  if (response.data && response.data.data) {
+    toast.success("Client created successfully");
+    return response.data.data;
+  }
+
+  return null;
+};

@@ -13,9 +13,9 @@ export default function Sidebar() {
     { href: "/dashboard", icon: Home, label: "Dashboard" },
     { href: "/dashboard/clients", icon: Users, label: "Clients" },
     { href: "/dashboard/processes", icon: FileText, label: "Processes" },
-    { href: "/profile", icon: User, label: "Profile" },
     { href: "/dashboard/documents", icon: FileText, label: "Documents" },
     { href: "/dashboard/schedules", icon: Calendar, label: "Schedule" },
+    { href: "/profile", icon: User, label: "Profile" },
   ];
 
   const handleLogout = () => {
@@ -27,7 +27,9 @@ export default function Sidebar() {
   return (
     <div className="flex h-screen">
       <aside className="w-50 bg-gray-900 text-white flex flex-col p-4">
-        <h2 className="text-xl font-bold mb-8 mt-4">⚖️ Lawyer App</h2>
+        <h2 className="text-xl font-bold mb-8 mt-4 cursor-default">
+          ⚖️ Lawyer App
+        </h2>
 
         <nav className="flex flex-col gap-3 flex-1">
           {navigationLinks.map((link) => {
@@ -36,7 +38,7 @@ export default function Sidebar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex items-center gap-2 p-2 rounded hover:bg-gray-800"
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800"
               >
                 <IconComponent size={20} /> {link.label}
               </Link>
@@ -47,7 +49,7 @@ export default function Sidebar() {
         <Button
           onClick={handleLogout}
           variant="destructive"
-          className="flex items-center gap-2 mt-auto mb-2 cursor-pointer"
+          className="flex items-center gap-2 mt-auto mb-2 cursor-pointer rounded-lg"
         >
           <LogOut size={20} /> Logout
         </Button>

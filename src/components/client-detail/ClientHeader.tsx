@@ -11,8 +11,8 @@ export const ClientHeader = ({
 }: ClientHeaderProps) => {
   return (
     <>
-      <div className="flex justify-start mb-4">
-        <Button variant="outline" onClick={onBack}>
+      <div className="flex justify-start mb-8">
+        <Button variant="outline" className="cursor-pointer" onClick={onBack}>
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
@@ -26,11 +26,15 @@ export const ClientHeader = ({
           </p>
         </div>
         <div className="flex space-x-2">
-          <Button variant="outline" onClick={onEdit}>
+          <Button variant="outline" className="cursor-pointer" onClick={onEdit}>
             <Edit className="w-4 h-4 mr-2" />
             Edit
           </Button>
-          <Button variant="destructive" onClick={onDelete}>
+          <Button
+            variant="destructive"
+            className="cursor-pointer"
+            onClick={onDelete}
+          >
             <Trash2 className="w-4 h-4 mr-2" />
             Delete
           </Button>

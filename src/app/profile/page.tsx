@@ -73,7 +73,7 @@ export default function ProfilePage() {
           <ArrowLeft size={20} /> Back to Dashboard
         </Button>
       </div>
-      <h1 className="text-2xl font-bold mb-4">My Profile</h1>
+      <h1 className="text-2xl mb-4 cursor-default">My Profile</h1>
 
       <div className="space-y-4">
         <div>
@@ -98,7 +98,11 @@ export default function ProfilePage() {
           />
         </div>
 
-        <Button onClick={handleSave} disabled={saving}>
+        <Button
+          className="cursor-pointer bg-gray-900 hover:bg-gray-800"
+          onClick={handleSave}
+          disabled={saving}
+        >
           {saving ? <Loading text="Saving..." size="md" /> : "Save Changes"}
         </Button>
 

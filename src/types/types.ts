@@ -173,3 +173,39 @@ export interface ClientSummaryProps {
   schedules: Schedule[];
   formatDate: (date: string) => string;
 }
+
+export interface ClientFormProps {
+  onSubmit: (clientData: Partial<Client["attributes"]>) => void;
+  initialData?: Client;
+  isLoading?: boolean;
+  submitText?: string;
+  onCancel?: () => void;
+}
+
+export interface ClientsChartProps {
+  clientsData: Client[];
+}
+
+export interface ProcessesChartProps {
+  stats: DashboardStats;
+}
+
+export interface DeleteClientModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  clientName: string;
+  isLoading?: boolean;
+}
+
+export interface EditClientModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (clientData: Partial<Client["attributes"]>) => void;
+  client: Client;
+  isLoading?: boolean;
+}
+
+export interface StatsCardsProps {
+  stats: DashboardStats;
+}
