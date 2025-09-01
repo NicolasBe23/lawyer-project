@@ -131,3 +131,45 @@ export interface DocumentData {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ClientWithRelations extends Client {
+  attributes: Client["attributes"] & {
+    processes?: Process[];
+    schedules?: Schedule[];
+    user?: {
+      id: number;
+      username: string;
+      email: string;
+    };
+  };
+}
+
+export interface ClientBasicInfoProps {
+  client: Client;
+  formatDate: (date: string) => string;
+}
+
+export interface ClientHeaderProps {
+  client: Client;
+  onBack: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  formatDate: (date: string) => string;
+}
+
+export interface ClientProcessesProps {
+  processes: Process[];
+  formatDate: (date: string) => string;
+}
+
+export interface ClientSchedulesProps {
+  schedules: Schedule[];
+  formatDateTime: (date: string) => string;
+}
+
+export interface ClientSummaryProps {
+  client: Client;
+  processes: Process[];
+  schedules: Schedule[];
+  formatDate: (date: string) => string;
+}

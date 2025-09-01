@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Client, Document, Process, Schedule } from "../types/types";
+import { Client, DocumentData, Process, Schedule } from "../types/types";
 
 const API_URL =
   process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
@@ -27,7 +27,7 @@ strapiApi.interceptors.request.use((config) => {
 
 export const clientService = {
   getAll: () => strapiApi.get("/clients"),
-  getById: (id: string) => strapiApi.get(`/clients/${id}`),
+  getById: (id: string) => strapiApi.get(`/clients/${id}?populate=*`),
   create: (data: Client) => strapiApi.post("/clients", { data }),
   update: (id: string, data: Client) =>
     strapiApi.put(`/clients/${id}`, { data }),
@@ -37,6 +37,8 @@ export const clientService = {
 export const processService = {
   getAll: () => strapiApi.get("/processes?populate=*"),
   getById: (id: string) => strapiApi.get(`/processes/${id}?populate=*`),
+  getByClient: (clientId: string) =>
+    strapiApi.get(`/processes?populate=*&filters[client][id][$eq]=${clientId}`),
   create: (data: Process) => strapiApi.post("/processes", { data }),
   update: (id: string, data: Process) =>
     strapiApi.put(`/processes/${id}`, { data }),
@@ -46,8 +48,9 @@ export const processService = {
 export const documentService = {
   getAll: () => strapiApi.get("/process-documents?populate=*"),
   getById: (id: string) => strapiApi.get(`/process-documents/${id}?populate=*`),
-  create: (data: Document) => strapiApi.post("/process-documents", { data }),
-  update: (id: string, data: Document) =>
+  create: (data: DocumentData) =>
+    strapiApi.post("/process-documents", { data }),
+  update: (id: string, data: DocumentData) =>
     strapiApi.put(`/process-documents/${id}`, { data }),
   delete: (id: string) => strapiApi.delete(`/process-documents/${id}`),
 };
@@ -55,6 +58,8 @@ export const documentService = {
 export const scheduleService = {
   getAll: () => strapiApi.get("/schedules?populate=*"),
   getById: (id: string) => strapiApi.get(`/schedules/${id}?populate=*`),
+  getByClient: (clientId: string) =>
+    strapiApi.get(`/schedules?populate=*&filters[client][id][$eq]=${clientId}`),
   create: (data: Schedule) => strapiApi.post("/schedules", { data }),
   update: (id: string, data: Schedule) =>
     strapiApi.put(`/schedules/${id}`, { data }),

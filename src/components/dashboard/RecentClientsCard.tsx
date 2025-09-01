@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Client } from "@/types/types";
 import { getAllClients } from "@/services/getAllClients";
+import Link from "next/link";
 
 export const RecentClientsCard = () => {
   const [clients, setClients] = useState<Client[]>([]);
@@ -31,13 +32,16 @@ export const RecentClientsCard = () => {
       ) : clients.length === 0 ? (
         <p className="text-sm text-gray-500">No client found.</p>
       ) : (
-        <ul className="space-y-2 text-sm">
-          {clients.map((client) => (
-            <li key={client.id} className="p-2 border rounded">
-              {client.attributes.name} – {client.attributes.email || "No email"}
-            </li>
-          ))}
-        </ul>
+        <Link href={`/dashboard/clients`}>
+          <ul className="space-y-2 text-sm">
+            {clients.map((client) => (
+              <li key={client.id} className="p-2 border rounded">
+                {client.attributes.name} –{" "}
+                {client.attributes.email || "No email"}
+              </li>
+            ))}
+          </ul>
+        </Link>
       )}
     </div>
   );

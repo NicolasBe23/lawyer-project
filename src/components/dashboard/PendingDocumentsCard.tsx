@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getAllDocuments } from "@/services/getAllDocuments";
 import { DocumentData } from "@/types/types";
+import Link from "next/link";
 
 export const PendingDocumentsCard = () => {
   const [documents, setDocuments] = useState<DocumentData[]>([]);
@@ -31,15 +32,17 @@ export const PendingDocumentsCard = () => {
       ) : documents.length === 0 ? (
         <p className="text-sm text-gray-500">No documents found.</p>
       ) : (
-        <ul className="space-y-2 text-sm">
-          {documents.map((document) => (
-            <li key={document.id} className="p-2 border rounded">
-              {document.title}
-              {document.process?.client?.name &&
-                ` – ${document.process.client.name}`}
-            </li>
-          ))}
-        </ul>
+        <Link href={`/dashboard/documents`}>
+          <ul className="space-y-2 text-sm">
+            {documents.map((document) => (
+              <li key={document.id} className="p-2 border rounded">
+                {document.title}
+                {document.process?.client?.name &&
+                  ` – ${document.process.client.name}`}
+              </li>
+            ))}
+          </ul>
+        </Link>
       )}
     </div>
   );
