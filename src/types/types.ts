@@ -45,6 +45,7 @@ export interface Schedule {
   process?: Process;
   createdAt: string;
   updatedAt: string;
+  error?: string;
 }
 
 export interface AuthResponse {
@@ -208,4 +209,22 @@ export interface EditClientModalProps {
 
 export interface StatsCardsProps {
   stats: DashboardStats;
+}
+
+export interface ScheduleFormData {
+  title: string;
+  description?: string;
+  dateTime: string;
+  location?: string;
+  client?: number;
+  process?: number;
+  schedule?: Schedule;
+}
+
+export interface CreateScheduleModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (scheduleData: ScheduleFormData) => void;
+  selectedDate?: string;
+  isLoading?: boolean;
 }
