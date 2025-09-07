@@ -29,7 +29,9 @@ export const useUser = () => {
     loadUser();
   }, []);
 
-  const logout = () => {
+  const logout = async (): Promise<void> => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     Cookies.remove("strapi_token");
     Cookies.remove("strapi_user");
     setUser(null);

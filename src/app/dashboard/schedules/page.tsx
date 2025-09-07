@@ -6,6 +6,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { CreateScheduleModal } from "@/components/schedule/CreateScheduleModal";
+import { ScheduleDetailsModal } from "@/components/schedule/ScheduleDetailsModal";
 import { getAllSchedules } from "@/services/getAllSchedules";
 import { createSchedule } from "@/services/createSchedule";
 import { Schedule, ScheduleFormData } from "@/types/types";
@@ -13,8 +14,12 @@ import { toast } from "sonner";
 
 export default function CalendarPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedDateSchedules, setSelectedDateSchedules] = useState<
+    Schedule[]
+  >([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
 
@@ -38,10 +43,28 @@ export default function CalendarPage() {
     }
   };
 
-  const handleDateClick = useCallback((info: { dateStr: string }) => {
-    setSelectedDate(info.dateStr);
-    setIsModalOpen(true);
-  }, []);
+  const handleDateClick = useCallback(
+    (info: { dateStr: string }) => {
+      const clickedDate = info.dateStr;
+
+      const schedulesForDate = schedules.filter((schedule) => {
+        const scheduleDate = new Date(schedule.dateTime)
+          .toISOString()
+          .split("T")[0];
+        return scheduleDate === clickedDate;
+      });
+
+      setSelectedDate(clickedDate);
+
+      if (schedulesForDate.length > 0) {
+        setSelectedDateSchedules(schedulesForDate);
+        setIsDetailsModalOpen(true);
+      } else {
+        setIsCreateModalOpen(true);
+      }
+    },
+    [schedules]
+  );
 
   const handleCreateSchedule = useCallback(
     async (scheduleData: ScheduleFormData) => {
@@ -52,7 +75,7 @@ export default function CalendarPage() {
           toast.error(`Error creating schedule: ${error}`);
         } else {
           toast.success("Schedule created successfully!");
-          setIsModalOpen(false);
+          setIsCreateModalOpen(false);
           loadSchedules();
         }
       } catch {
@@ -63,6 +86,11 @@ export default function CalendarPage() {
     },
     []
   );
+
+  const handleCreateNewFromDetails = useCallback(() => {
+    setIsDetailsModalOpen(false);
+    setIsCreateModalOpen(true);
+  }, []);
 
   const calendarEvents = schedules.map((schedule) => ({
     id: schedule.id.toString(),
@@ -77,14 +105,12 @@ export default function CalendarPage() {
   }));
 
   return (
-    <div className="p-2">
-      <div className="flex items-center justify-between mb-6 border-b-2 border-gray-300 pb-4 w-full">
-        <div className="flex flex-col">
-          <p className="text-2xl">Schedule</p>
-        </div>
-        <div>
-          <p>Click on a date to create a new schedule</p>
-        </div>
+    <div>
+      <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-8">
+        <h1 className="text-2xl">Schedules</h1>
+        <p className="text-gray-600">
+          Click on a date to see schedules or create a new one
+        </p>
       </div>
 
       {isLoading ? (
@@ -107,18 +133,26 @@ export default function CalendarPage() {
           height="auto"
           locale="en"
           eventDisplay="block"
-          eventBackgroundColor="#101828"
-          eventBorderColor="#101828"
+          eventBackgroundColor="#3f4552"
+          eventBorderColor="#494f5a"
           eventTextColor="#ffffff"
         />
       )}
 
       <CreateScheduleModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
         onSave={handleCreateSchedule}
         selectedDate={selectedDate}
         isLoading={isCreatingSchedule}
+      />
+
+      <ScheduleDetailsModal
+        isOpen={isDetailsModalOpen}
+        onClose={() => setIsDetailsModalOpen(false)}
+        schedules={selectedDateSchedules}
+        selectedDate={selectedDate}
+        onCreateNew={handleCreateNewFromDetails}
       />
     </div>
   );

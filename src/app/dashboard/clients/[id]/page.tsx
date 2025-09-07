@@ -109,7 +109,7 @@ export default function ClientPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-2 space-y-6">
       <ClientHeader
         client={client}
         onBack={() => router.back()}

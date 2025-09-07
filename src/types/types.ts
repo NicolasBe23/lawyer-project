@@ -228,3 +228,17 @@ export interface CreateScheduleModalProps {
   selectedDate?: string;
   isLoading?: boolean;
 }
+
+export interface ScheduleDetailsModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  schedules: Schedule[];
+  selectedDate: string;
+  onCreateNew: () => void;
+}
+
+export interface LogoutModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => Promise<void>;
+}
