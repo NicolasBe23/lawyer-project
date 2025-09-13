@@ -1,31 +1,23 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Home, Calendar, FileText, LogOut, User, Users } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutModal } from "@/components/ui/LogoutModal";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import { navigationLinks } from "@/components/constants/page";
 
 export default function Sidebar() {
   const router = useRouter();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-  const navigationLinks = [
-    { href: "/dashboard", icon: Home, label: "Dashboard" },
-    { href: "/dashboard/clients", icon: Users, label: "Clients" },
-    { href: "/dashboard/processes", icon: FileText, label: "Processes" },
-    { href: "/dashboard/documents", icon: FileText, label: "Documents" },
-    { href: "/dashboard/schedules", icon: Calendar, label: "Schedule" },
-    { href: "/profile", icon: User, label: "Profile" },
-  ];
-
   const handleLogoutClick = useCallback(() => {
     setIsLogoutModalOpen(true);
   }, []);
 
-  const handleLogoutConfirm = async (): Promise<void> => {
+  const handleLogoutConfirm = useCallback(async (): Promise<void> => {
     const logoutPromise = new Promise<void>((resolve) => {
       setTimeout(() => {
         Cookies.remove("strapi_token");
@@ -36,7 +28,7 @@ export default function Sidebar() {
 
     await logoutPromise;
     router.push("/login");
-  };
+  }, [router]);
 
   const handleLogoutCancel = useCallback(() => {
     setIsLogoutModalOpen(false);

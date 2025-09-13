@@ -16,6 +16,11 @@ export interface Client {
   };
 }
 
+// Tipo para representar como o Strapi retorna relações populadas
+export interface StrapiRelation<T> {
+  data: T | null;
+}
+
 export interface Process {
   id: number;
   documentId: string;
@@ -28,7 +33,21 @@ export interface Process {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  client: Client;
+  client: {
+    id: number;
+    name: string;
+    email: string;
+    phoneNumber?: string;
+    address?: string;
+    birthDate?: string;
+    observations?: string;
+    active: boolean;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    documentId: string;
+    locale?: string;
+  } | null;
   process_documents: DocumentData[];
   schedules: Schedule[];
   documents?: null;
@@ -241,4 +260,33 @@ export interface LogoutModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => Promise<void>;
+}
+
+export interface ProcessClientInfoProps {
+  client: {
+    name: string;
+    email: string;
+    phoneNumber?: string;
+  } | null;
+}
+
+export interface ProcessDatesProps {
+  startDate: string;
+  completionDate?: string;
+  createdAt: string;
+  formatDate: (date: string) => string;
+}
+
+export interface ProcessDocumentsProps {
+  documents: DocumentData[];
+  formatDate: (date: string) => string;
+}
+
+export interface ProcessSchedulesProps {
+  schedules: Schedule[];
+}
+
+export interface ProcessStatusBadgeProps {
+  status: string;
+  size?: "sm" | "md";
 }
