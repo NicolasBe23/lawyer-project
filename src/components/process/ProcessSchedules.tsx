@@ -27,7 +27,7 @@ export const ProcessSchedules = ({ schedules }: ProcessSchedulesProps) => {
                     </p>
                   )}
                   <p className="text-sm text-muted-foreground">
-                    {new Date(schedule.dateTime).toLocaleString("en-US")}
+                    {new Date(schedule.dateTime).toLocaleString("pt-BR")}
                   </p>
                   {schedule.location && (
                     <p className="text-sm text-muted-foreground">

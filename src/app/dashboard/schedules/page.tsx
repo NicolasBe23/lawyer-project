@@ -11,6 +11,8 @@ import { getAllSchedules } from "@/services/getAllSchedules";
 import { createSchedule } from "@/services/createSchedule";
 import { Schedule, ScheduleFormData } from "@/types/types";
 import { toast } from "sonner";
+import { deleteSchedule } from "@/services/updateSchedule";
+import { markScheduleCompleted } from "@/services/updateSchedule";
 
 export default function CalendarPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
@@ -48,10 +50,15 @@ export default function CalendarPage() {
       const clickedDate = info.dateStr;
 
       const schedulesForDate = schedules.filter((schedule) => {
-        const scheduleDate = new Date(schedule.dateTime)
-          .toISOString()
-          .split("T")[0];
-        return scheduleDate === clickedDate;
+        const scheduleDateTime = new Date(schedule.dateTime);
+
+        const localDate = new Date(
+          scheduleDateTime.getTime() -
+            scheduleDateTime.getTimezoneOffset() * 60000
+        );
+        const formattedScheduleDate = localDate.toISOString().split("T")[0];
+
+        return formattedScheduleDate === clickedDate;
       });
 
       setSelectedDate(clickedDate);
@@ -86,6 +93,41 @@ export default function CalendarPage() {
     },
     []
   );
+
+  const handleDeleteSchedule = async (scheduleId: number) => {
+    try {
+      const result = await deleteSchedule(scheduleId);
+      if (result.success) {
+        toast.success("Schedule deleted successfully");
+        loadSchedules();
+        window.location.reload();
+      } else {
+        toast.error(result.error || "Failed to delete schedule");
+      }
+    } catch {
+      toast.error("Failed to delete schedule");
+    }
+  };
+
+  const handleMarkCompleted = async (scheduleId: number) => {
+    const result = await markScheduleCompleted(scheduleId, true);
+    if (result.success) {
+      toast.success("Schedule marked as completed");
+      loadSchedules();
+    } else {
+      toast.error(result.error || "Failed to update schedule");
+    }
+  };
+
+  const handleMarkNotCompleted = async (scheduleId: number) => {
+    const result = await markScheduleCompleted(scheduleId, false);
+    if (result.success) {
+      toast.success("Schedule marked as not completed");
+      loadSchedules();
+    } else {
+      toast.error(result.error || "Failed to update schedule");
+    }
+  };
 
   const handleCreateNewFromDetails = useCallback(() => {
     setIsDetailsModalOpen(false);
@@ -153,6 +195,9 @@ export default function CalendarPage() {
         schedules={selectedDateSchedules}
         selectedDate={selectedDate}
         onCreateNew={handleCreateNewFromDetails}
+        onDeleteSchedule={handleDeleteSchedule}
+        onMarkCompleted={handleMarkCompleted}
+        onMarkNotCompleted={handleMarkNotCompleted}
       />
     </div>
   );

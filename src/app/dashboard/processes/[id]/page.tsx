@@ -13,6 +13,7 @@ import { ProcessClientInfo } from "@/components/process/ProcessClientInfo";
 import { ProcessDates } from "@/components/process/ProcessDates";
 import { ProcessDocuments } from "@/components/process/ProcessDocuments";
 import { ProcessSchedules } from "@/components/process/ProcessSchedules";
+import { ProcessStatusChanger } from "@/components/process/ProcessStatusChanger";
 
 export default function ProcessPage() {
   const [process, setProcess] = useState<Process | null>(null);
@@ -63,9 +64,18 @@ export default function ProcessPage() {
     );
   }
 
+  const handleStatusChange = (newStatus: string) => {
+    if (process) {
+      setProcess({
+        ...process,
+        processStatus: newStatus as "active" | "completed" | "archived",
+      });
+    }
+  };
+
   return (
     <div className="container mx-auto p-2 space-y-6">
-      <div className="flex justify-start">
+      <div className="flex justify-between items-center">
         <Button
           variant="outline"
           onClick={() => router.push("/dashboard/processes")}
@@ -73,6 +83,12 @@ export default function ProcessPage() {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
+
+        <ProcessStatusChanger
+          processId={processId}
+          currentStatus={process.processStatus}
+          onStatusChange={handleStatusChange}
+        />
       </div>
 
       <div className="flex items-center justify-between">

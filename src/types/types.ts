@@ -16,7 +16,6 @@ export interface Client {
   };
 }
 
-// Tipo para representar como o Strapi retorna relações populadas
 export interface StrapiRelation<T> {
   data: T | null;
 }
@@ -254,6 +253,9 @@ export interface ScheduleDetailsModalProps {
   schedules: Schedule[];
   selectedDate: string;
   onCreateNew: () => void;
+  onDeleteSchedule?: (scheduleId: number) => Promise<void>;
+  onMarkCompleted?: (scheduleId: number) => void;
+  onMarkNotCompleted?: (scheduleId: number) => void;
 }
 
 export interface LogoutModalProps {
@@ -289,4 +291,18 @@ export interface ProcessSchedulesProps {
 export interface ProcessStatusBadgeProps {
   status: string;
   size?: "sm" | "md";
+}
+
+export interface ProcessStatusChangerProps {
+  processId: string;
+  currentStatus: string;
+  onStatusChange: (newStatus: string) => void;
+}
+
+export interface ProcessUpdateData {
+  processStatus?: "active" | "archived" | "completed";
+  title?: string;
+  description?: string;
+  startDate?: string;
+  completionDate?: string;
 }

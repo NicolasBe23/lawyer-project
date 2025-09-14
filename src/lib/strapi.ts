@@ -40,7 +40,7 @@ export const processService = {
   getByClient: (clientId: string) =>
     strapiApi.get(`/processes?populate=*&filters[client][id][$eq]=${clientId}`),
   create: (data: Process) => strapiApi.post("/processes", { data }),
-  update: (id: string, data: Process) =>
+  update: (id: string, data: Partial<Process>) =>
     strapiApi.put(`/processes/${id}`, { data }),
   delete: (id: string) => strapiApi.delete(`/processes/${id}`),
 };

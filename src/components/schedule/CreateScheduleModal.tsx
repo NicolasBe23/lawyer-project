@@ -11,9 +11,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CreateScheduleModalProps, Client } from "@/types/types";
+import { CreateScheduleModalProps, Client, Process } from "@/types/types";
 import { getAllClients } from "@/services/getAllClients";
 import { toast } from "sonner";
+import { getAllProcesses } from "@/services/getAllProcesses";
 
 export const CreateScheduleModal = ({
   isOpen,
@@ -28,10 +29,12 @@ export const CreateScheduleModal = ({
     dateTime: "",
     location: "",
     client: "",
+    process: "",
   });
   const [clients, setClients] = useState<Client[]>([]);
   const [loadingClients, setLoadingClients] = useState(false);
-
+  const [processes, setProcesses] = useState<Process[]>([]);
+  const [loadingProcesses, setLoadingProcesses] = useState(false);
   useEffect(() => {
     if (selectedDate) {
       setFormData((prev) => ({
@@ -44,8 +47,21 @@ export const CreateScheduleModal = ({
   useEffect(() => {
     if (isOpen) {
       loadClients();
+      loadProcesses();
     }
   }, [isOpen]);
+
+  const loadProcesses = async () => {
+    setLoadingProcesses(true);
+    try {
+      const { data } = await getAllProcesses();
+      setProcesses(data);
+    } catch {
+      toast.error("Error loading processes");
+    } finally {
+      setLoadingProcesses(false);
+    }
+  };
 
   const loadClients = async () => {
     setLoadingClients(true);
@@ -69,6 +85,7 @@ export const CreateScheduleModal = ({
         dateTime: formData.dateTime,
         location: formData.location || undefined,
         client: formData.client ? parseInt(formData.client) : undefined,
+        process: formData.process ? parseInt(formData.process) : undefined,
       };
 
       onSave(scheduleData);
@@ -83,6 +100,7 @@ export const CreateScheduleModal = ({
       dateTime: selectedDate ? `${selectedDate}T09:00` : "",
       location: "",
       client: "",
+      process: "",
     });
     onClose();
   }, [onClose, selectedDate]);
@@ -167,6 +185,26 @@ export const CreateScheduleModal = ({
               placeholder="Additional details about the schedule, etc."
               rows={3}
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="process">Process</Label>
+            <select
+              id="process"
+              value={formData.process}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, process: e.target.value }))
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={loadingProcesses}
+            >
+              <option value="">Select process (optional)</option>
+              {processes.map((process) => (
+                <option key={process.id} value={process.id}>
+                  {process.title}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
