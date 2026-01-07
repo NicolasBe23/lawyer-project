@@ -14,7 +14,6 @@ export const getAllDocuments = async (): Promise<{
       throw new Error("No authentication token found");
     }
 
-    // Populate específico para incluir o cliente do processo
     const fetchPromise = fetch(
       `${API_URL}/api/process-documents?populate[process][populate][0]=client`,
       {
