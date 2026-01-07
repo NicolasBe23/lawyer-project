@@ -125,6 +125,7 @@ export default function ProcessPage() {
       )}
 
       <ProcessDocuments
+        processId={processId}
         documents={process.process_documents}
         formatDate={formatDate}
       />

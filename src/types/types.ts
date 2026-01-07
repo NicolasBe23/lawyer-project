@@ -132,13 +132,24 @@ export interface StrapiSingleResponse<T> {
   meta?: Record<string, unknown>;
 }
 
+export interface StrapiFile {
+  id: number;
+  name: string;
+  url: string;
+  mime: string;
+  size: number;
+  ext: string;
+}
+
 export interface DocumentData {
   id: number;
+  documentId?: string;
   title: string;
   description?: string;
-  file?: File;
+  file?: StrapiFile;
   process?: {
     id: number;
+    documentId?: string;
     title: string;
     client: {
       id: number;
@@ -149,6 +160,89 @@ export interface DocumentData {
   uploadDate?: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface DocumentFormData {
+  title: string;
+  description?: string;
+  process?: number;
+  file?: File;
+}
+
+export interface CreateDocumentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (data: DocumentFormData) => Promise<void>;
+  processId?: string;
+  isLoading?: boolean;
+}
+
+export interface EditDocumentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (data: {
+    title: string;
+    description?: string | null;
+  }) => Promise<void>;
+  document: DocumentData;
+  isLoading?: boolean;
+}
+
+export interface DeleteDocumentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => Promise<void>;
+  documentTitle: string;
+  isLoading?: boolean;
+}
+
+export interface DocumentsHeaderProps {
+  processId: string | null;
+  onBackClick: () => void;
+  onAddClick: () => void;
+}
+
+export interface DocumentCardProps {
+  document: DocumentData;
+  processId: string | null;
+  uploadingDocId: number | null;
+  removingFileDocId: number | null;
+  onEditClick: (e: React.MouseEvent, doc: DocumentData) => void;
+  onDeleteClick: (e: React.MouseEvent, doc: DocumentData) => void;
+  onOpenFile: (e: React.MouseEvent, doc: DocumentData) => void;
+  onUploadClick: (e: React.MouseEvent, docId: number) => void;
+  onFileUpload: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    doc: DocumentData
+  ) => void;
+  onRemoveFile: (e: React.MouseEvent, doc: DocumentData) => void;
+  fileInputRef: (el: HTMLInputElement | null) => void;
+  formatDate: (date: string) => string;
+}
+
+export interface DocumentsListProps {
+  documents: DocumentData[];
+  processId: string | null;
+  uploadingDocId: number | null;
+  removingFileDocId: number | null;
+  onEditClick: (e: React.MouseEvent, doc: DocumentData) => void;
+  onDeleteClick: (e: React.MouseEvent, doc: DocumentData) => void;
+  onOpenFile: (e: React.MouseEvent, doc: DocumentData) => void;
+  onUploadClick: (e: React.MouseEvent, docId: number) => void;
+  onFileUpload: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    doc: DocumentData
+  ) => void;
+  onRemoveFile: (e: React.MouseEvent, doc: DocumentData) => void;
+  fileInputRefs: React.MutableRefObject<{
+    [key: number]: HTMLInputElement | null;
+  }>;
+  formatDate: (date: string) => string;
+}
+
+export interface DocumentEmptyStateProps {
+  processId: string | null;
+  onAddClick: () => void;
 }
 
 export interface ClientWithRelations extends Client {
@@ -305,4 +399,8 @@ export interface ProcessUpdateData {
   description?: string;
   startDate?: string;
   completionDate?: string;
+}
+
+export interface ExtendedProcessDocumentsProps extends ProcessDocumentsProps {
+  processId: string;
 }

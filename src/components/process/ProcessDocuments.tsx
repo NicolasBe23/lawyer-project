@@ -1,19 +1,42 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Download } from "lucide-react";
-import { ProcessDocumentsProps } from "@/types/types";
+import { FileText, ExternalLink, Eye } from "lucide-react";
+import { ExtendedProcessDocumentsProps, StrapiFile } from "@/types/types";
+import { useRouter } from "next/navigation";
+import { getFileDownloadUrl } from "@/services/documentService";
 
 export const ProcessDocuments = ({
   documents,
   formatDate,
-}: ProcessDocumentsProps) => {
+  processId,
+}: ExtendedProcessDocumentsProps) => {
+  const router = useRouter();
+
+  const handleViewAllDocuments = () => {
+    router.push(`/dashboard/documents?processId=${processId}`);
+  };
+
+  const handleOpenFile = (e: React.MouseEvent, file: StrapiFile) => {
+    e.stopPropagation();
+    const fileUrl = getFileDownloadUrl(file.url);
+    window.open(fileUrl, "_blank");
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
-          <FileText className="w-5 h-5" />
-          <span>Process Documents</span>
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center space-x-2">
+            <FileText className="w-5 h-5" />
+            <span>Process Documents</span>
+          </CardTitle>
+          <Button variant="outline" size="sm" onClick={handleViewAllDocuments}>
+            <ExternalLink className="w-4 h-4 mr-2" />
+            {documents && documents.length > 0 ? "Manage" : "Add"}
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         {documents && documents.length > 0 ? (
@@ -21,7 +44,7 @@ export const ProcessDocuments = ({
             {documents.map((doc) => (
               <div
                 key={doc.id}
-                className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50"
+                className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors"
               >
                 <div>
                   <p className="font-medium">{doc.title}</p>
@@ -33,9 +56,13 @@ export const ProcessDocuments = ({
                   </p>
                 </div>
                 {doc.file && (
-                  <Button variant="outline" size="sm">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => handleOpenFile(e, doc.file as StrapiFile)}
+                  >
+                    <Eye className="w-4 h-4 mr-2" />
+                    Open
                   </Button>
                 )}
               </div>

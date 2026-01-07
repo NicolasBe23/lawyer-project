@@ -18,7 +18,6 @@ export const getClientById = async (
       throw new Error("No authentication token found");
     }
 
-    // Fetch client data
     const clientResponse = await fetch(
       `${API_URL}/api/clients/${id}?populate=*`,
       {
@@ -34,7 +33,6 @@ export const getClientById = async (
 
     const clientData = await clientResponse.json();
 
-    // Fetch related processes
     const processesResponse = await fetch(
       `${API_URL}/api/processes?populate=*&filters[client][id][$eq]=${id}`,
       {
@@ -48,7 +46,6 @@ export const getClientById = async (
       ? await processesResponse.json()
       : { data: [] };
 
-    // Fetch related schedules
     const schedulesResponse = await fetch(
       `${API_URL}/api/schedules?populate=*&filters[client][id][$eq]=${id}`,
       {
