@@ -46,6 +46,7 @@ export const LogoutModal = ({
             variant="outline"
             onClick={onClose}
             disabled={isLoggingOut}
+            className="cursor-pointer"
           >
             Cancel
           </Button>
@@ -53,7 +54,7 @@ export const LogoutModal = ({
             onClick={handleConfirm}
             variant="destructive"
             disabled={isLoggingOut}
-            className="flex items-center gap-2"
+            className="cursor-pointer"
           >
             {isLoggingOut ? (
               <>
