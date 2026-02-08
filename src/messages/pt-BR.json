@@ -1,0 +1,21 @@
+{
+  "register": {
+    "title": "Criar conta",
+    "description": "Preencha os dados para criar uma conta",
+    "username": "Nome de usuário",
+    "email": "Endereço de email",
+    "password": "Senha",
+    "register": "Criar conta",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "login": "Login"
+  },
+  "login": {
+    "title": "Login",
+    "description": "Acesse sua conta para continuar",
+    "emailOrUsername": "Email ou nome de usuário",
+    "password": "Senha",
+    "login": "Login",
+    "dontHaveAccount": "Não tem uma conta?",
+    "register": "Criar conta"
+  }
+}

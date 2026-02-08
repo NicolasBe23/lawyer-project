@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -16,8 +16,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AuthResponse, StrapiError } from "@/types/types";
 import { Loading } from "@/components/ui/loading";
+import { useTranslations } from "next-intl";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 export default function RegisterPage() {
+  const t = useTranslations();
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -33,7 +36,7 @@ export default function RegisterPage() {
     try {
       const registerPromise = axios.post<AuthResponse>(
         `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/auth/local/register`,
-        { username, email, password }
+        { username, email, password },
       );
 
       const delayPromise = new Promise((resolve) => setTimeout(resolve, 2000));
@@ -61,9 +64,9 @@ export default function RegisterPage() {
     <div className="flex items-center justify-center h-screen">
       <Card className="w-96 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-center">Create Account</CardTitle>
+          <CardTitle className="text-center">{t("register.title")}</CardTitle>
           <CardDescription className="text-center">
-            Fill in the data to register
+            {t("register.description")}
           </CardDescription>
         </CardHeader>
 
@@ -73,7 +76,7 @@ export default function RegisterPage() {
 
             <Input
               type="text"
-              placeholder="Username"
+              placeholder={t("register.username")}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -82,7 +85,7 @@ export default function RegisterPage() {
 
             <Input
               type="email"
-              placeholder="Email address"
+              placeholder={t("register.email")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -91,7 +94,7 @@ export default function RegisterPage() {
 
             <Input
               type="password"
-              placeholder="Password"
+              placeholder={t("register.password")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -106,19 +109,22 @@ export default function RegisterPage() {
               {loading ? (
                 <Loading text="Creating account..." size="md" />
               ) : (
-                "Register"
+                t("register.register")
               )}
             </Button>
           </form>
         </CardContent>
 
-        <CardFooter className="text-sm text-center flex flex-col gap-2">
+        <CardFooter className="text-sm text-center flex flex-col gap-4">
           <p>
-            Already have an account?{" "}
+            {t("register.alreadyHaveAccount")}{" "}
             <a href="/login" className="text-blue-700 hover:underline">
-              Login
+              {t("register.login")}
             </a>
           </p>
+          <div className="flex justify-center mt-4">
+            <LanguageSwitcher />
+          </div>
         </CardFooter>
       </Card>
     </div>

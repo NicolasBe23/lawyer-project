@@ -1,7 +1,11 @@
+import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { routing } from "./src/i18n/routing";
 
-export function middleware(req: NextRequest) {
+const intlMiddleware = createMiddleware(routing);
+
+export default function middleware(req: NextRequest) {
   const token = req.cookies.get("strapi_token")?.value || null;
 
   const publicPaths = ["/login", "/register", "/"];
@@ -18,7 +22,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  return NextResponse.next();
+  return intlMiddleware(req);
 }
 
 export const config = {

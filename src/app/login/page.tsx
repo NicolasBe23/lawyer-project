@@ -16,9 +16,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AuthResponse } from "@/types/types";
 import { Loading } from "@/components/ui/loading";
+import { useTranslations } from "next-intl";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 export default function LoginPage() {
   const router = useRouter();
+  const t = useTranslations();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -32,7 +35,7 @@ export default function LoginPage() {
     try {
       const loginPromise = axios.post<AuthResponse>(
         `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/auth/local`,
-        { identifier, password }
+        { identifier, password },
       );
 
       const delayPromise = new Promise((resolve) => setTimeout(resolve, 1500));
@@ -54,9 +57,9 @@ export default function LoginPage() {
     <div className="flex items-center justify-center h-screen">
       <Card className="w-96 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-center">Login</CardTitle>
+          <CardTitle className="text-center">{t("login.title")}</CardTitle>
           <CardDescription className="text-center">
-            Access your account to continue
+            {t("login.description")}
           </CardDescription>
         </CardHeader>
 
@@ -66,7 +69,7 @@ export default function LoginPage() {
 
             <Input
               type="text"
-              placeholder="Email or username"
+              placeholder={t("login.emailOrUsername")}
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               required
@@ -75,7 +78,7 @@ export default function LoginPage() {
 
             <Input
               type="password"
-              placeholder="Password"
+              placeholder={t("login.password")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -87,18 +90,25 @@ export default function LoginPage() {
               className="w-full bg-gray-900 hover:bg-gray-800"
               disabled={loading}
             >
-              {loading ? <Loading text="Signing in..." size="md" /> : "Login"}
+              {loading ? (
+                <Loading text="Signing in..." size="md" />
+              ) : (
+                t("login.login")
+              )}
             </Button>
           </form>
         </CardContent>
 
-        <CardFooter className="text-sm text-center flex flex-col gap-2">
+        <CardFooter className="text-sm text-center flex flex-col gap-4">
           <p>
-            Don&apos;t have an account?{" "}
+            {t("login.dontHaveAccount")}{" "}
             <a href="/register" className="text-blue-700 hover:underline">
-              Register
+              {t("login.register")}
             </a>
           </p>
+          <div className="flex justify-center mt-4">
+            <LanguageSwitcher />
+          </div>
         </CardFooter>
       </Card>
     </div>

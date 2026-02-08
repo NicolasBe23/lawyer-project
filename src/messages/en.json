@@ -1,0 +1,21 @@
+{
+  "register": {
+    "title": "Create account",
+    "description": "Fill in the data to register",
+    "username": "Username",
+    "email": "Email address",
+    "password": "Password",
+    "register": "Register",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Login"
+  },
+  "login": {
+    "title": "Login",
+    "description": "Access your account to continue",
+    "emailOrUsername": "Email or username",
+    "password": "Password",
+    "login": "Login",
+    "dontHaveAccount": "Don't have an account?",
+    "register": "Register"
+  }
+}
