@@ -61,7 +61,10 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="relative flex items-center justify-center h-screen">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <Card className="w-96 shadow-lg">
         <CardHeader>
           <CardTitle className="text-center">{t("register.title")}</CardTitle>
@@ -122,9 +125,6 @@ export default function RegisterPage() {
               {t("register.login")}
             </a>
           </p>
-          <div className="flex justify-center mt-4">
-            <LanguageSwitcher />
-          </div>
         </CardFooter>
       </Card>
     </div>

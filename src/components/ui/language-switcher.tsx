@@ -30,7 +30,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
         size="sm"
         variant={locale === "pt-BR" ? "default" : "outline"}
         className={cn(
-          "h-7 px-3 text-xs",
+          "h-7 px-3 text-xs cursor-pointer",
           locale === "pt-BR" && "bg-gray-900 text-white hover:bg-gray-800",
         )}
         onClick={() => setLocale("pt-BR")}
@@ -42,7 +42,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
         size="sm"
         variant={locale === "en" ? "default" : "outline"}
         className={cn(
-          "h-7 px-3 text-xs",
+          "h-7 px-3 text-xs cursor-pointer",
           locale === "en" && "bg-gray-900 text-white hover:bg-gray-800",
         )}
         onClick={() => setLocale("en")}
