@@ -11,6 +11,7 @@ import {
 import { ChevronDown, CheckCircle, Archive } from "lucide-react";
 import { updateProcessStatus } from "@/services/updateProcess";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface ProcessStatusChangerProps {
   processId: string;
@@ -23,24 +24,25 @@ export const ProcessStatusChanger = ({
   currentStatus,
   onStatusChange,
 }: ProcessStatusChangerProps) => {
+  const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
 
   const statusOptions = [
     {
       value: "active",
-      label: "Active",
+      label: t("dashboard.active"),
       icon: CheckCircle,
       color: "text-green-600",
     },
     {
       value: "completed",
-      label: "Completed",
+      label: t("dashboard.completed"),
       icon: CheckCircle,
       color: "text-blue-600",
     },
     {
       value: "archived",
-      label: "Archived",
+      label: t("dashboard.archived"),
       icon: Archive,
       color: "text-gray-600",
     },
@@ -51,28 +53,32 @@ export const ProcessStatusChanger = ({
 
     setIsLoading(true);
     try {
+      const optionLabel =
+        statusOptions.find((option) => option.value === newStatus)?.label ||
+        newStatus;
       const result = await updateProcessStatus(
         processId,
-        newStatus as "active" | "completed" | "archived"
+        newStatus as "active" | "completed" | "archived",
       );
 
       if (result.error) {
         toast.error(result.error);
       } else {
-        toast.success(`Process status updated to ${newStatus}`);
+        toast.success(
+          t("processes.processStatusUpdatedTo", { status: optionLabel }),
+        );
         onStatusChange(newStatus);
       }
     } catch {
-      toast.error("Failed to update process status");
+      toast.error(t("processes.failedToUpdateProcessStatus"));
     } finally {
       setIsLoading(false);
     }
   };
 
   const currentStatusOption = statusOptions.find(
-    (option) => option.value === currentStatus
+    (option) => option.value === currentStatus,
   );
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -86,7 +92,7 @@ export const ProcessStatusChanger = ({
               className={`w-4 h-4 ${currentStatusOption.color}`}
             />
           )}
-          Change Status
+          {t("processes.changeStatus")}
           <ChevronDown className="w-4 h-4" />
         </Button>
       </DropdownMenuTrigger>
@@ -102,7 +108,7 @@ export const ProcessStatusChanger = ({
             <span>{option.label}</span>
             {option.value === currentStatus && (
               <span className="ml-auto text-xs text-muted-foreground">
-                Current
+                {t("processes.current")}
               </span>
             )}
           </DropdownMenuItem>

@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { EditDocumentModalProps } from "@/types/types";
+import { useTranslations } from "next-intl";
 
 export const EditDocumentModal = ({
   isOpen,
@@ -21,6 +22,7 @@ export const EditDocumentModal = ({
   document,
   isLoading = false,
 }: EditDocumentModalProps) => {
+  const t = useTranslations();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -50,29 +52,29 @@ export const EditDocumentModal = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Edit Document</DialogTitle>
+          <DialogTitle>{t("documents.editDocument")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="edit-title">Title *</Label>
+            <Label htmlFor="edit-title">{t("documents.titleField")} *</Label>
             <Input
               id="edit-title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Document title"
+              placeholder={t("documents.documentTitle")}
               required
               disabled={isLoading}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="edit-description">Description</Label>
+            <Label htmlFor="edit-description">{t("documents.description")}</Label>
             <Textarea
               id="edit-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Document description (optional)"
+              placeholder={t("documents.documentDescriptionOptional")}
               rows={3}
               disabled={isLoading}
             />
@@ -85,10 +87,10 @@ export const EditDocumentModal = ({
               onClick={handleClose}
               disabled={isLoading}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button type="submit" disabled={isLoading || !title.trim()}>
-              {isLoading ? "Saving..." : "Save Changes"}
+              {isLoading ? t("documents.saving") : t("documents.saveChanges")}
             </Button>
           </DialogFooter>
         </form>

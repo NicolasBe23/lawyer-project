@@ -2,19 +2,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Briefcase } from "lucide-react";
 import { ClientProcessesProps } from "@/types/types";
 import { useRouter } from "next/navigation";
-
+import { useTranslations } from "next-intl";
 export const ClientProcesses = ({
   processes,
   formatDate,
 }: ClientProcessesProps) => {
   const router = useRouter();
-
+  const t = useTranslations();
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <Briefcase className="w-5 h-5" />
-          <span>Processes ({processes.length})</span>
+          <span>
+            {t("processes.title")} ({processes.length})
+          </span>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -31,10 +33,10 @@ export const ClientProcesses = ({
                 <div>
                   <h4 className="font-semibold">{process.title}</h4>
                   <p className="text-sm text-muted-foreground">
-                    Process: {process.processNumber}
+                    {t("processes.process")}: {process.processNumber}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Start: {formatDate(process.startDate)}
+                    {t("processes.start")}: {formatDate(process.startDate)}
                   </p>
                 </div>
                 <div className="text-right">
@@ -43,15 +45,15 @@ export const ClientProcesses = ({
                       process.processStatus === "active"
                         ? "bg-green-100 text-green-800"
                         : process.processStatus === "completed"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-gray-100 text-gray-800"
+                          ? "bg-blue-100 text-blue-800"
+                          : "bg-gray-100 text-gray-800"
                     }`}
                   >
                     {process.processStatus === "active"
-                      ? "Active"
+                      ? t("clients.active")
                       : process.processStatus === "completed"
-                      ? "Completed"
-                      : "Archived"}
+                        ? t("clients.completed")
+                        : t("clients.archived")}
                   </span>
                 </div>
               </div>
@@ -59,7 +61,7 @@ export const ClientProcesses = ({
           </div>
         ) : (
           <p className="text-muted-foreground text-center py-8">
-            No processes found for this client.
+            {t("clients.noProcessesFound")}
           </p>
         )}
       </CardContent>

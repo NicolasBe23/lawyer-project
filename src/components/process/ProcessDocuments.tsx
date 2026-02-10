@@ -6,12 +6,14 @@ import { FileText, ExternalLink, Eye } from "lucide-react";
 import { ExtendedProcessDocumentsProps, StrapiFile } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { getFileDownloadUrl } from "@/services/documentService";
+import { useTranslations } from "next-intl";
 
 export const ProcessDocuments = ({
   documents,
   formatDate,
   processId,
 }: ExtendedProcessDocumentsProps) => {
+  const t = useTranslations();
   const router = useRouter();
 
   const handleViewAllDocuments = () => {
@@ -30,11 +32,13 @@ export const ProcessDocuments = ({
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center space-x-2">
             <FileText className="w-5 h-5" />
-            <span>Process Documents</span>
+            <span>{t("processes.processDocuments")}</span>
           </CardTitle>
           <Button variant="outline" size="sm" onClick={handleViewAllDocuments}>
             <ExternalLink className="w-4 h-4 mr-2" />
-            {documents && documents.length > 0 ? "Manage" : "Add"}
+            {documents && documents.length > 0
+              ? t("documents.manage")
+              : t("documents.add")}
           </Button>
         </div>
       </CardHeader>
@@ -52,7 +56,7 @@ export const ProcessDocuments = ({
                     {doc.description}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Created: {formatDate(doc.createdAt)}
+                    {t("documents.created")}: {formatDate(doc.createdAt)}
                   </p>
                 </div>
                 {doc.file && (
@@ -62,7 +66,7 @@ export const ProcessDocuments = ({
                     onClick={(e) => handleOpenFile(e, doc.file as StrapiFile)}
                   >
                     <Eye className="w-4 h-4 mr-2" />
-                    Open
+                    {t("documents.open")}
                   </Button>
                 )}
               </div>
@@ -70,7 +74,7 @@ export const ProcessDocuments = ({
           </div>
         ) : (
           <p className="text-muted-foreground text-center py-8">
-            No documents attached
+            {t("processes.noDocumentsAttached")}
           </p>
         )}
       </CardContent>

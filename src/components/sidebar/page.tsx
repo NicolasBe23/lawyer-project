@@ -8,8 +8,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { navigationLinks } from "@/components/constants/page";
+import { useTranslations } from "next-intl";
 
 export default function Sidebar() {
+  const t = useTranslations();
   const router = useRouter();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
@@ -51,7 +53,7 @@ export default function Sidebar() {
                   href={link.href}
                   className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800"
                 >
-                  <IconComponent size={20} /> {link.label}
+                  <IconComponent size={20} /> {t(link.label)}
                 </Link>
               );
             })}
@@ -62,7 +64,7 @@ export default function Sidebar() {
             variant="destructive"
             className="flex items-center gap-2 mt-auto mb-2 cursor-pointer rounded-lg"
           >
-            <LogOut size={20} /> Logout
+            <LogOut size={20} /> {t("sidebar.logout")}
           </Button>
         </aside>
       </div>

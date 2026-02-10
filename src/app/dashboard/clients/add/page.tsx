@@ -9,13 +9,15 @@ import { Client } from "@/types/types";
 import { ClientForm } from "@/components/client-detail/ClientForm";
 import { createClient } from "@/lib/helpers/clientHelpers";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function AddClientPage() {
+  const t = useTranslations();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateClient = async (
-    clientData: Partial<Client["attributes"]>
+    clientData: Partial<Client["attributes"]>,
   ) => {
     try {
       setIsLoading(true);
@@ -24,7 +26,7 @@ export default function AddClientPage() {
         router.push(`/dashboard/clients/${newClient.id}`);
       }
     } catch {
-      toast.error("Error creating client");
+      toast.error(t("clients.errorCreatingClient"));
     } finally {
       setIsLoading(false);
     }
@@ -39,20 +41,22 @@ export default function AddClientPage() {
           onClick={() => router.back()}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back
+          {t("common.back")}
         </Button>
       </div>
-      <h1 className="text-3xl font-bold cursor-default">Add New Client</h1>
+      <h1 className="text-3xl font-bold cursor-default">
+        {t("clients.addNewClient")}
+      </h1>
 
       <Card>
         <CardHeader>
-          <CardTitle>Client Information</CardTitle>
+          <CardTitle>{t("clients.clientInformation")}</CardTitle>
         </CardHeader>
         <CardContent>
           <ClientForm
             onSubmit={handleCreateClient}
             isLoading={isLoading}
-            submitText="Create Client"
+            submitText={t("clients.createClient")}
             onCancel={() => router.back()}
           />
         </CardContent>

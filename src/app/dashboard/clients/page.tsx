@@ -7,8 +7,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function ClientsPage() {
+  const t = useTranslations();
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -23,7 +25,7 @@ export default function ClientsPage() {
   if (loading) {
     return (
       <div className="p-6">
-        <Loading text="Loading clients..." size="md" />
+        <Loading text={t("clients.loadingClients")} size="md" />
       </div>
     );
   }
@@ -31,17 +33,17 @@ export default function ClientsPage() {
   return (
     <div>
       <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-6">
-        <h1 className="text-2xl cursor-default">My Clients</h1>
+        <h1 className="text-2xl cursor-default">{t("clients.title")}</h1>
         <Button
           className="cursor-pointer bg-gray-900 hover:bg-gray-800"
           onClick={() => router.push("/dashboard/clients/add")}
         >
           <Plus className="w-4 h-4 mr-2" />
-          Add Client
+          {t("clients.addClient")}
         </Button>
       </div>
       {clients.length === 0 ? (
-        <p>No clients found.</p>
+        <p>{t("clients.noClientsFound")}</p>
       ) : (
         <div className=" flex flex-col">
           {clients.map((client) => (
@@ -52,10 +54,11 @@ export default function ClientsPage() {
             >
               <div className="flex flex-col gap-2">
                 <p className="text-sm">
-                  <strong>Name:</strong> {client.attributes.name}
+                  <strong>{t("clients.name")}:</strong> {client.attributes.name}
                 </p>
                 <p className="text-sm">
-                  <strong>Email:</strong> {client.attributes.email || "N/A"}
+                  <strong>{t("clients.email")}:</strong>{" "}
+                  {client.attributes.email || t("common.na")}
                 </p>
               </div>
               <span
@@ -63,15 +66,15 @@ export default function ClientsPage() {
                   client.attributes.active === true
                     ? "bg-green-100 text-green-800"
                     : client.attributes.active === false
-                    ? "bg-blue-100 text-blue-800"
-                    : "bg-gray-100 text-gray-800"
+                      ? "bg-blue-100 text-blue-800"
+                      : "bg-gray-100 text-gray-800"
                 }`}
               >
                 {client.attributes.active === true
-                  ? "Active"
+                  ? t("clients.active")
                   : client.attributes.active === false
-                  ? "Completed"
-                  : "Archived"}
+                    ? t("clients.completed")
+                    : t("clients.archived")}
               </span>
             </div>
           ))}

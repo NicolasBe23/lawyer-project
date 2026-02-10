@@ -6,13 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 import { ArrowLeft } from "lucide-react";
 import { Client, Process, Schedule } from "@/types/types";
-import { ClientHeader } from "@/components/client-detail/ClientHeader";
-import { ClientBasicInfo } from "@/components/client-detail/ClientBasicInfo";
-import { ClientProcesses } from "@/components/client-detail/ClientProcesses";
-import { ClientSummary } from "@/components/client-detail/ClientSummary";
-import { ClientSchedules } from "@/components/client-detail/ClientSchedules";
-import { DeleteClientModal } from "@/components/client-detail/DeleteClientModal";
-import { EditClientModal } from "@/components/client-detail/EditClientModal";
+import {
+  ClientHeader,
+  ClientBasicInfo,
+  ClientProcesses,
+  ClientSummary,
+  ClientSchedules,
+  DeleteClientModal,
+  EditClientModal,
+} from "@/components/client-detail";
 import { toast } from "sonner";
 import {
   fetchClientData,
@@ -20,8 +22,9 @@ import {
   updateClient,
 } from "@/lib/helpers/clientHelpers";
 import { formatDate, formatDateTime } from "@/lib/helpers/dateHelpers";
-
+import { useTranslations } from "next-intl";
 export default function ClientPage() {
+  const t = useTranslations();
   const params = useParams();
   const router = useRouter();
   const clientId = params.id as string;
@@ -48,7 +51,7 @@ export default function ClientPage() {
       setProcesses(data.processes);
       setSchedules(data.schedules);
     } catch {
-      setError("Error loading client data");
+      setError(t("clients.errorLoadingClientData"));
     } finally {
       setLoading(false);
     }
@@ -62,7 +65,7 @@ export default function ClientPage() {
       await deleteClient(clientId);
       router.push("/dashboard/clients");
     } catch {
-      toast.error("Error deleting client");
+      toast.error(t("clients.errorDeletingClient"));
     } finally {
       setActionLoading(false);
       setShowDeleteModal(false);
@@ -70,7 +73,7 @@ export default function ClientPage() {
   };
 
   const handleEditClient = async (
-    clientData: Partial<Client["attributes"]>
+    clientData: Partial<Client["attributes"]>,
   ) => {
     if (!client) return;
 
@@ -82,7 +85,7 @@ export default function ClientPage() {
         setShowEditModal(false);
       }
     } catch {
-      toast.error("Error updating client");
+      toast.error(t("clients.errorUpdatingClient"));
     } finally {
       setActionLoading(false);
     }
@@ -99,10 +102,12 @@ export default function ClientPage() {
   if (error || !client) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <p className="text-red-500 mb-4">{error || "Client not found"}</p>
+        <p className="text-red-500 mb-4">
+          {error || t("clients.clientNotFound")}
+        </p>
         <Button onClick={() => router.back()}>
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back
+          {t("common.back")}
         </Button>
       </div>
     );

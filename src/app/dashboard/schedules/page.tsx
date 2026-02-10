@@ -13,8 +13,10 @@ import { Schedule, ScheduleFormData } from "@/types/types";
 import { toast } from "sonner";
 import { deleteSchedule } from "@/services/updateSchedule";
 import { markScheduleCompleted } from "@/services/updateSchedule";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function CalendarPage() {
+  const t = useTranslations();
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
@@ -24,7 +26,7 @@ export default function CalendarPage() {
   >([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
-
+  const locale = useLocale();
   useEffect(() => {
     loadSchedules();
   }, []);
@@ -34,12 +36,12 @@ export default function CalendarPage() {
     try {
       const { data, error } = await getAllSchedules();
       if (error) {
-        toast.error(`Error loading schedules: ${error}`);
+        toast.error(t("schedules.errorLoadingSchedulesWithMessage", { error }));
       } else {
         setSchedules(data);
       }
     } catch {
-      toast.error("Error loading schedules");
+      toast.error(t("schedules.errorLoadingSchedules"));
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +56,7 @@ export default function CalendarPage() {
 
         const localDate = new Date(
           scheduleDateTime.getTime() -
-            scheduleDateTime.getTimezoneOffset() * 60000
+            scheduleDateTime.getTimezoneOffset() * 60000,
         );
         const formattedScheduleDate = localDate.toISOString().split("T")[0];
 
@@ -70,7 +72,7 @@ export default function CalendarPage() {
         setIsCreateModalOpen(true);
       }
     },
-    [schedules]
+    [schedules],
   );
 
   const handleCreateSchedule = useCallback(
@@ -79,53 +81,55 @@ export default function CalendarPage() {
       try {
         const { error } = await createSchedule(scheduleData);
         if (error) {
-          toast.error(`Error creating schedule: ${error}`);
+          toast.error(
+            t("schedules.errorCreatingScheduleWithMessage", { error }),
+          );
         } else {
-          toast.success("Schedule created successfully!");
+          toast.success(t("schedules.scheduleCreatedSuccessfully"));
           setIsCreateModalOpen(false);
           loadSchedules();
         }
       } catch {
-        toast.error("Error creating schedule");
+        toast.error(t("schedules.errorCreatingSchedule"));
       } finally {
         setIsCreatingSchedule(false);
       }
     },
-    []
+    [],
   );
 
   const handleDeleteSchedule = async (scheduleId: number) => {
     try {
       const result = await deleteSchedule(scheduleId);
       if (result.success) {
-        toast.success("Schedule deleted successfully");
+        toast.success(t("schedules.scheduleDeletedSuccessfully"));
         loadSchedules();
         window.location.reload();
       } else {
-        toast.error(result.error || "Failed to delete schedule");
+        toast.error(result.error || t("schedules.failedToDeleteSchedule"));
       }
     } catch {
-      toast.error("Failed to delete schedule");
+      toast.error(t("schedules.failedToDeleteSchedule"));
     }
   };
 
   const handleMarkCompleted = async (scheduleId: number) => {
     const result = await markScheduleCompleted(scheduleId, true);
     if (result.success) {
-      toast.success("Schedule marked as completed");
+      toast.success(t("schedules.scheduleMarkedAsCompleted"));
       loadSchedules();
     } else {
-      toast.error(result.error || "Failed to update schedule");
+      toast.error(result.error || t("schedules.failedToUpdateSchedule"));
     }
   };
 
   const handleMarkNotCompleted = async (scheduleId: number) => {
     const result = await markScheduleCompleted(scheduleId, false);
     if (result.success) {
-      toast.success("Schedule marked as not completed");
+      toast.success(t("schedules.scheduleMarkedAsNotCompleted"));
       loadSchedules();
     } else {
-      toast.error(result.error || "Failed to update schedule");
+      toast.error(result.error || t("schedules.failedToUpdateSchedule"));
     }
   };
 
@@ -149,15 +153,13 @@ export default function CalendarPage() {
   return (
     <div>
       <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-8">
-        <h1 className="text-2xl">Schedules</h1>
-        <p className="text-gray-600">
-          Click on a date to see schedules or create a new one
-        </p>
+        <h1 className="text-2xl">{t("schedules.title")}</h1>
+        <p className="text-gray-600">{t("schedules.clickDateToSeeOrCreate")}</p>
       </div>
 
       {isLoading ? (
         <div className="flex justify-center items-center h-96">
-          <div className="text-lg">Loading schedules...</div>
+          <div className="text-lg">{t("schedules.loadingSchedules")}</div>
         </div>
       ) : (
         <FullCalendar
@@ -173,7 +175,7 @@ export default function CalendarPage() {
             right: "dayGridMonth,timeGridWeek,timeGridDay",
           }}
           height="auto"
-          locale="en"
+          locale={locale}
           eventDisplay="block"
           eventBackgroundColor="#3f4552"
           eventBorderColor="#494f5a"

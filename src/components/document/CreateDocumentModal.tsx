@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, X, FileText } from "lucide-react";
 import { CreateDocumentModalProps, DocumentFormData } from "@/types/types";
+import { useTranslations } from "next-intl";
 
 export const CreateDocumentModal = ({
   isOpen,
@@ -21,6 +22,7 @@ export const CreateDocumentModal = ({
   onSave,
   isLoading = false,
 }: CreateDocumentModalProps) => {
+  const t = useTranslations();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -72,36 +74,36 @@ export const CreateDocumentModal = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Add New Document</DialogTitle>
+          <DialogTitle>{t("documents.addNewDocument")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title *</Label>
+            <Label htmlFor="title">{t("documents.titleField")} *</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Document title"
+              placeholder={t("documents.documentTitle")}
               required
               disabled={isLoading}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t("documents.description")}</Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Document description (optional)"
+              placeholder={t("documents.documentDescriptionOptional")}
               rows={3}
               disabled={isLoading}
             />
           </div>
 
           <div className="space-y-2">
-            <Label>Attach File (PDF)</Label>
+            <Label>{t("documents.attachFilePdf")}</Label>
             <div className="border-2 border-dashed rounded-lg p-4">
               {selectedFile ? (
                 <div className="flex items-center justify-between bg-accent/50 p-3 rounded-lg">
@@ -128,7 +130,7 @@ export const CreateDocumentModal = ({
                 <div className="text-center">
                   <Upload className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
                   <p className="text-sm text-muted-foreground mb-2">
-                    Click to upload or drag and drop
+                    {t("documents.clickToUploadOrDragAndDrop")}
                   </p>
                   <Input
                     ref={fileInputRef}
@@ -146,7 +148,7 @@ export const CreateDocumentModal = ({
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isLoading}
                   >
-                    Select File
+                    {t("documents.selectFile")}
                   </Button>
                 </div>
               )}
@@ -160,10 +162,10 @@ export const CreateDocumentModal = ({
               onClick={handleClose}
               disabled={isLoading}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button type="submit" disabled={isLoading || !title.trim()}>
-              {isLoading ? "Saving..." : "Save Document"}
+              {isLoading ? t("documents.saving") : t("documents.saveDocument")}
             </Button>
           </DialogFooter>
         </form>
@@ -171,4 +173,3 @@ export const CreateDocumentModal = ({
     </Dialog>
   );
 };
-

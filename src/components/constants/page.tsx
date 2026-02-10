@@ -1,11 +1,11 @@
 import { Home, Calendar, FileText, User, Users } from "lucide-react";
 export const navigationLinks = [
-  { href: "/dashboard", icon: Home, label: "Dashboard" },
-  { href: "/dashboard/clients", icon: Users, label: "Clients" },
-  { href: "/dashboard/processes", icon: FileText, label: "Processes" },
+  { href: "/dashboard", icon: Home, label: "dashboard.title" },
+  { href: "/dashboard/clients", icon: Users, label: "clients.title" },
+  { href: "/dashboard/processes", icon: FileText, label: "processes.title" },
 
-  { href: "/dashboard/schedules", icon: Calendar, label: "Schedule" },
-  { href: "/profile", icon: User, label: "Profile" },
+  { href: "/dashboard/schedules", icon: Calendar, label: "schedules.title" },
+  { href: "/profile", icon: User, label: "sidebar.profile" },
 ];
 
 export const getProcessStatusText = (status: string) => {

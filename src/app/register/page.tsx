@@ -53,7 +53,7 @@ export default function RegisterPage() {
       if (errorMessage) {
         setError(errorMessage);
       } else {
-        setError("Error creating account. Please try again.");
+        setError(t("register.errorCreatingAccount"));
       }
     } finally {
       setLoading(false);
@@ -107,7 +107,7 @@ export default function RegisterPage() {
               disabled={loading}
             >
               {loading ? (
-                <Loading text="Creating account..." size="md" />
+                <Loading text={t("register.creatingAccount")} size="md" />
               ) : (
                 t("register.register")
               )}

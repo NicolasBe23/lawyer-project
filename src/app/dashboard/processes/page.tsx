@@ -9,8 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Eye, Briefcase } from "lucide-react";
 import { ProcessStatusBadge } from "@/components/process/ProcessStatusBadge";
+import { useTranslations } from "next-intl";
 
 export default function ProcessesPage() {
+  const t = useTranslations();
   const [processes, setProcesses] = useState<Process[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -29,7 +31,7 @@ export default function ProcessesPage() {
   if (loading) {
     return (
       <div className="p-6">
-        <Loading text="Loading processes..." size="md" />
+        <Loading text={t("processes.loadingProcesses")} size="md" />
       </div>
     );
   }
@@ -37,13 +39,13 @@ export default function ProcessesPage() {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-6">
-        <h1 className="text-2xl cursor-default">My Processes</h1>
+        <h1 className="text-2xl cursor-default">{t("processes.myProcesses")}</h1>
         <Button
           className="cursor-pointer bg-gray-900 hover:bg-gray-800"
           onClick={() => router.push("/dashboard/processes/add")}
         >
           <Plus className="w-4 h-4 mr-2" />
-          New Process
+          {t("processes.newProcess")}
         </Button>
       </div>
 
@@ -51,13 +53,15 @@ export default function ProcessesPage() {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Briefcase className="w-5 h-5" />
-            <span>All Processes ({processes.length})</span>
+            <span>
+              {t("processes.allProcesses")} ({processes.length})
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           {processes.length === 0 ? (
             <p className="text-muted-foreground text-center py-8">
-              No processes found.
+              {t("processes.noProcessesFound")}
             </p>
           ) : (
             <div className="space-y-4">
@@ -75,17 +79,26 @@ export default function ProcessesPage() {
                       <ProcessStatusBadge status={process.processStatus} />
                     </div>
                     <div className="space-y-1 text-sm text-muted-foreground">
-                      <p>Process: {process.processNumber}</p>
-                      <p>Client: {process.client?.name || "N/A"}</p>
-                      <p>Start: {formatDate(process.startDate)}</p>
+                      <p>
+                        {t("processes.process")}: {process.processNumber}
+                      </p>
+                      <p>
+                        {t("clients.name")}: {process.client?.name || t("common.na")}
+                      </p>
+                      <p>
+                        {t("processes.start")}: {formatDate(process.startDate)}
+                      </p>
                       {process.completionDate && (
-                        <p>Completed: {formatDate(process.completionDate)}</p>
+                        <p>
+                          {t("processes.completed")}:{" "}
+                          {formatDate(process.completionDate)}
+                        </p>
                       )}
                     </div>
                   </div>
                   <Button variant="outline" size="sm" className="ml-4">
                     <Eye className="w-4 h-4 mr-2" />
-                    View details
+                    {t("processes.viewDetails")}
                   </Button>
                 </div>
               ))}

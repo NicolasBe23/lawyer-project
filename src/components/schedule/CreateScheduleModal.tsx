@@ -15,6 +15,7 @@ import { CreateScheduleModalProps, Client, Process } from "@/types/types";
 import { getAllClients } from "@/services/getAllClients";
 import { toast } from "sonner";
 import { getAllProcesses } from "@/services/getAllProcesses";
+import { useTranslations } from "next-intl";
 
 export const CreateScheduleModal = ({
   isOpen,
@@ -23,6 +24,7 @@ export const CreateScheduleModal = ({
   selectedDate,
   isLoading = false,
 }: CreateScheduleModalProps) => {
+  const t = useTranslations();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -57,7 +59,7 @@ export const CreateScheduleModal = ({
       const { data } = await getAllProcesses();
       setProcesses(data);
     } catch {
-      toast.error("Error loading processes");
+      toast.error(t("schedules.errorLoadingProcesses"));
     } finally {
       setLoadingProcesses(false);
     }
@@ -69,7 +71,7 @@ export const CreateScheduleModal = ({
       const { data } = await getAllClients();
       setClients(data);
     } catch {
-      toast.error("Error loading clients");
+      toast.error(t("schedules.errorLoadingClients"));
     } finally {
       setLoadingClients(false);
     }
@@ -90,7 +92,7 @@ export const CreateScheduleModal = ({
 
       onSave(scheduleData);
     },
-    [onSave, formData]
+    [onSave, formData],
   );
 
   const handleClose = useCallback(() => {
@@ -109,25 +111,25 @@ export const CreateScheduleModal = ({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Create Schedule</DialogTitle>
+          <DialogTitle>{t("schedules.createSchedule")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title *</Label>
+            <Label htmlFor="title">{t("schedules.titleField")} *</Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, title: e.target.value }))
               }
-              placeholder="Ex: Meeting with client"
+              placeholder={t("schedules.titlePlaceholder")}
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="dateTime">Date and Time *</Label>
+            <Label htmlFor="dateTime">{t("schedules.dateAndTime")} *</Label>
             <Input
               id="dateTime"
               type="datetime-local"
@@ -140,7 +142,7 @@ export const CreateScheduleModal = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="client">Client</Label>
+            <Label htmlFor="client">{t("clients.title")}</Label>
             <select
               id="client"
               value={formData.client}
@@ -150,7 +152,7 @@ export const CreateScheduleModal = ({
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={loadingClients}
             >
-              <option value="">Select client (optional)</option>
+              <option value="">{t("schedules.selectClientOptional")}</option>
               {clients.map((client) => (
                 <option key={client.id} value={client.id}>
                   {client.attributes.name}
@@ -160,19 +162,19 @@ export const CreateScheduleModal = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="location">Location</Label>
+            <Label htmlFor="location">{t("schedules.location")}</Label>
             <Input
               id="location"
               value={formData.location}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, location: e.target.value }))
               }
-              placeholder="Ex: Office, Court, etc."
+              placeholder={t("schedules.locationPlaceholder")}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t("common.description")}</Label>
             <Textarea
               id="description"
               value={formData.description}
@@ -182,13 +184,13 @@ export const CreateScheduleModal = ({
                   description: e.target.value,
                 }))
               }
-              placeholder="Additional details about the schedule, etc."
+              placeholder={t("schedules.descriptionPlaceholder")}
               rows={3}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="process">Process</Label>
+            <Label htmlFor="process">{t("processes.process")}</Label>
             <select
               id="process"
               value={formData.process}
@@ -198,7 +200,7 @@ export const CreateScheduleModal = ({
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={loadingProcesses}
             >
-              <option value="">Select process (optional)</option>
+              <option value="">{t("schedules.selectProcessOptional")}</option>
               {processes.map((process) => (
                 <option key={process.id} value={process.id}>
                   {process.title}
@@ -214,13 +216,13 @@ export const CreateScheduleModal = ({
               onClick={handleClose}
               disabled={isLoading}
             >
-              Cancel
+              {t("common.cancel")}
             </Button>
             <Button
               type="submit"
               disabled={isLoading || !formData.title || !formData.dateTime}
             >
-              {isLoading ? "Creating..." : "Create Schedule"}
+              {isLoading ? t("schedules.creating") : t("schedules.createSchedule")}
             </Button>
           </div>
         </form>

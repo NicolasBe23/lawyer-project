@@ -9,6 +9,7 @@ import {
   X,
 } from "lucide-react";
 import { DocumentCardProps, StrapiFile } from "@/types/types";
+import { useTranslations } from "next-intl";
 
 export const DocumentCard = ({
   document: doc,
@@ -24,6 +25,7 @@ export const DocumentCard = ({
   fileInputRef,
   formatDate,
 }: DocumentCardProps) => {
+  const t = useTranslations();
   return (
     <Card className="hover:shadow-md transition-shadow h-full flex flex-col">
       <CardHeader>
@@ -65,11 +67,11 @@ export const DocumentCard = ({
         {/* Fixed bottom section */}
         <div className="mt-auto space-y-1">
           <p className="text-xs text-muted-foreground">
-            Created: {formatDate(doc.createdAt)}
+            {t("documents.created")}: {formatDate(doc.createdAt)}
           </p>
           {doc.process && !processId && (
             <p className="text-xs text-muted-foreground">
-              Process: {doc.process.title}
+              {t("documents.process")}: {doc.process.title}
             </p>
           )}
         </div>
@@ -97,7 +99,7 @@ export const DocumentCard = ({
                 onClick={(e) => onOpenFile(e, doc)}
               >
                 <ExternalLink className="w-4 h-4 mr-1" />
-                Open
+                {t("documents.open")}
               </Button>
               <Button
                 variant="outline"
@@ -107,7 +109,7 @@ export const DocumentCard = ({
                 disabled={removingFileDocId === doc.id}
               >
                 <X className="w-4 h-4 mr-1" />
-                {removingFileDocId === doc.id ? "..." : "Remove"}
+                {removingFileDocId === doc.id ? "..." : t("documents.remove")}
               </Button>
             </div>
           </div>
@@ -128,7 +130,9 @@ export const DocumentCard = ({
               disabled={uploadingDocId === doc.id}
             >
               <Upload className="w-4 h-4 mr-2" />
-              {uploadingDocId === doc.id ? "Uploading..." : "Attach File"}
+              {uploadingDocId === doc.id
+                ? t("documents.uploading")
+                : t("documents.attachFile")}
             </Button>
           </div>
         )}
@@ -136,4 +140,3 @@ export const DocumentCard = ({
     </Card>
   );
 };
-

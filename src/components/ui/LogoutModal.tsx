@@ -10,12 +10,14 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { LogoutModalProps } from "@/types/types";
+import { useTranslations } from "next-intl";
 
 export const LogoutModal = ({
   isOpen,
   onClose,
   onConfirm,
 }: LogoutModalProps) => {
+  const t = useTranslations();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleConfirm = async () => {
@@ -32,11 +34,10 @@ export const LogoutModal = ({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Confirm Logout
+            {t("logout.confirmLogout")}
           </DialogTitle>
           <DialogDescription>
-            Are you sure you want to logout? You will need to login again to
-            access the system.
+            {t("logout.confirmLogoutDescription")}
           </DialogDescription>
         </DialogHeader>
 
@@ -48,7 +49,7 @@ export const LogoutModal = ({
             disabled={isLoggingOut}
             className="cursor-pointer"
           >
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button
             onClick={handleConfirm}
@@ -59,10 +60,10 @@ export const LogoutModal = ({
             {isLoggingOut ? (
               <>
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Logging out...
+                {t("logout.loggingOut")}
               </>
             ) : (
-              <>Logout</>
+              <>{t("sidebar.logout")}</>
             )}
           </Button>
         </div>

@@ -2,19 +2,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock } from "lucide-react";
 import { ClientSchedulesProps } from "@/types/types";
 import { useRouter } from "next/navigation";
-
+import { useTranslations } from "next-intl";
 export const ClientSchedules = ({
   schedules,
   formatDateTime,
 }: ClientSchedulesProps) => {
   const router = useRouter();
-
+  const t = useTranslations();
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <Clock className="w-5 h-5" />
-          <span>Recent Schedules</span>
+          <span>{t("schedules.title")}</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -43,7 +43,9 @@ export const ClientSchedules = ({
                         : "bg-yellow-100 text-yellow-800"
                     }`}
                   >
-                    {schedule.completed ? "Completed" : "Pending"}
+                    {schedule.completed
+                      ? t("clients.completed")
+                      : t("clients.pending")}
                   </span>
                 </div>
               </div>
@@ -51,7 +53,7 @@ export const ClientSchedules = ({
           </div>
         ) : (
           <p className="text-muted-foreground text-center py-4 text-sm">
-            No schedules found for this client.
+            {t("schedules.noSchedulesFound")}
           </p>
         )}
       </CardContent>

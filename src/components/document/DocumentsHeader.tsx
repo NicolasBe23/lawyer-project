@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Plus } from "lucide-react";
 import { DocumentsHeaderProps } from "@/types/types";
+import { useTranslations } from "next-intl";
 
 export const DocumentsHeader = ({
   processId,
   onBackClick,
   onAddClick,
 }: DocumentsHeaderProps) => {
+  const t = useTranslations();
   return (
     <>
       <div className="flex items-center justify-between">
@@ -14,25 +16,24 @@ export const DocumentsHeader = ({
           {processId && (
             <Button variant="outline" onClick={onBackClick}>
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Process
+              {t("documents.backToProcess")}
             </Button>
           )}
         </div>
         <Button onClick={onAddClick}>
           <Plus className="w-4 h-4 mr-2" />
-          Add Document
+          {t("documents.addDocument")}
         </Button>
       </div>
 
       <div>
-        <h1 className="text-2xl font-bold">Documents</h1>
+        <h1 className="text-2xl font-bold">{t("documents.title")}</h1>
         <p className="text-muted-foreground">
           {processId
-            ? "Documents related to this process"
-            : "All documents registered"}
+            ? t("documents.documentsRelatedToThisProcess")
+            : t("documents.allDocumentsRegistered")}
         </p>
       </div>
     </>
   );
 };
-

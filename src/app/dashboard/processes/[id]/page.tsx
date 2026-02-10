@@ -14,8 +14,10 @@ import { ProcessDates } from "@/components/process/ProcessDates";
 import { ProcessDocuments } from "@/components/process/ProcessDocuments";
 import { ProcessSchedules } from "@/components/process/ProcessSchedules";
 import { ProcessStatusChanger } from "@/components/process/ProcessStatusChanger";
+import { useTranslations } from "next-intl";
 
 export default function ProcessPage() {
+  const t = useTranslations();
   const [process, setProcess] = useState<Process | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +45,7 @@ export default function ProcessPage() {
   if (loading) {
     return (
       <div className="p-6">
-        <Loading text="Loading process..." size="md" />
+        <Loading text={t("processes.loadingProcess")} size="md" />
       </div>
     );
   }
@@ -57,9 +59,9 @@ export default function ProcessPage() {
           className="mb-4"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back
+          {t("common.back")}
         </Button>
-        <p className="text-red-600">{error || "Process not found."}</p>
+        <p className="text-red-600">{error || t("processes.processNotFound")}</p>
       </div>
     );
   }
@@ -81,7 +83,7 @@ export default function ProcessPage() {
           onClick={() => router.push("/dashboard/processes")}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back
+          {t("common.back")}
         </Button>
 
         <ProcessStatusChanger
@@ -95,7 +97,7 @@ export default function ProcessPage() {
         <div>
           <h1 className="text-3xl">{process.title}</h1>
           <p className="text-muted-foreground">
-            Process: Nº {process.processNumber}
+            {t("processes.process")}: Nº {process.processNumber}
           </p>
         </div>
         <ProcessStatusBadge status={process.processStatus} />
@@ -114,7 +116,7 @@ export default function ProcessPage() {
       {process.description && (
         <Card>
           <CardHeader>
-            <CardTitle>Description</CardTitle>
+            <CardTitle>{t("common.description")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="whitespace-pre-wrap text-muted-foreground">

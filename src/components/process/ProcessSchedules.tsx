@@ -1,14 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "lucide-react";
 import { ProcessSchedulesProps } from "@/types/types";
+import { useTranslations } from "next-intl";
 
 export const ProcessSchedules = ({ schedules }: ProcessSchedulesProps) => {
+  const t = useTranslations();
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <Calendar className="w-5 h-5" />
-          <span>Schedules</span>
+          <span>{t("schedules.title")}</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -31,7 +33,7 @@ export const ProcessSchedules = ({ schedules }: ProcessSchedulesProps) => {
                   </p>
                   {schedule.location && (
                     <p className="text-sm text-muted-foreground">
-                      Location: {schedule.location}
+                      {t("schedules.location")}: {schedule.location}
                     </p>
                   )}
                 </div>
@@ -42,14 +44,16 @@ export const ProcessSchedules = ({ schedules }: ProcessSchedulesProps) => {
                       : "bg-blue-100 text-blue-800"
                   }`}
                 >
-                  {schedule.completed ? "Completed" : "Pending"}
+                  {schedule.completed
+                    ? t("dashboard.completed")
+                    : t("dashboard.pending")}
                 </span>
               </div>
             ))}
           </div>
         ) : (
           <p className="text-muted-foreground text-center py-8">
-            No schedules found
+            {t("schedules.noSchedulesFound")}
           </p>
         )}
       </CardContent>

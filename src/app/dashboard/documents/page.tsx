@@ -21,25 +21,27 @@ import {
 } from "@/lib/helpers/documentHelpers";
 import { formatDate } from "@/lib/helpers/dateHelpers";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function DocumentsPage() {
+  const t = useTranslations();
   const [documents, setDocuments] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [uploadingDocId, setUploadingDocId] = useState<number | null>(null);
   const [removingFileDocId, setRemovingFileDocId] = useState<number | null>(
-    null
+    null,
   );
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [documentToEdit, setDocumentToEdit] = useState<DocumentData | null>(
-    null
+    null,
   );
   const [documentToDelete, setDocumentToDelete] = useState<DocumentData | null>(
-    null
+    null,
   );
 
   const fileInputRefs = useRef<{ [key: number]: HTMLInputElement | null }>({});
@@ -68,7 +70,7 @@ export default function DocumentsPage() {
     try {
       const { success, error } = await handleDocumentCreate(
         formData,
-        processId
+        processId,
       );
       if (!success && error) {
         toast.error(error);
@@ -77,11 +79,11 @@ export default function DocumentsPage() {
       if (error) {
         toast.error(error);
       }
-      toast.success("Document created successfully");
+      toast.success(t("documents.documentCreatedSuccessfully"));
       setShowCreateModal(false);
       loadDocuments();
     } catch {
-      toast.error("Failed to create document");
+      toast.error(t("documents.failedToCreateDocument"));
     } finally {
       setActionLoading(false);
     }
@@ -103,18 +105,18 @@ export default function DocumentsPage() {
     try {
       const { success, error } = await handleDocumentUpdate(
         documentToEdit,
-        data
+        data,
       );
       if (!success) {
-        toast.error(error || "Failed to update document");
+        toast.error(error || t("documents.failedToUpdateDocument"));
         return;
       }
-      toast.success("Document updated successfully");
+      toast.success(t("documents.documentUpdatedSuccessfully"));
       setShowEditModal(false);
       setDocumentToEdit(null);
       loadDocuments();
     } catch {
-      toast.error("Failed to update document");
+      toast.error(t("documents.failedToUpdateDocument"));
     } finally {
       setActionLoading(false);
     }
@@ -133,15 +135,15 @@ export default function DocumentsPage() {
     try {
       const { success, error } = await handleDocumentDelete(documentToDelete);
       if (!success) {
-        toast.error(error || "Failed to delete document");
+        toast.error(error || t("documents.failedToDeleteDocument"));
         return;
       }
-      toast.success("Document deleted successfully");
+      toast.success(t("documents.documentDeletedSuccessfully"));
       setShowDeleteModal(false);
       setDocumentToDelete(null);
       loadDocuments();
     } catch {
-      toast.error("Failed to delete document");
+      toast.error(t("documents.failedToDeleteDocument"));
     } finally {
       setActionLoading(false);
     }
@@ -159,7 +161,7 @@ export default function DocumentsPage() {
 
   const onFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    doc: DocumentData
+    doc: DocumentData,
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -168,13 +170,13 @@ export default function DocumentsPage() {
     try {
       const { success, error } = await handleFileUpload(doc, file);
       if (!success) {
-        toast.error(error || "Failed to upload file");
+        toast.error(error || t("documents.failedToUploadFile"));
         return;
       }
-      toast.success("File uploaded successfully");
+      toast.success(t("documents.fileUploadedSuccessfully"));
       loadDocuments();
     } catch {
-      toast.error("Failed to upload file");
+      toast.error(t("documents.failedToUploadFile"));
     } finally {
       setUploadingDocId(null);
       if (fileInputRefs.current[doc.id]) {
@@ -190,13 +192,13 @@ export default function DocumentsPage() {
     try {
       const { success, error } = await handleFileRemove(doc);
       if (!success) {
-        toast.error(error || "Failed to remove file");
+        toast.error(error || t("documents.failedToRemoveFile"));
         return;
       }
-      toast.success("File removed successfully");
+      toast.success(t("documents.fileRemovedSuccessfully"));
       loadDocuments();
     } catch {
-      toast.error("Failed to remove file");
+      toast.error(t("documents.failedToRemoveFile"));
     } finally {
       setRemovingFileDocId(null);
     }
@@ -205,7 +207,7 @@ export default function DocumentsPage() {
   if (loading) {
     return (
       <div className="p-6">
-        <Loading text="Loading documents..." size="md" />
+        <Loading text={t("documents.loadingDocuments")} size="md" />
       </div>
     );
   }

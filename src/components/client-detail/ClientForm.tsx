@@ -5,14 +5,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { ClientFormProps } from "@/types/types";
-
+import { useTranslations } from "next-intl";
 export const ClientForm = ({
   onSubmit,
   initialData,
   isLoading = false,
-  submitText = "Save",
+  submitText,
   onCancel,
 }: ClientFormProps) => {
+  const t = useTranslations();
   const [formData, setFormData] = useState({
     name: initialData?.attributes.name || "",
     email: initialData?.attributes.email || "",
@@ -28,21 +29,21 @@ export const ClientForm = ({
       e.preventDefault();
       onSubmit(formData);
     },
-    [formData, onSubmit]
+    [formData, onSubmit],
   );
 
   const handleChange = useCallback(
     (field: string, value: string | boolean) => {
       setFormData((prev) => ({ ...prev, [field]: value }));
     },
-    [setFormData]
+    [setFormData],
   );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="name">Name *</Label>
+          <Label htmlFor="name">{t("clients.name")} *</Label>
           <Input
             id="name"
             value={formData.name}
@@ -52,7 +53,7 @@ export const ClientForm = ({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">Email *</Label>
+          <Label htmlFor="email">{t("clients.email")} *</Label>
           <Input
             id="email"
             type="email"
@@ -65,7 +66,7 @@ export const ClientForm = ({
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="phoneNumber">Phone Number</Label>
+          <Label htmlFor="phoneNumber">{t("clients.phoneNumber")}</Label>
           <Input
             id="phoneNumber"
             value={formData.phoneNumber}
@@ -74,7 +75,7 @@ export const ClientForm = ({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="birthDate">Birth Date</Label>
+          <Label htmlFor="birthDate">{t("clients.birthDate")}</Label>
           <Input
             id="birthDate"
             type="date"
@@ -85,7 +86,7 @@ export const ClientForm = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="address">Address</Label>
+        <Label htmlFor="address">{t("clients.address")}</Label>
         <Input
           id="address"
           value={formData.address}
@@ -94,7 +95,7 @@ export const ClientForm = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="observations">Observations</Label>
+        <Label htmlFor="observations">{t("clients.observations")}</Label>
         <Textarea
           id="observations"
           value={formData.observations}
@@ -110,7 +111,7 @@ export const ClientForm = ({
           checked={formData.active}
           onCheckedChange={(checked) => handleChange("active", checked)}
         />
-        <Label htmlFor="active">Active</Label>
+        <Label htmlFor="active">{t("clients.active")}</Label>
       </div>
 
       <div className="flex justify-end space-x-2 pt-6">
@@ -122,7 +123,7 @@ export const ClientForm = ({
             onClick={onCancel}
             disabled={isLoading}
           >
-            Cancel
+            {t("common.cancel")}
           </Button>
         )}
         <Button
@@ -130,7 +131,7 @@ export const ClientForm = ({
           type="submit"
           disabled={isLoading}
         >
-          {isLoading ? "Saving..." : submitText}
+          {isLoading ? t("common.loading") : (submitText ?? t("common.save"))}
         </Button>
       </div>
     </form>

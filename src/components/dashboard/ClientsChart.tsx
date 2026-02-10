@@ -9,8 +9,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { ClientsChartProps } from "@/types/types";
+import { useLocale, useTranslations } from "next-intl";
 
 export const ClientsChart = ({ clientsData }: ClientsChartProps) => {
+  const t = useTranslations();
+  const locale = useLocale();
   const clientsByMonth = Array.from({ length: 12 }, (_, monthIndex) => {
     const currentYear = new Date().getFullYear();
 
@@ -26,7 +29,7 @@ export const ClientsChart = ({ clientsData }: ClientsChartProps) => {
     }).length;
 
     return {
-      month: new Date(0, monthIndex).toLocaleString("default", {
+      month: new Date(0, monthIndex).toLocaleString(locale, {
         month: "short",
       }),
       clients: clientsInMonth,
@@ -36,7 +39,7 @@ export const ClientsChart = ({ clientsData }: ClientsChartProps) => {
   return (
     <Card className="shadow-md">
       <CardHeader>
-        <CardTitle>Clients by Months</CardTitle>
+        <CardTitle>{t("dashboard.clientsByMonths")}</CardTitle>
       </CardHeader>
       <CardContent className="h-72">
         <ResponsiveContainer width="100%" height="100%">

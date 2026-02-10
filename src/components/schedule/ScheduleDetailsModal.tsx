@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Schedule, ScheduleDetailsModalProps } from "@/types/types";
 import { MapPin, User, Clock, FileText, Trash2, Check, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import { getStatusBadge, getStatusText } from "@/components/constants/page";
+import { getStatusBadge } from "@/components/constants/page";
+import { useTranslations } from "next-intl";
 
 export const ScheduleDetailsModal = ({
   isOpen,
@@ -22,6 +23,7 @@ export const ScheduleDetailsModal = ({
   onMarkCompleted,
   onMarkNotCompleted,
 }: ScheduleDetailsModalProps) => {
+  const t = useTranslations();
   const [scheduleToDelete, setScheduleToDelete] = useState<number | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [localSchedules, setLocalSchedules] = useState<Schedule[]>(schedules);
@@ -91,11 +93,11 @@ export const ScheduleDetailsModal = ({
         prev.map((schedule) =>
           schedule.id === scheduleId
             ? { ...schedule, completed: true }
-            : schedule
-        )
+            : schedule,
+        ),
       );
     } catch {
-      console.error("Error marking schedule as completed:");
+      console.error(t("schedules.errorMarkingScheduleAsCompleted"));
     }
   };
 
@@ -109,11 +111,11 @@ export const ScheduleDetailsModal = ({
         prev.map((schedule) =>
           schedule.id === scheduleId
             ? { ...schedule, completed: false }
-            : schedule
-        )
+            : schedule,
+        ),
       );
     } catch {
-      console.error("Error marking schedule as not completed:");
+      console.error(t("schedules.errorMarkingScheduleAsNotCompleted"));
     }
   };
 
@@ -129,12 +131,12 @@ export const ScheduleDetailsModal = ({
       await onDeleteSchedule(scheduleToDelete);
 
       setLocalSchedules((prev) =>
-        prev.filter((schedule) => schedule.id !== scheduleToDelete)
+        prev.filter((schedule) => schedule.id !== scheduleToDelete),
       );
 
       setScheduleToDelete(null);
     } catch {
-      console.error("Error deleting schedule:");
+      console.error(t("schedules.errorDeletingSchedule"));
     } finally {
       setIsDeleting(false);
     }
@@ -149,13 +151,15 @@ export const ScheduleDetailsModal = ({
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Schedules for {formatDate(selectedDate)}</DialogTitle>
+            <DialogTitle>
+              {t("schedules.schedulesForDate", { date: formatDate(selectedDate) })}
+            </DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4">
             {localSchedules.length === 0 ? (
               <p className="text-center text-gray-500 py-8">
-                No schedules for this date.
+                {t("schedules.noSchedulesForThisDate")}
               </p>
             ) : (
               localSchedules.map((schedule) => {
@@ -174,10 +178,16 @@ export const ScheduleDetailsModal = ({
                       <div className="flex items-center gap-2">
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(
-                            status
+                            status,
                           )}`}
                         >
-                          {getStatusText(status)}
+                          {status === "completed"
+                            ? t("dashboard.completed")
+                            : status === "overdue"
+                              ? t("schedules.needsConfirmation")
+                              : status === "today"
+                                ? t("schedules.today")
+                                : t("schedules.upcoming")}
                         </span>
                         <Button
                           size="sm"
@@ -225,7 +235,7 @@ export const ScheduleDetailsModal = ({
                           className="bg-green-600 hover:bg-green-700"
                         >
                           <Check className="w-4 h-4 mr-1" />
-                          Mark Completed
+                          {t("schedules.markCompleted")}
                         </Button>
                         <Button
                           size="sm"
@@ -233,7 +243,7 @@ export const ScheduleDetailsModal = ({
                           onClick={() => handleMarkNotCompleted(schedule.id)}
                         >
                           <X className="w-4 h-4 mr-1" />
-                          Not Done
+                          {t("schedules.notDone")}
                         </Button>
                       </div>
                     )}
@@ -244,9 +254,9 @@ export const ScheduleDetailsModal = ({
 
             <div className="flex justify-between pt-4 border-t">
               <Button variant="outline" onClick={onCreateNew}>
-                Create New Schedule
+                {t("schedules.createNewSchedule")}
               </Button>
-              <Button onClick={onClose}>Close</Button>
+              <Button onClick={onClose}>{t("common.close")}</Button>
             </div>
           </div>
         </DialogContent>
@@ -255,13 +265,12 @@ export const ScheduleDetailsModal = ({
       <Dialog open={!!scheduleToDelete} onOpenChange={cancelDelete}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Confirm Delete</DialogTitle>
+            <DialogTitle>{t("schedules.confirmDelete")}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4">
             <p>
-              Are you sure you want to delete this schedule? This action cannot
-              be undone.
+              {t("schedules.deleteScheduleConfirmation")}
             </p>
 
             <div className="flex justify-end space-x-2">
@@ -270,7 +279,7 @@ export const ScheduleDetailsModal = ({
                 onClick={cancelDelete}
                 disabled={isDeleting}
               >
-                Cancel
+                {t("common.cancel")}
               </Button>
               <Button
                 variant="destructive"
@@ -281,12 +290,12 @@ export const ScheduleDetailsModal = ({
                 {isDeleting ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Deleting...
+                    {t("documents.deleting")}
                   </>
                 ) : (
                   <>
                     <Trash2 className="w-4 h-4" />
-                    Delete
+                    {t("common.delete")}
                   </>
                 )}
               </Button>

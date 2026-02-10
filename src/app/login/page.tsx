@@ -47,7 +47,7 @@ export default function LoginPage() {
 
       router.push("/dashboard");
     } catch {
-      setError("Invalid credentials");
+      setError(t("login.invalidCredentials"));
     } finally {
       setLoading(false);
     }
@@ -91,7 +91,7 @@ export default function LoginPage() {
               disabled={loading}
             >
               {loading ? (
-                <Loading text="Signing in..." size="md" />
+                <Loading text={t("login.signingIn")} size="md" />
               ) : (
                 t("login.login")
               )}

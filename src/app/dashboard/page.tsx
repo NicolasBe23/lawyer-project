@@ -5,16 +5,20 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { User } from "@/types/types";
 import Header from "@/components/header/page";
-import { StatsCards } from "@/components/dashboard/StatsCards";
-import { ClientsChart } from "@/components/dashboard/ClientsChart";
-import { ProcessesChart } from "@/components/dashboard/ProcessesChart";
-import { RecentClientsCard } from "@/components/dashboard/RecentClientsCard";
-import { RecentProcessesCard } from "@/components/dashboard/RecentProcessesCard";
-import { UpcomingSchedulesCard } from "@/components/dashboard/UpcomingSchedulesCard";
-import { PendingDocumentsCard } from "@/components/dashboard/PendingDocumentsCard";
+import {
+  StatsCards,
+  ClientsChart,
+  ProcessesChart,
+  RecentClientsCard,
+  RecentProcessesCard,
+  UpcomingSchedulesCard,
+  PendingDocumentsCard,
+} from "@/components/dashboard";
 import { useGetDashboardStats } from "@/services/getDashboardStats";
+import { useTranslations } from "next-intl";
 
 export default function DashboardPage() {
+  const t = useTranslations();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const { stats, clientsData, loading } = useGetDashboardStats();
@@ -43,8 +47,8 @@ export default function DashboardPage() {
     fetchUser();
   }, [router]);
 
-  if (!user) return <p>Loading user...</p>;
-  if (loading || !stats) return <p>Loading stats...</p>;
+  if (!user) return <p>{t("dashboard.loadingUser")}</p>;
+  if (loading || !stats) return <p>{t("dashboard.loadingStats")}</p>;
 
   return (
     <div className="space-y-6">
