@@ -1,5 +1,6 @@
 import { DocumentData, DocumentFormData } from "@/types/types";
 import { getAllDocuments } from "@/services/getAllDocuments";
+import { processService } from "@/lib/strapi";
 import {
   createDocument,
   deleteDocument,
@@ -9,6 +10,27 @@ import {
   getFileDownloadUrl,
 } from "@/services/documentService";
 
+const resolveProcessNumericId = async (
+  processIdentifier: string | null
+): Promise<number | null> => {
+  if (!processIdentifier) {
+    return null;
+  }
+
+  const numericId = Number(processIdentifier);
+  if (!isNaN(numericId)) {
+    return numericId;
+  }
+
+  try {
+    const response: any = await processService.getByDocumentId(processIdentifier);
+    const process = response?.data?.data?.[0];
+    return process?.id ?? null;
+  } catch {
+    return null;
+  }
+};
+
 export const fetchDocuments = async (processId: string | null) => {
   const res = await getAllDocuments();
   if (res.error) {
@@ -16,7 +38,18 @@ export const fetchDocuments = async (processId: string | null) => {
   }
 
   const filteredDocs = processId
-    ? res.data.filter((doc) => doc.process?.id === Number(processId))
+    ? res.data.filter((doc) => {
+        const docProcess = doc.process;
+        if (!docProcess) return false;
+        const docProcessId = Number(docProcess.id);
+        const targetProcessId = Number(processId);
+        return (
+          (!isNaN(docProcessId) &&
+            !isNaN(targetProcessId) &&
+            docProcessId === targetProcessId) ||
+          docProcess.documentId === processId
+        );
+      })
     : res.data;
 
   return { data: filteredDocs, error: null };
@@ -26,10 +59,12 @@ export const handleDocumentCreate = async (
   formData: DocumentFormData,
   processId: string | null
 ): Promise<{ success: boolean; error: string | null }> => {
+  const resolvedProcessId = await resolveProcessNumericId(processId);
+
   const result = await createDocument({
     title: formData.title,
     description: formData.description,
-    process: processId ? Number(processId) : undefined,
+    process: resolvedProcessId ?? undefined,
   });
 
   if (result.error) {

@@ -39,7 +39,9 @@ export default function ProcessesPage() {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-6">
-        <h1 className="text-2xl cursor-default">{t("processes.myProcesses")}</h1>
+        <h1 className="text-2xl cursor-default">
+          {t("processes.myProcesses")}
+        </h1>
         <Button
           className="cursor-pointer bg-gray-900 hover:bg-gray-800"
           onClick={() => router.push("/dashboard/processes/add")}
@@ -68,10 +70,7 @@ export default function ProcessesPage() {
               {processes.map((process) => (
                 <div
                   key={process.id}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 cursor-pointer transition-colors"
-                  onClick={() =>
-                    router.push(`/dashboard/processes/${process.id}`)
-                  }
+                  className="flex items-center justify-between p-4 border rounded-lg transition-colors"
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
@@ -83,7 +82,8 @@ export default function ProcessesPage() {
                         {t("processes.process")}: {process.processNumber}
                       </p>
                       <p>
-                        {t("clients.name")}: {process.client?.name || t("common.na")}
+                        {t("clients.name")}:{" "}
+                        {process.client?.name || t("common.na")}
                       </p>
                       <p>
                         {t("processes.start")}: {formatDate(process.startDate)}
@@ -96,7 +96,15 @@ export default function ProcessesPage() {
                       )}
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" className="ml-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="ml-4 cursor-pointer"
+                    onClick={() => {
+                      const processIdentifier = process.documentId || process.id;
+                      router.push(`/dashboard/processes/${processIdentifier}`);
+                    }}
+                  >
                     <Eye className="w-4 h-4 mr-2" />
                     {t("processes.viewDetails")}
                   </Button>

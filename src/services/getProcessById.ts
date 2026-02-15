@@ -16,21 +16,50 @@ export const getProcessById = async (
       throw new Error("No authentication token found");
     }
 
-    const response = await fetch(
-      `${API_URL}/api/processes/${id}?populate[client]=*&populate[process_documents]=*&populate[schedules][populate][client]=*`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const populateQuery =
+      "populate[client]=*&populate[process_documents]=*&populate[schedules][populate][client]=*";
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    let processData: Process | null = null;
+    const isNumericId = !isNaN(Number(id));
+
+    if (isNumericId) {
+      const directResponse = await fetch(
+        `${API_URL}/api/processes/${id}?${populateQuery}`,
+        { headers }
+      );
+
+      if (directResponse.ok) {
+        const directData = await directResponse.json();
+        processData = directData.data || null;
+      } else {
+        const fallbackResponse = await fetch(
+          `${API_URL}/api/processes?filters[id][$eq]=${id}&${populateQuery}`,
+          { headers }
+        );
+
+        if (fallbackResponse.ok) {
+          const fallbackData = await fallbackResponse.json();
+          processData = fallbackData.data?.[0] || null;
+        }
+      }
+    } else {
+      const byDocumentIdResponse = await fetch(
+        `${API_URL}/api/processes?filters[documentId][$eq]=${id}&${populateQuery}`,
+        { headers }
+      );
+
+      if (byDocumentIdResponse.ok) {
+        const byDocumentIdData = await byDocumentIdResponse.json();
+        processData = byDocumentIdData.data?.[0] || null;
+      }
     }
 
-    const responseData = await response.json();
-    const processData = responseData.data;
+    if (!processData) {
+      throw new Error("Process not found");
+    }
 
     let allSchedules = processData?.schedules || [];
 
@@ -38,9 +67,7 @@ export const getProcessById = async (
       const clientSchedulesResponse = await fetch(
         `${API_URL}/api/schedules?populate[client]=*&populate[process]=*&filters[client][id][$eq]=${processData.client.id}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers,
         }
       );
 
@@ -48,7 +75,7 @@ export const getProcessById = async (
         const clientSchedulesData = await clientSchedulesResponse.json();
         const clientSchedules = clientSchedulesData.data || [];
 
-        const currentProcessId = parseInt(id);
+        const currentProcessId = processData.id;
         const currentClientId = processData.client.id;
 
         const relevantSchedules = clientSchedules.filter(

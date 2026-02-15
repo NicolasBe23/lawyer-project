@@ -37,6 +37,10 @@ export const clientService = {
 export const processService = {
   getAll: () => strapiApi.get("/processes?populate=*"),
   getById: (id: string) => strapiApi.get(`/processes/${id}?populate=*`),
+  getByDocumentId: (documentId: string) =>
+    strapiApi.get(
+      `/processes?filters[documentId][$eq]=${documentId}&populate=*`
+    ),
   getByClient: (clientId: string) =>
     strapiApi.get(`/processes?populate=*&filters[client][id][$eq]=${clientId}`),
   create: (data: Process) => strapiApi.post("/processes", { data }),

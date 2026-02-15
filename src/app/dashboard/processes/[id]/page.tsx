@@ -61,7 +61,9 @@ export default function ProcessPage() {
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
         </Button>
-        <p className="text-red-600">{error || t("processes.processNotFound")}</p>
+        <p className="text-red-600">
+          {error || t("processes.processNotFound")}
+        </p>
       </div>
     );
   }
@@ -81,13 +83,14 @@ export default function ProcessPage() {
         <Button
           variant="outline"
           onClick={() => router.push("/dashboard/processes")}
+          className="cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
         </Button>
 
         <ProcessStatusChanger
-          processId={processId}
+          processId={String(process.id)}
           currentStatus={process.processStatus}
           onStatusChange={handleStatusChange}
         />
@@ -108,7 +111,6 @@ export default function ProcessPage() {
         <ProcessDates
           startDate={process.startDate}
           completionDate={process.completionDate}
-          createdAt={process.createdAt}
           formatDate={formatDate}
         />
       </div>
@@ -127,7 +129,7 @@ export default function ProcessPage() {
       )}
 
       <ProcessDocuments
-        processId={processId}
+        processId={String(process.id)}
         documents={process.process_documents}
         formatDate={formatDate}
       />

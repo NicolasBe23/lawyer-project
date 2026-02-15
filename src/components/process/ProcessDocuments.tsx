@@ -34,7 +34,12 @@ export const ProcessDocuments = ({
             <FileText className="w-5 h-5" />
             <span>{t("processes.processDocuments")}</span>
           </CardTitle>
-          <Button variant="outline" size="sm" onClick={handleViewAllDocuments}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="cursor-pointer"
+            onClick={handleViewAllDocuments}
+          >
             <ExternalLink className="w-4 h-4 mr-2" />
             {documents && documents.length > 0
               ? t("documents.manage")

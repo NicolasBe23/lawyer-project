@@ -187,6 +187,7 @@
     "failedToRemoveFile": "Falha ao remover arquivo",
     "fileRemovedSuccessfully": "Arquivo removido com sucesso",
     "addNewDocument": "Adicionar novo documento",
+    "createDocumentModalDescription": "Preencha os dados para adicionar um documento ao processo.",
     "titleField": "Titulo",
     "documentTitle": "Titulo do documento",
     "description": "Descricao",

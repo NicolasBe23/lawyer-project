@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 export const ProcessDates = ({
   startDate,
   completionDate,
-  createdAt,
   formatDate,
 }: ProcessDatesProps) => {
   const t = useTranslations();
@@ -31,10 +30,6 @@ export const ProcessDates = ({
             <p className="font-medium">{formatDate(completionDate)}</p>
           </div>
         )}
-        <div>
-          <p className="text-sm text-muted-foreground">{t("processes.created")}:</p>
-          <p className="font-medium">{formatDate(createdAt)}</p>
-        </div>
       </CardContent>
     </Card>
   );

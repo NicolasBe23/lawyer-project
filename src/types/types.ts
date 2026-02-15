@@ -369,7 +369,6 @@ export interface ProcessClientInfoProps {
 export interface ProcessDatesProps {
   startDate: string;
   completionDate?: string;
-  createdAt: string;
   formatDate: (date: string) => string;
 }
 

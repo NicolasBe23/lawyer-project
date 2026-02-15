@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -52,7 +53,6 @@ export const CreateDocumentModal = ({
     };
 
     await onSave(formData);
-    handleClose();
   };
 
   const handleClose = () => {
@@ -75,6 +75,9 @@ export const CreateDocumentModal = ({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle>{t("documents.addNewDocument")}</DialogTitle>
+          <DialogDescription>
+            {t("documents.createDocumentModalDescription")}
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">

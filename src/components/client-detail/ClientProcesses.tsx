@@ -26,9 +26,10 @@ export const ClientProcesses = ({
               <div
                 key={process.id}
                 className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 cursor-pointer"
-                onClick={() =>
-                  router.push(`/dashboard/processes/${process.id}`)
-                }
+                onClick={() => {
+                  const processIdentifier = process.documentId || process.id;
+                  router.push(`/dashboard/processes/${processIdentifier}`);
+                }}
               >
                 <div>
                   <h4 className="font-semibold">{process.title}</h4>
