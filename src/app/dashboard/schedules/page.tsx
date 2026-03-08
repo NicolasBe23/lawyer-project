@@ -5,6 +5,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import ptBrLocale from "@fullcalendar/core/locales/pt-br";
 import { CreateScheduleModal } from "@/components/schedule/CreateScheduleModal";
 import { ScheduleDetailsModal } from "@/components/schedule/ScheduleDetailsModal";
 import { getAllSchedules } from "@/services/getAllSchedules";
@@ -27,6 +28,8 @@ export default function CalendarPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
   const locale = useLocale();
+  const isPortuguese = locale.toLowerCase().startsWith("pt");
+  const calendarLocale = isPortuguese ? "pt-br" : "en";
   useEffect(() => {
     loadSchedules();
   }, []);
@@ -174,8 +177,23 @@ export default function CalendarPage() {
             center: "title",
             right: "dayGridMonth,timeGridWeek,timeGridDay",
           }}
+          buttonText={
+            isPortuguese
+              ? {
+                  today: "Hoje",
+                  month: "Mes",
+                  week: "Semana",
+                  day: "Dia",
+                }
+              : {
+                  today: "Today",
+                  month: "Month",
+                  week: "Week",
+                  day: "Day",
+                }
+          }
           height="auto"
-          locale={locale}
+          locale={calendarLocale}
           eventDisplay="block"
           eventBackgroundColor="#3f4552"
           eventBorderColor="#494f5a"

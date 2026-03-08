@@ -4,8 +4,9 @@ import { useCallback, useState } from "react";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoutModal } from "@/components/ui/LogoutModal";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import Cookies from "js-cookie";
 import { navigationLinks } from "@/components/constants/page";
 import { useTranslations } from "next-intl";
@@ -13,7 +14,15 @@ import { useTranslations } from "next-intl";
 export default function Sidebar() {
   const t = useTranslations();
   const router = useRouter();
+  const pathname = usePathname();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const isActiveLink = (href: string) => {
+    if (href === "/dashboard") {
+      return pathname === href;
+    }
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   const handleLogoutClick = useCallback(() => {
     setIsLogoutModalOpen(true);
@@ -40,18 +49,32 @@ export default function Sidebar() {
     <>
       <div className="flex h-screen">
         <aside className="w-50 bg-gray-900 text-white flex flex-col p-4">
-          <h2 className="text-xl font-bold mb-8 mt-4 cursor-default">
-            ⚖️ Lawyer App
-          </h2>
+          <div className="mb-8 mt-4 inline-flex items-center justify-center">
+            <Image
+              src="/logo_sidebar.png"
+              alt="Lawyer App"
+              width={160}
+              height={40}
+              priority
+              className="h-10 w-auto mr-2 cursor-default"
+            />
+            <h2 className="font-bold cursor-default">Lawyer App</h2>
+          </div>
 
           <nav className="flex flex-col gap-3 flex-1">
             {navigationLinks.map((link) => {
               const IconComponent = link.icon;
+              const isActive = isActiveLink(link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-800"
+                  aria-current={isActive ? "page" : undefined}
+                  className={`flex items-center gap-2 p-2 rounded-lg transition-colors ${
+                    isActive
+                      ? "bg-gray-800 text-white font-medium"
+                      : "hover:bg-gray-800 text-gray-100"
+                  }`}
                 >
                   <IconComponent size={20} /> {t(link.label)}
                 </Link>

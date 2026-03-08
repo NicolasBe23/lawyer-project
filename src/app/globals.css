@@ -120,3 +120,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: #f8c77c;
+  height: 1.5px;
+}
+
+#nprogress .peg {
+  box-shadow:
+    0 0 10px #f8c77c,
+    0 0 5px #f8c77c;
+}
