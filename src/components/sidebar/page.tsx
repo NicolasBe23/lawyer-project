@@ -49,7 +49,7 @@ export default function Sidebar() {
     <>
       <div className="flex h-screen">
         <aside className="w-60 bg-gray-900 text-white flex flex-col p-4">
-          <div className="mb-8 mt-4 inline-flex items-center justify-center">
+          <div className="mb-8 mt-4 inline-flex items-center justify-center mr-3">
             <Image
               src="/logo_sidebar.png"
               alt="Law Management"
