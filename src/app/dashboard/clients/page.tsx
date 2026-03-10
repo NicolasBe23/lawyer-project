@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
+import SplitText from "@/components/ui/SplitText";
 
 export default function ClientsPage() {
   const t = useTranslations();
@@ -33,7 +34,16 @@ export default function ClientsPage() {
   return (
     <div>
       <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-6">
-        <h1 className="text-2xl cursor-default">{t("clients.title")}</h1>
+        <SplitText
+          text={t("clients.title")}
+          tag="h1"
+          splitType="words"
+          delay={30}
+          duration={0.7}
+          ease="power2.out"
+          textAlign="left"
+          className="text-2xl"
+        />
         <Button
           className="cursor-pointer bg-gray-900 hover:bg-gray-800"
           onClick={() => router.push("/dashboard/clients/add")}

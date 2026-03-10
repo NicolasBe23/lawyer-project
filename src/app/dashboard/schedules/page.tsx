@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { deleteSchedule } from "@/services/updateSchedule";
 import { markScheduleCompleted } from "@/services/updateSchedule";
 import { useLocale, useTranslations } from "next-intl";
+import SplitText from "@/components/ui/SplitText";
 
 export default function CalendarPage() {
   const t = useTranslations();
@@ -156,8 +157,26 @@ export default function CalendarPage() {
   return (
     <div>
       <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-8">
-        <h1 className="text-2xl">{t("schedules.title")}</h1>
-        <p className="text-gray-600">{t("schedules.clickDateToSeeOrCreate")}</p>
+        <SplitText
+          text={t("schedules.title")}
+          tag="h1"
+          splitType="words"
+          delay={30}
+          duration={0.7}
+          ease="power2.out"
+          textAlign="left"
+          className="text-2xl"
+        />
+        <SplitText
+          text={t("schedules.clickDateToSeeOrCreate")}
+          tag="p"
+          splitType="words"
+          delay={30}
+          duration={0.7}
+          ease="power2.out"
+          textAlign="left"
+          className="text-gray-600"
+        />
       </div>
 
       {isLoading ? (
@@ -192,6 +211,7 @@ export default function CalendarPage() {
                   day: "Day",
                 }
           }
+          allDayText={t("schedules.allDay")}
           height="auto"
           locale={calendarLocale}
           eventDisplay="block"

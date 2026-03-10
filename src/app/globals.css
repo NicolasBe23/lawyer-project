@@ -126,12 +126,12 @@
 }
 
 #nprogress .bar {
-  background: #f8c77c;
-  height: 1.5px;
+  background: #202f4d;
+  height: 2px;
 }
 
 #nprogress .peg {
   box-shadow:
-    0 0 10px #f8c77c,
-    0 0 5px #f8c77c;
+    0 0 10px #202f4d,
+    0 0 5px #202f4d;
 }

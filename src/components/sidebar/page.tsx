@@ -49,16 +49,19 @@ export default function Sidebar() {
     <>
       <div className="flex h-screen">
         <aside className="w-60 bg-gray-900 text-white flex flex-col p-4">
-          <div className="mb-8 mt-4 inline-flex items-center justify-center">
+          <div className="mb-8 mt-4 inline-flex items-center justify-center gap-2">
             <Image
               src="/logo_sidebar.png"
               alt="Law Management"
               width={160}
               height={40}
               priority
-              className="h-10 w-auto object-contain mr-2 cursor-default"
+              className="h-14 w-auto object-contain mr-2 cursor-default"
             />
-            <h2 className="text-xm font-bold cursor-default">Law Management</h2>
+            <div className="flex flex-col items-center justify-center text-xm font-bold cursor-default">
+              <h2>Law</h2>
+              <h2>Management</h2>
+            </div>
           </div>
 
           <nav className="flex flex-col gap-3 flex-1">

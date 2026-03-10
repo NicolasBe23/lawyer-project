@@ -170,6 +170,7 @@
     "noSchedulesForThisDate": "No schedules for this date.",
     "needsConfirmation": "Needs Confirmation",
     "today": "Today",
+    "allDay": "All day",
     "upcoming": "Upcoming",
     "markCompleted": "Mark Completed",
     "notDone": "Not Done",
@@ -227,7 +228,7 @@
     "profile": "Profile"
   },
   "header": {
-    "subtitle": "Organize and manage all your legal documents",
+    "subtitle": "Organize and manage all your legal processes",
     "helloUser": "Hello, {username}"
   },
   "logout": {

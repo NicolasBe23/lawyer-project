@@ -170,6 +170,7 @@
     "noSchedulesForThisDate": "Nenhum agendamento para esta data.",
     "needsConfirmation": "Precisa confirmar",
     "today": "Hoje",
+    "allDay": "Dia todo",
     "upcoming": "Proximo",
     "markCompleted": "Marcar como concluido",
     "notDone": "Nao realizado",
@@ -227,8 +228,8 @@
     "profile": "Perfil"
   },
   "header": {
-    "subtitle": "Organize e gerencie todos os seus documentos juridicos",
-    "helloUser": "Ola, {username}"
+    "subtitle": "Organize e gerencie todos os seus processos jurídicos",
+    "helloUser": "Olá, {username}"
   },
   "logout": {
     "confirmLogout": "Confirmar saida",

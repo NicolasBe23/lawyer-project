@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Eye, Briefcase } from "lucide-react";
 import { ProcessStatusBadge } from "@/components/process/ProcessStatusBadge";
 import { useTranslations } from "next-intl";
+import SplitText from "@/components/ui/SplitText";
 
 export default function ProcessesPage() {
   const t = useTranslations();
@@ -39,9 +40,17 @@ export default function ProcessesPage() {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-6">
-        <h1 className="text-2xl cursor-default">
-          {t("processes.myProcesses")}
-        </h1>
+        <SplitText
+          text={t("processes.myProcesses")}
+          tag="h1"
+          splitType="words"
+          delay={30}
+          duration={0.7}
+          ease="power2.out"
+          textAlign="left"
+          className="text-2xl"
+        />
+
         <Button
           className="cursor-pointer bg-gray-900 hover:bg-gray-800"
           onClick={() => router.push("/dashboard/processes/add")}
@@ -101,7 +110,8 @@ export default function ProcessesPage() {
                     size="sm"
                     className="ml-4 cursor-pointer"
                     onClick={() => {
-                      const processIdentifier = process.documentId || process.id;
+                      const processIdentifier =
+                        process.documentId || process.id;
                       router.push(`/dashboard/processes/${processIdentifier}`);
                     }}
                   >
