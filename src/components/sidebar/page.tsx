@@ -51,12 +51,12 @@ export default function Sidebar() {
         <aside className="w-50 bg-gray-900 text-white flex flex-col p-4">
           <div className="mb-8 mt-4 inline-flex items-center justify-center">
             <Image
-              src="/icon.png"
+              src="/logo_sidebar.png"
               alt="Lawyer App"
-              width={40}
+              width={160}
               height={40}
               priority
-              className="h-10 w-10 rounded-md object-contain mr-2 cursor-default"
+              className="h-10 w-auto object-contain mr-2 cursor-default"
             />
             <h2 className="font-bold cursor-default">Lawyer App</h2>
           </div>

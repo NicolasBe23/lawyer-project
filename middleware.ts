@@ -4,6 +4,11 @@ import type { NextRequest } from "next/server";
 export default function middleware(req: NextRequest) {
   const token = req.cookies.get("strapi_token")?.value || null;
   const { pathname } = req.nextUrl;
+  const isStaticAsset = /\.[^/]+$/.test(pathname);
+
+  if (isStaticAsset) {
+    return NextResponse.next();
+  }
 
   const isPublicPath =
     pathname === "/" || pathname === "/login" || pathname === "/register";
@@ -20,5 +25,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };
