@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { ClientFormProps } from "@/types/types";
 import { useTranslations } from "next-intl";
+import PhoneInput from "react-phone-number-input";
 export const ClientForm = ({
   onSubmit,
   initialData,
@@ -67,10 +68,15 @@ export const ClientForm = ({
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="phoneNumber">{t("clients.phoneNumber")}</Label>
-          <Input
+          <PhoneInput
             id="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={(e) => handleChange("phoneNumber", e.target.value)}
+            placeholder="(999) 99999-9999"
+            defaultCountry="PT"
+            international
+            countryCallingCodeEditable={false}
+            value={formData.phoneNumber || undefined}
+            onChange={(value) => handleChange("phoneNumber", value ?? "")}
+            className="PhoneInput rounded-md border border-input bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]"
           />
         </div>
 

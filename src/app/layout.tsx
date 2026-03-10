@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "nprogress/nprogress.css";
+import "react-phone-number-input/style.css";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { NextIntlClientProvider } from "next-intl";
@@ -10,7 +11,7 @@ import { NavigationProgress } from "@/components/providers/NavigationProgress";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lawyer app",
+  title: "Law Management",
   description: "Lawyer app to manage your clients and schedules",
   icons: {
     icon: "/icon.png?v=2",

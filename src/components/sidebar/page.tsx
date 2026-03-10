@@ -48,17 +48,17 @@ export default function Sidebar() {
   return (
     <>
       <div className="flex h-screen">
-        <aside className="w-50 bg-gray-900 text-white flex flex-col p-4">
+        <aside className="w-60 bg-gray-900 text-white flex flex-col p-4">
           <div className="mb-8 mt-4 inline-flex items-center justify-center">
             <Image
               src="/logo_sidebar.png"
-              alt="Lawyer App"
+              alt="Law Management"
               width={160}
               height={40}
               priority
               className="h-10 w-auto object-contain mr-2 cursor-default"
             />
-            <h2 className="font-bold cursor-default">Lawyer App</h2>
+            <h2 className="text-xm font-bold cursor-default">Law Management</h2>
           </div>
 
           <nav className="flex flex-col gap-3 flex-1">

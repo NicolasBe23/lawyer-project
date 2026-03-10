@@ -5,7 +5,6 @@ import {
   scheduleService,
   strapiApi,
 } from "@/lib/strapi";
-import { toast } from "sonner";
 
 export const fetchClientData = async (clientId: string) => {
   const clientResponse = await clientService.getById(clientId);
@@ -32,7 +31,6 @@ export const fetchClientData = async (clientId: string) => {
 
 export const deleteClient = async (clientId: string) => {
   await clientService.delete(clientId);
-  toast.success("Client deleted successfully");
 };
 
 export const updateClient = async (
@@ -53,7 +51,6 @@ export const updateClient = async (
   });
 
   if (response.data && response.data.data) {
-    toast.success("Client updated successfully");
     return response.data.data;
   }
 
@@ -77,7 +74,6 @@ export const createClient = async (
   });
 
   if (response.data && response.data.data) {
-    toast.success("Client created successfully");
     return response.data.data;
   }
 

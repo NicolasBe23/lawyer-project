@@ -63,10 +63,11 @@ export default function AddProcessPage() {
     setIsSubmitting(false);
 
     if (error || !data) {
-      toast.error(error || "Failed to create process");
+      toast.error(t("processes.errorCreatingProcess"));
       return;
     }
 
+    toast.success(t("processes.processCreatedSuccessfully"));
     const processIdentifier = data.documentId || data.id;
     router.push(`/dashboard/processes/${processIdentifier}`);
   };

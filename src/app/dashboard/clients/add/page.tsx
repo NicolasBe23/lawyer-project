@@ -23,6 +23,7 @@ export default function AddClientPage() {
       setIsLoading(true);
       const newClient = await createClient(clientData);
       if (newClient) {
+        toast.success(t("clients.clientCreatedSuccessfully"));
         router.push(`/dashboard/clients/${newClient.id}`);
       }
     } catch {

@@ -89,6 +89,9 @@
     "errorLoadingClientData": "Error loading client data.",
     "errorDeletingClient": "Error deleting client.",
     "errorUpdatingClient": "Error updating client.",
+    "clientCreatedSuccessfully": "Client created successfully.",
+    "clientUpdatedSuccessfully": "Client updated successfully.",
+    "clientDeletedSuccessfully": "Client deleted successfully.",
     "clientNotFound": "Client not found.",
     "clientSince": "Client since",
     "inactive": "Inactive",
@@ -129,6 +132,8 @@
     "current": "Current",
     "processStatusUpdatedTo": "Process status updated to {status}",
     "failedToUpdateProcessStatus": "Failed to update process status",
+    "errorCreatingProcess": "Error creating process.",
+    "processCreatedSuccessfully": "Process created successfully.",
     "completed": "Completed"
   },
   "schedules": {

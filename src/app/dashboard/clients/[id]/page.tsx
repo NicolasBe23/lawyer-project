@@ -63,6 +63,7 @@ export default function ClientPage() {
     try {
       setActionLoading(true);
       await deleteClient(clientId);
+      toast.success(t("clients.clientDeletedSuccessfully"));
       router.push("/dashboard/clients");
     } catch {
       toast.error(t("clients.errorDeletingClient"));
@@ -82,6 +83,7 @@ export default function ClientPage() {
       const updatedClient = await updateClient(clientId, clientData);
       if (updatedClient) {
         setClient(updatedClient);
+        toast.success(t("clients.clientUpdatedSuccessfully"));
         setShowEditModal(false);
       }
     } catch {
