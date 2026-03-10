@@ -7,18 +7,16 @@ const intlMiddleware = createMiddleware(routing);
 
 export default function middleware(req: NextRequest) {
   const token = req.cookies.get("strapi_token")?.value || null;
-
-  const publicPaths = ["/login", "/register", "/"];
   const { pathname } = req.nextUrl;
 
-  if (
-    token &&
-    (pathname.startsWith("/login") || pathname.startsWith("/register"))
-  ) {
+  const isPublicPath =
+    pathname === "/" || pathname === "/login" || pathname === "/register";
+
+  if (token && (pathname === "/login" || pathname === "/register")) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  if (!token && !publicPaths.some((path) => pathname.startsWith(path))) {
+  if (!token && !isPublicPath) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
