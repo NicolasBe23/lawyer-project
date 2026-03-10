@@ -231,6 +231,18 @@
     "subtitle": "Organize and manage all your legal processes",
     "helloUser": "Hello, {username}"
   },
+  "profile": {
+    "title": "My Profile",
+    "backToDashboard": "Back to Dashboard",
+    "name": "Name",
+    "email": "Email",
+    "newPasswordOptional": "New Password (optional)",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "updateSuccess": "Profile updated successfully!",
+    "updateError": "Error updating profile.",
+    "tokenNotFound": "Token not found."
+  },
   "logout": {
     "confirmLogout": "Confirm Logout",
     "confirmLogoutDescription": "Are you sure you want to logout? You will need to login again to access the system.",

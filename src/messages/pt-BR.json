@@ -231,6 +231,18 @@
     "subtitle": "Organize e gerencie todos os seus processos jurídicos",
     "helloUser": "Olá, {username}"
   },
+  "profile": {
+    "title": "Meu Perfil",
+    "backToDashboard": "Voltar ao Dashboard",
+    "name": "Nome",
+    "email": "Email",
+    "newPasswordOptional": "Nova senha (opcional)",
+    "saveChanges": "Salvar alterações",
+    "saving": "Salvando...",
+    "updateSuccess": "Perfil atualizado com sucesso!",
+    "updateError": "Erro ao atualizar perfil.",
+    "tokenNotFound": "Token não encontrado."
+  },
   "logout": {
     "confirmLogout": "Confirmar saida",
     "confirmLogoutDescription": "Tem certeza que deseja sair? Voce precisara entrar novamente para acessar o sistema.",

@@ -8,8 +8,11 @@ import Cookies from "js-cookie";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Loading } from "@/components/ui/loading";
+import { strapiApi } from "@/lib/strapi";
+import { useTranslations } from "next-intl";
 
 export default function ProfilePage() {
+  const t = useTranslations();
   const { user, loading } = useUser();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -32,35 +35,26 @@ export default function ProfilePage() {
 
     try {
       const token = Cookies.get("strapi_token");
-      if (!token) throw new Error("Token not found");
+      if (!token) throw new Error(t("profile.tokenNotFound"));
 
-      const res = await fetch(`http://localhost:1337/api/users/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          ...(password ? { password } : {}),
-        }),
+      const response = await strapiApi.put(`/users/${user.id}`, {
+        username: username.trim(),
+        email: email.trim(),
+        ...(password.trim() ? { password: password.trim() } : {}),
       });
 
-      if (!res.ok) throw new Error("Error updating profile");
-
-      const updatedUser = await res.json();
+      const updatedUser = response.data;
       Cookies.set("strapi_user", JSON.stringify(updatedUser), { expires: 7 });
-      setMessage("Profile updated successfully!");
+      setMessage(t("profile.updateSuccess"));
       setPassword("");
     } catch {
-      setMessage("Error updating profile");
+      setMessage(t("profile.updateError"));
     } finally {
       setSaving(false);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading text={t("common.loading")} size="md" />;
 
   return (
     <div className="mx-auto bg-white p-12 rounded-lg shadow w-full gap-8 flex flex-col">
@@ -70,14 +64,14 @@ export default function ProfilePage() {
           className="cursor-pointer"
           onClick={() => router.push("/dashboard")}
         >
-          <ArrowLeft size={20} /> Back to Dashboard
+          <ArrowLeft size={20} /> {t("profile.backToDashboard")}
         </Button>
       </div>
-      <h1 className="text-2xl mb-4 cursor-default">My Profile</h1>
+      <h1 className="text-2xl mb-4 cursor-default">{t("profile.title")}</h1>
 
       <div className="space-y-4">
         <div>
-          <label className="block mb-1 text-sm">Name</label>
+          <label className="block mb-1 text-sm">{t("profile.name")}</label>
           <Input
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -85,12 +79,14 @@ export default function ProfilePage() {
         </div>
 
         <div>
-          <label className="block mb-1 text-sm">Email</label>
+          <label className="block mb-1 text-sm">{t("profile.email")}</label>
           <Input value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
 
         <div>
-          <label className="block mb-1 text-sm">New Password (optional)</label>
+          <label className="block mb-1 text-sm">
+            {t("profile.newPasswordOptional")}
+          </label>
           <Input
             type="password"
             value={password}
@@ -103,7 +99,11 @@ export default function ProfilePage() {
           onClick={handleSave}
           disabled={saving}
         >
-          {saving ? <Loading text="Saving..." size="md" /> : "Save Changes"}
+          {saving ? (
+            <Loading text={t("profile.saving")} size="md" />
+          ) : (
+            t("profile.saveChanges")
+          )}
         </Button>
 
         {message && <p className="mt-2 text-sm">{message}</p>}
