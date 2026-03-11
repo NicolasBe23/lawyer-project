@@ -4,20 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AuthResponse, StrapiError } from "@/types/types";
-import { Loading } from "@/components/ui/loading";
 import { useTranslations } from "next-intl";
-import { LanguageSwitcher } from "@/components/ui/language-switcher";
+import { AuthFormCard } from "@/components/auth/AuthFormCard";
+import { PasswordInput } from "@/components/auth/PasswordInput";
+import { AuthSubmitButton } from "@/components/auth/AuthSubmitButton";
 
 export default function RegisterPage() {
   const t = useTranslations();
@@ -61,72 +53,48 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative flex items-center justify-center h-screen">
-      <div className="absolute top-4 right-4">
-        <LanguageSwitcher />
-      </div>
-      <Card className="w-96 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-center">{t("register.title")}</CardTitle>
-          <CardDescription className="text-center">
-            {t("register.description")}
-          </CardDescription>
-        </CardHeader>
+    <AuthFormCard
+      title={t("register.title")}
+      description={t("register.description")}
+      footerText={t("register.alreadyHaveAccount")}
+      footerLinkText={t("register.login")}
+      footerLinkHref="/login"
+    >
+      <form onSubmit={handleRegister} className="space-y-4">
+        {error && <p className="text-red-500 text-sm">{error}</p>}
 
-        <CardContent>
-          <form onSubmit={handleRegister} className="space-y-4">
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+        <Input
+          type="text"
+          placeholder={t("register.username")}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          disabled={loading}
+        />
 
-            <Input
-              type="text"
-              placeholder={t("register.username")}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              disabled={loading}
-            />
+        <Input
+          type="email"
+          placeholder={t("register.email")}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          disabled={loading}
+        />
 
-            <Input
-              type="email"
-              placeholder={t("register.email")}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={loading}
-            />
+        <PasswordInput
+          value={password}
+          onChange={setPassword}
+          placeholder={t("register.password")}
+          required
+          disabled={loading}
+        />
 
-            <Input
-              type="password"
-              placeholder={t("register.password")}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={loading}
-            />
-
-            <Button
-              type="submit"
-              className="w-full bg-gray-900 hover:bg-gray-800"
-              disabled={loading}
-            >
-              {loading ? (
-                <Loading text={t("register.creatingAccount")} size="md" />
-              ) : (
-                t("register.register")
-              )}
-            </Button>
-          </form>
-        </CardContent>
-
-        <CardFooter className="text-sm text-center flex flex-col gap-4">
-          <p>
-            {t("register.alreadyHaveAccount")}{" "}
-            <a href="/login" className="text-blue-700 hover:underline">
-              {t("register.login")}
-            </a>
-          </p>
-        </CardFooter>
-      </Card>
-    </div>
+        <AuthSubmitButton
+          loading={loading}
+          loadingText={t("register.creatingAccount")}
+          submitText={t("register.register")}
+        />
+      </form>
+    </AuthFormCard>
   );
 }

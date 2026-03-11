@@ -4,20 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AuthResponse } from "@/types/types";
-import { Loading } from "@/components/ui/loading";
 import { useTranslations } from "next-intl";
-import { LanguageSwitcher } from "@/components/ui/language-switcher";
+import { AuthFormCard } from "@/components/auth/AuthFormCard";
+import { PasswordInput } from "@/components/auth/PasswordInput";
+import { AuthSubmitButton } from "@/components/auth/AuthSubmitButton";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -54,63 +46,39 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative flex items-center justify-center h-screen">
-      <div className="absolute top-4 right-4">
-        <LanguageSwitcher />
-      </div>
-      <Card className="w-96 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-center">{t("login.title")}</CardTitle>
-          <CardDescription className="text-center">
-            {t("login.description")}
-          </CardDescription>
-        </CardHeader>
+    <AuthFormCard
+      title={t("login.title")}
+      description={t("login.description")}
+      footerText={t("login.dontHaveAccount")}
+      footerLinkText={t("login.register")}
+      footerLinkHref="/register"
+    >
+      <form onSubmit={handleLogin} className="space-y-4">
+        {error && <p className="text-red-500 text-sm">{error}</p>}
 
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+        <Input
+          type="text"
+          placeholder={t("login.emailOrUsername")}
+          value={identifier}
+          onChange={(e) => setIdentifier(e.target.value)}
+          required
+          disabled={loading}
+        />
 
-            <Input
-              type="text"
-              placeholder={t("login.emailOrUsername")}
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
-              required
-              disabled={loading}
-            />
+        <PasswordInput
+          value={password}
+          onChange={setPassword}
+          placeholder={t("login.password")}
+          required
+          disabled={loading}
+        />
 
-            <Input
-              type="password"
-              placeholder={t("login.password")}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={loading}
-            />
-
-            <Button
-              type="submit"
-              className="w-full bg-gray-900 hover:bg-gray-800"
-              disabled={loading}
-            >
-              {loading ? (
-                <Loading text={t("login.signingIn")} size="md" />
-              ) : (
-                t("login.login")
-              )}
-            </Button>
-          </form>
-        </CardContent>
-
-        <CardFooter className="text-sm text-center flex flex-col gap-4">
-          <p>
-            {t("login.dontHaveAccount")}{" "}
-            <a href="/register" className="text-blue-700 hover:underline">
-              {t("login.register")}
-            </a>
-          </p>
-        </CardFooter>
-      </Card>
-    </div>
+        <AuthSubmitButton
+          loading={loading}
+          loadingText={t("login.signingIn")}
+          submitText={t("login.login")}
+        />
+      </form>
+    </AuthFormCard>
   );
 }
