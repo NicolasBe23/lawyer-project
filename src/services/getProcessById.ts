@@ -1,9 +1,7 @@
 import { Process, Schedule } from "@/types/types";
-import Cookies from "js-cookie";
 import { blocksToText } from "@/lib/helpers/richTextHelpers";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
+const API_URL = "/api/strapi";
 
 export const getProcessById = async (
   id: string
@@ -12,14 +10,6 @@ export const getProcessById = async (
   error: string | null;
 }> => {
   try {
-    const token = Cookies.get("strapi_token");
-    if (!token) {
-      throw new Error("No authentication token found");
-    }
-
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
     const populateQuery =
       "populate[client]=*&populate[process_documents]=*&populate[schedules][populate][client]=*";
 
@@ -28,8 +18,7 @@ export const getProcessById = async (
 
     if (isNumericId) {
       const directResponse = await fetch(
-        `${API_URL}/api/processes/${id}?${populateQuery}`,
-        { headers }
+        `${API_URL}/processes/${id}?${populateQuery}`
       );
 
       if (directResponse.ok) {
@@ -37,8 +26,7 @@ export const getProcessById = async (
         processData = directData.data || null;
       } else {
         const fallbackResponse = await fetch(
-          `${API_URL}/api/processes?filters[id][$eq]=${id}&${populateQuery}`,
-          { headers }
+          `${API_URL}/processes?filters[id][$eq]=${id}&${populateQuery}`
         );
 
         if (fallbackResponse.ok) {
@@ -48,8 +36,7 @@ export const getProcessById = async (
       }
     } else {
       const byDocumentIdResponse = await fetch(
-        `${API_URL}/api/processes?filters[documentId][$eq]=${id}&${populateQuery}`,
-        { headers }
+        `${API_URL}/processes?filters[documentId][$eq]=${id}&${populateQuery}`
       );
 
       if (byDocumentIdResponse.ok) {
@@ -66,10 +53,7 @@ export const getProcessById = async (
 
     if (processData?.client?.id) {
       const clientSchedulesResponse = await fetch(
-        `${API_URL}/api/schedules?populate[client]=*&populate[process]=*&filters[client][id][$eq]=${processData.client.id}`,
-        {
-          headers,
-        }
+        `${API_URL}/schedules?populate[client]=*&populate[process]=*&filters[client][id][$eq]=${processData.client.id}`
       );
 
       if (clientSchedulesResponse.ok) {

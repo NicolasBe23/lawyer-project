@@ -1,32 +1,16 @@
 import { DocumentData } from "@/types/types";
-import Cookies from "js-cookie";
 import { blocksToText } from "@/lib/helpers/richTextHelpers";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
+const API_URL = "/api/strapi";
 
 export const getAllDocuments = async (): Promise<{
   data: DocumentData[];
   error: string | null;
 }> => {
   try {
-    const token = Cookies.get("strapi_token");
-    if (!token) {
-      throw new Error("No authentication token found");
-    }
-
-    const fetchPromise = fetch(
-      `${API_URL}/api/process-documents?populate[process][populate][0]=client&populate[file]=*`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    const res = await fetch(
+      `${API_URL}/process-documents?populate[process][populate][0]=client&populate[file]=*`
     );
-
-    const delayPromise = new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const [res] = await Promise.all([fetchPromise, delayPromise]);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

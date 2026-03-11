@@ -1,8 +1,6 @@
 import { Client, Process, Schedule } from "@/types/types";
-import Cookies from "js-cookie";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
+const API_URL = "/api/strapi";
 
 export const getClientById = async (
   id: string
@@ -13,19 +11,7 @@ export const getClientById = async (
   error: string | null;
 }> => {
   try {
-    const token = Cookies.get("strapi_token");
-    if (!token) {
-      throw new Error("No authentication token found");
-    }
-
-    const clientResponse = await fetch(
-      `${API_URL}/api/clients/${id}?populate=*`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const clientResponse = await fetch(`${API_URL}/clients/${id}?populate=*`);
 
     if (!clientResponse.ok) {
       throw new Error(`HTTP error! status: ${clientResponse.status}`);
@@ -34,12 +20,7 @@ export const getClientById = async (
     const clientData = await clientResponse.json();
 
     const processesResponse = await fetch(
-      `${API_URL}/api/processes?populate=*&filters[client][id][$eq]=${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `${API_URL}/processes?populate=*&filters[client][id][$eq]=${id}`
     );
 
     const processesData = processesResponse.ok
@@ -47,12 +28,7 @@ export const getClientById = async (
       : { data: [] };
 
     const schedulesResponse = await fetch(
-      `${API_URL}/api/schedules?populate=*&filters[client][id][$eq]=${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `${API_URL}/schedules?populate=*&filters[client][id][$eq]=${id}`
     );
 
     const schedulesData = schedulesResponse.ok

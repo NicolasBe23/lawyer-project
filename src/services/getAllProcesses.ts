@@ -6,12 +6,7 @@ export const getAllProcesses = async (): Promise<{
   error: string | null;
 }> => {
   try {
-    const delayPromise = new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const [response] = await Promise.all([
-      processService.getAll(),
-      delayPromise,
-    ]);
+    const response = await processService.getAll();
 
     return {
       data: (response.data as StrapiResponse<Process>).data || [],

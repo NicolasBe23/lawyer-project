@@ -11,15 +11,13 @@ export const useUser = () => {
   useEffect(() => {
     const loadUser = () => {
       try {
-        const token = Cookies.get("strapi_token");
         const userData = Cookies.get("strapi_user");
 
-        if (token && userData) {
+        if (userData) {
           const parsedUser = JSON.parse(userData);
           setUser(parsedUser);
         }
       } catch {
-        Cookies.remove("strapi_token");
         Cookies.remove("strapi_user");
       } finally {
         setLoading(false);
@@ -30,9 +28,7 @@ export const useUser = () => {
   }, []);
 
   const logout = async (): Promise<void> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    Cookies.remove("strapi_token");
+    await fetch("/api/auth/logout", { method: "POST" });
     Cookies.remove("strapi_user");
     setUser(null);
     window.location.href = "/login";

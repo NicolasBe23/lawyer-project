@@ -213,7 +213,7 @@ export interface DocumentCardProps {
   onUploadClick: (e: React.MouseEvent, docId: number) => void;
   onFileUpload: (
     e: React.ChangeEvent<HTMLInputElement>,
-    doc: DocumentData
+    doc: DocumentData,
   ) => void;
   onRemoveFile: (e: React.MouseEvent, doc: DocumentData) => void;
   fileInputRef: (el: HTMLInputElement | null) => void;
@@ -231,7 +231,7 @@ export interface DocumentsListProps {
   onUploadClick: (e: React.MouseEvent, docId: number) => void;
   onFileUpload: (
     e: React.ChangeEvent<HTMLInputElement>,
-    doc: DocumentData
+    doc: DocumentData,
   ) => void;
   onRemoveFile: (e: React.MouseEvent, doc: DocumentData) => void;
   fileInputRefs: React.MutableRefObject<{
@@ -402,4 +402,8 @@ export interface ProcessUpdateData {
 
 export interface ExtendedProcessDocumentsProps extends ProcessDocumentsProps {
   processId: string;
+}
+
+export interface DashboardContentProps {
+  user: User;
 }

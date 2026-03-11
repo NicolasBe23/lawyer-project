@@ -1,12 +1,14 @@
 "use client";
 
 import SplitText from "@/components/ui/SplitText";
-import { useUser } from "@/lib/useUser";
 import { useTranslations } from "next-intl";
 
-export default function Header() {
+type HeaderProps = {
+  username?: string;
+};
+
+export default function Header({ username = "" }: HeaderProps) {
   const t = useTranslations();
-  const { user } = useUser();
 
   return (
     <div className="flex justify-between items-center p-2 mb-4 border-b-2 border-gray-300 pb-4 w-full">
@@ -24,7 +26,7 @@ export default function Header() {
       </div>
       <div className="flex flex-col">
         <SplitText
-          text={t("header.helloUser", { username: user?.username ?? "" })}
+          text={t("header.helloUser", { username })}
           tag="p"
           splitType="words"
           delay={30}

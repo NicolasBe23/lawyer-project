@@ -7,7 +7,6 @@ import { LogoutModal } from "@/components/ui/LogoutModal";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import Cookies from "js-cookie";
 import { navigationLinks } from "@/components/constants/page";
 import { useTranslations } from "next-intl";
 
@@ -29,15 +28,7 @@ export default function Sidebar() {
   }, []);
 
   const handleLogoutConfirm = useCallback(async (): Promise<void> => {
-    const logoutPromise = new Promise<void>((resolve) => {
-      setTimeout(() => {
-        Cookies.remove("strapi_token");
-        Cookies.remove("strapi_user");
-        resolve();
-      }, 1000);
-    });
-
-    await logoutPromise;
+    await fetch("/api/auth/logout", { method: "POST" });
     router.push("/login");
   }, [router]);
 

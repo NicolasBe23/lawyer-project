@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
-import { AuthResponse } from "@/types/types";
 import { useTranslations } from "next-intl";
 import { AuthFormCard } from "@/components/auth/AuthFormCard";
 import { PasswordInput } from "@/components/auth/PasswordInput";
@@ -25,17 +23,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const loginPromise = axios.post<AuthResponse>(
-        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/auth/local`,
-        { identifier, password },
-      );
-
-      const delayPromise = new Promise((resolve) => setTimeout(resolve, 1500));
-
-      const [res] = await Promise.all([loginPromise, delayPromise]);
-
-      Cookies.set("strapi_token", res.data.jwt, { expires: 7 });
-      Cookies.set("strapi_user", JSON.stringify(res.data.user), { expires: 7 });
+      await axios.post("/api/auth/login", { identifier, password });
 
       router.push("/dashboard");
     } catch {

@@ -34,9 +34,6 @@ export default function ProfilePage() {
     setMessage("");
 
     try {
-      const token = Cookies.get("strapi_token");
-      if (!token) throw new Error(t("profile.tokenNotFound"));
-
       const response = await strapiApi.put(`/users/${user.id}`, {
         username: username.trim(),
         email: email.trim(),

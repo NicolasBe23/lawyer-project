@@ -1,5 +1,4 @@
-import axios, { AxiosHeaders } from "axios";
-import Cookies from "js-cookie";
+import axios from "axios";
 import {
   Client,
   DocumentData,
@@ -9,26 +8,11 @@ import {
   StrapiSingleResponse,
 } from "../types/types";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
-
 export const strapiApi = axios.create({
-  baseURL: `${API_URL}/api`,
+  baseURL: "/api/strapi",
   headers: {
     "Content-Type": "application/json",
   },
-});
-
-strapiApi.interceptors.request.use((config) => {
-  if (typeof window !== "undefined") {
-    const token = Cookies.get("strapi_token");
-    if (token) {
-      const headers = config.headers ?? new AxiosHeaders();
-      headers.set("Authorization", `Bearer ${token}`);
-      config.headers = headers;
-    }
-  }
-  return config;
 });
 
 export const clientService = {

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export default function middleware(req: NextRequest) {
-  const token = req.cookies.get("strapi_token")?.value || null;
+  const token = req.cookies.get("strapi_session")?.value || null;
   const { pathname } = req.nextUrl;
   const isStaticAsset = /\.[^/]+$/.test(pathname);
 

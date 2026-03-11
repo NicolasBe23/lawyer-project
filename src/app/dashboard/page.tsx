@@ -1,85 +1,42 @@
-"use client";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { DashboardContent } from "@/components/dashboard/DashboardContent";
+import { User } from "@/types/types";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import { DashboardStats, User } from "@/types/types";
-import Header from "@/components/header/page";
-import {
-  StatsCards,
-  ClientsChart,
-  ProcessesChart,
-  RecentClientsCard,
-  RecentProcessesCard,
-  UpcomingSchedulesCard,
-  PendingDocumentsCard,
-} from "@/components/dashboard";
-import { useGetDashboardStats } from "@/services/getDashboardStats";
-import { useTranslations } from "next-intl";
-import { Loading } from "@/components/ui/loading";
+const API_URL =
+  process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
 
-export default function DashboardPage() {
-  const t = useTranslations();
-  const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const { stats, clientsData, loading } = useGetDashboardStats();
+const getAuthenticatedUser = async (token: string): Promise<User | null> => {
+  try {
+    const res = await fetch(`${API_URL}/api/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = Cookies.get("strapi_token");
-        if (!token) {
-          router.push("/login");
-          return;
-        }
+    if (!res.ok) {
+      return null;
+    }
 
-        const userFromCookie = Cookies.get("strapi_user");
-        if (userFromCookie) {
-          setUser(JSON.parse(userFromCookie));
-        }
-      } catch {
-        const userFromCookie = Cookies.get("strapi_user");
-        if (userFromCookie) {
-          setUser(JSON.parse(userFromCookie));
-        }
-      }
-    };
+    return (await res.json()) as User;
+  } catch {
+    return null;
+  }
+};
 
-    fetchUser();
-  }, [router]);
+export default async function DashboardPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("strapi_session")?.value;
 
-  if (!user || loading) {
-    return (
-      <div className="p-6">
-        <Loading text={t("dashboard.loadingStats")} size="md" />
-      </div>
-    );
+  if (!token) {
+    redirect("/login");
   }
 
-  return (
-    <div className="space-y-6">
-      <Header />
+  const user = await getAuthenticatedUser(token);
+  if (!user) {
+    redirect("/login");
+  }
 
-      <StatsCards stats={stats ?? ({} as DashboardStats)} />
-
-      <div className="grid grid-cols-5 gap-6">
-        <div className="col-span-3">
-          <ClientsChart clientsData={clientsData} />
-        </div>
-        <div className="col-span-2">
-          <ProcessesChart stats={stats ?? ({} as DashboardStats)} />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-6 mt-6">
-        <RecentClientsCard />
-        <RecentProcessesCard />
-      </div>
-
-      <div className="grid grid-cols-2 gap-6 mt-6">
-        <UpcomingSchedulesCard />
-        <PendingDocumentsCard />
-      </div>
-    </div>
-  );
+  return <DashboardContent user={user} />;
 }
