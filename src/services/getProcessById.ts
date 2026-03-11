@@ -1,5 +1,6 @@
 import { Process, Schedule } from "@/types/types";
 import Cookies from "js-cookie";
+import { blocksToText } from "@/lib/helpers/richTextHelpers";
 
 const API_URL =
   process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
@@ -98,11 +99,22 @@ export const getProcessById = async (
       }
     }
 
+    const normalizedProcess: Process = {
+      ...processData,
+      description: blocksToText(
+        (processData as Process & { description?: unknown }).description
+      ),
+      process_documents: (processData.process_documents || []).map((doc) => ({
+        ...doc,
+        description: blocksToText(
+          (doc as typeof doc & { description?: unknown }).description
+        ),
+      })),
+      schedules: allSchedules,
+    };
+
     return {
-      data: {
-        ...processData,
-        schedules: allSchedules,
-      },
+      data: normalizedProcess,
       error: null,
     };
   } catch {

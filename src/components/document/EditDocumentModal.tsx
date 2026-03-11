@@ -69,7 +69,9 @@ export const EditDocumentModal = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="edit-description">{t("documents.description")}</Label>
+            <Label htmlFor="edit-description">
+              {t("documents.description")}
+            </Label>
             <Textarea
               id="edit-description"
               value={description}
@@ -86,10 +88,15 @@ export const EditDocumentModal = ({
               variant="outline"
               onClick={handleClose}
               disabled={isLoading}
+              className="cursor-pointer"
             >
               {t("common.cancel")}
             </Button>
-            <Button type="submit" disabled={isLoading || !title.trim()}>
+            <Button
+              type="submit"
+              disabled={isLoading || !title.trim()}
+              className="cursor-pointer"
+            >
               {isLoading ? t("documents.saving") : t("documents.saveChanges")}
             </Button>
           </DialogFooter>

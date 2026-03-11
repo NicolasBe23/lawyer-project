@@ -38,7 +38,7 @@ export const DocumentCard = ({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="h-8 w-8 cursor-pointer"
               onClick={(e) => onEditClick(e, doc)}
             >
               <Pencil className="w-4 h-4" />
@@ -46,7 +46,7 @@ export const DocumentCard = ({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-red-600 hover:text-red-700"
+              className="h-8 w-8 text-red-600 hover:text-red-700 cursor-pointer"
               onClick={(e) => onDeleteClick(e, doc)}
             >
               <Trash2 className="w-4 h-4" />
@@ -55,7 +55,6 @@ export const DocumentCard = ({
         </div>
       </CardHeader>
       <CardContent className="flex flex-col flex-1">
-        {/* Description - flexible area */}
         <div className="flex-1">
           {doc.description && (
             <p className="text-sm text-muted-foreground line-clamp-2">
@@ -64,7 +63,6 @@ export const DocumentCard = ({
           )}
         </div>
 
-        {/* Fixed bottom section */}
         <div className="mt-auto space-y-1">
           <p className="text-xs text-muted-foreground">
             {t("documents.created")}: {formatDate(doc.createdAt)}
@@ -76,7 +74,6 @@ export const DocumentCard = ({
           )}
         </div>
 
-        {/* File section - always at bottom */}
         {doc.file ? (
           <div className="space-y-2 pt-3 mt-3 border-t">
             <div className="flex items-center gap-2 p-2 bg-accent/50 rounded-lg">
@@ -95,7 +92,7 @@ export const DocumentCard = ({
               <Button
                 variant="outline"
                 size="sm"
-                className="flex-1"
+                className="flex-1 cursor-pointer"
                 onClick={(e) => onOpenFile(e, doc)}
               >
                 <ExternalLink className="w-4 h-4 mr-1" />
@@ -104,7 +101,7 @@ export const DocumentCard = ({
               <Button
                 variant="outline"
                 size="sm"
-                className="text-red-600 hover:text-red-700"
+                className="text-red-600 hover:text-red-700 cursor-pointer"
                 onClick={(e) => onRemoveFile(e, doc)}
                 disabled={removingFileDocId === doc.id}
               >
@@ -125,7 +122,7 @@ export const DocumentCard = ({
             <Button
               variant="outline"
               size="sm"
-              className="w-full"
+              className="w-full cursor-pointer"
               onClick={(e) => onUploadClick(e, doc.id)}
               disabled={uploadingDocId === doc.id}
             >

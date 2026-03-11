@@ -1,5 +1,6 @@
 import { DocumentData } from "@/types/types";
 import Cookies from "js-cookie";
+import { blocksToText, descriptionToBlocks } from "@/lib/helpers/richTextHelpers";
 
 const API_URL =
   process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
@@ -12,6 +13,72 @@ const getAuthHeaders = () => {
   return {
     Authorization: `Bearer ${token}`,
   };
+};
+
+const getErrorMessageFromResponse = async (
+  response: Response,
+  fallback: string
+): Promise<string> => {
+  const contentType = response.headers.get("content-type") || "";
+
+  if (contentType.includes("application/json")) {
+    const errorData = await response.json().catch(() => ({}));
+    return errorData?.error?.message || fallback;
+  }
+
+  const errorText = await response.text().catch(() => "");
+  return errorText || fallback;
+};
+
+const normalizeDocumentData = (
+  document: DocumentData | null
+): DocumentData | null => {
+  if (!document) {
+    return null;
+  }
+
+  return {
+    ...document,
+    description: blocksToText(
+      (document as DocumentData & { description?: unknown }).description
+    ),
+  };
+};
+
+const buildDocumentPayload = (
+  documentData: { title?: string; description?: string | null; process?: number },
+  descriptionMode: "plain" | "blocks"
+) => {
+  const payload: {
+    title?: string;
+    description?: string | null | ReturnType<typeof descriptionToBlocks>;
+    process?: number;
+  } = {};
+
+  if (typeof documentData.title !== "undefined") {
+    payload.title = documentData.title;
+  }
+
+  if (typeof documentData.process !== "undefined") {
+    payload.process = documentData.process;
+  }
+
+  if (typeof documentData.description !== "undefined") {
+    const normalizedDescription =
+      typeof documentData.description === "string"
+        ? documentData.description.trim()
+        : documentData.description;
+
+    if (normalizedDescription === null || normalizedDescription === "") {
+      payload.description = null;
+    } else if (descriptionMode === "blocks") {
+      payload.description = descriptionToBlocks(normalizedDescription);
+    } else {
+      payload.description = normalizedDescription;
+    }
+  }
+
+  return payload;
 };
 
 export const getDocumentById = async (
@@ -34,7 +101,7 @@ export const getDocumentById = async (
 
     const responseData = await res.json();
     return {
-      data: responseData.data || null,
+      data: normalizeDocumentData(responseData.data || null),
       error: null,
     };
   } catch (err) {
@@ -58,27 +125,50 @@ export const createDocument = async (documentData: {
 }> => {
   try {
     const headers = getAuthHeaders();
+    const baseHeaders = {
+      ...headers,
+      "Content-Type": "application/json",
+    };
 
-    const res = await fetch(`${API_URL}/api/process-documents`, {
+    let res = await fetch(`${API_URL}/api/process-documents`, {
       method: "POST",
-      headers: {
-        ...headers,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ data: documentData }),
+      headers: baseHeaders,
+      body: JSON.stringify({
+        data: buildDocumentPayload(documentData, "plain"),
+      }),
     });
 
+    let errorData: any = null;
     if (!res.ok) {
-      const errorData = await res.json().catch(() => ({}));
-      console.error("Create document error:", errorData);
+      errorData = await res.json().catch(() => ({}));
+      const hasDescription =
+        typeof documentData.description === "string" &&
+        documentData.description.trim().length > 0;
+
+      // Some Strapi setups store rich text as Blocks and reject plain strings.
+      if (hasDescription) {
+        res = await fetch(`${API_URL}/api/process-documents`, {
+          method: "POST",
+          headers: baseHeaders,
+          body: JSON.stringify({
+            data: buildDocumentPayload(documentData, "blocks"),
+          }),
+        });
+      }
+    }
+
+    if (!res.ok) {
+      const fallbackErrorData = await res.json().catch(() => ({}));
+      const finalErrorData = fallbackErrorData?.error ? fallbackErrorData : errorData;
+      console.error("Create document error:", finalErrorData);
       throw new Error(
-        errorData?.error?.message || `HTTP error! status: ${res.status}`
+        finalErrorData?.error?.message || `HTTP error! status: ${res.status}`
       );
     }
 
     const responseData = await res.json();
     return {
-      data: responseData.data || null,
+      data: normalizeDocumentData(responseData.data || null),
       error: null,
     };
   } catch (err) {
@@ -111,22 +201,50 @@ export const updateDocument = async (
       }
     }
 
-    const res = await fetch(`${API_URL}/api/process-documents/${idToUse}`, {
+    const baseHeaders = {
+      ...headers,
+      "Content-Type": "application/json",
+    };
+
+    let res = await fetch(`${API_URL}/api/process-documents/${idToUse}`, {
       method: "PUT",
-      headers: {
-        ...headers,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ data: documentData }),
+      headers: baseHeaders,
+      body: JSON.stringify({
+        data: buildDocumentPayload(documentData, "plain"),
+      }),
     });
 
+    let errorData: any = null;
     if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+      errorData = await res.json().catch(() => ({}));
+      const hasDescription =
+        typeof documentData.description === "string" &&
+        documentData.description.trim().length > 0;
+
+      // Retry with Blocks payload to support Strapi rich-text fields.
+      if (hasDescription) {
+        res = await fetch(`${API_URL}/api/process-documents/${idToUse}`, {
+          method: "PUT",
+          headers: baseHeaders,
+          body: JSON.stringify({
+            data: buildDocumentPayload(documentData, "blocks"),
+          }),
+        });
+      }
+    }
+
+    if (!res.ok) {
+      const fallbackErrorData = await res.json().catch(() => ({}));
+      const finalErrorData = fallbackErrorData?.error ? fallbackErrorData : errorData;
+      console.error("Update document error:", finalErrorData);
+      throw new Error(
+        finalErrorData?.error?.message || `HTTP error! status: ${res.status}`
+      );
     }
 
     const responseData = await res.json();
     return {
-      data: responseData.data || null,
+      data: normalizeDocumentData(responseData.data || null),
       error: null,
     };
   } catch (err) {
@@ -199,8 +317,6 @@ export const uploadDocumentFile = async (
     const formData = new FormData();
     formData.append("files", file);
 
-    console.log("Step 1: Uploading file...");
-
     const uploadRes = await fetch(`${API_URL}/api/upload`, {
       method: "POST",
       headers: {
@@ -210,16 +326,26 @@ export const uploadDocumentFile = async (
     });
 
     if (!uploadRes.ok) {
-      const errorData = await uploadRes.json().catch(() => ({}));
-      console.error("Upload error response:", errorData);
-      throw new Error(
-        errorData?.error?.message ||
-          `Upload failed! status: ${uploadRes.status}`
+      if (uploadRes.status === 401) {
+        throw new Error(
+          "Sessao expirada. Faca login novamente para anexar arquivos."
+        );
+      }
+
+      if (uploadRes.status === 403) {
+        throw new Error(
+          "Sem permissao para upload. Ative as permissoes do plugin Upload no Strapi (role Authenticated)."
+        );
+      }
+
+      const errorMessage = await getErrorMessageFromResponse(
+        uploadRes,
+        `Upload failed! status: ${uploadRes.status}`
       );
+      throw new Error(errorMessage);
     }
 
     const uploadedFiles = await uploadRes.json();
-    console.log("Uploaded files:", uploadedFiles);
 
     if (!uploadedFiles || uploadedFiles.length === 0) {
       throw new Error("No file was uploaded");
@@ -229,7 +355,6 @@ export const uploadDocumentFile = async (
 
     let docNumericId = numericId;
     if (!docNumericId) {
-      console.log("Step 2: Fetching document to get numeric ID...");
       const docRes = await getDocumentById(documentId);
       if (docRes.data) {
         docNumericId = docRes.data.id;
@@ -239,13 +364,6 @@ export const uploadDocumentFile = async (
     if (!docNumericId) {
       throw new Error("Could not get document numeric ID");
     }
-
-    console.log(
-      "Step 3: Linking file ID",
-      uploadedFile.id,
-      "to document numeric ID",
-      docNumericId
-    );
 
     const linkRes = await fetch(
       `${API_URL}/api/process-documents/${docNumericId}`,
@@ -271,8 +389,6 @@ export const uploadDocumentFile = async (
           "File uploaded but linking failed. Please try again."
       );
     }
-
-    console.log("File linked successfully!");
 
     return {
       success: true,

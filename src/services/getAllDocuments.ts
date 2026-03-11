@@ -1,5 +1,6 @@
 import { DocumentData } from "@/types/types";
 import Cookies from "js-cookie";
+import { blocksToText } from "@/lib/helpers/richTextHelpers";
 
 const API_URL =
   process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
@@ -15,7 +16,7 @@ export const getAllDocuments = async (): Promise<{
     }
 
     const fetchPromise = fetch(
-      `${API_URL}/api/process-documents?populate[process][populate][0]=client`,
+      `${API_URL}/api/process-documents?populate[process][populate][0]=client&populate[file]=*`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -32,8 +33,15 @@ export const getAllDocuments = async (): Promise<{
     }
 
     const responseData = await res.json();
+    const normalizedDocuments = (responseData.data || []).map(
+      (doc: DocumentData & { description?: unknown }) => ({
+        ...doc,
+        description: blocksToText(doc.description),
+      })
+    );
+
     return {
-      data: responseData.data || [],
+      data: normalizedDocuments,
       error: null,
     };
   } catch (err) {

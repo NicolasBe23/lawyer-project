@@ -14,13 +14,17 @@ export const DocumentsHeader = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           {processId && (
-            <Button variant="outline" onClick={onBackClick}>
+            <Button
+              variant="outline"
+              onClick={onBackClick}
+              className="cursor-pointer"
+            >
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t("documents.backToProcess")}
             </Button>
           )}
         </div>
-        <Button onClick={onAddClick}>
+        <Button onClick={onAddClick} className="cursor-pointer">
           <Plus className="w-4 h-4 mr-2" />
           {t("documents.addDocument")}
         </Button>
