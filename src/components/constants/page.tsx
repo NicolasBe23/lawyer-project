@@ -46,3 +46,5 @@ export const getStatusText = (status: string) => {
       return "Upcoming";
   }
 };
+
+export const DEFAULT_SHOW_MORE_PAGE_SIZE = 10;

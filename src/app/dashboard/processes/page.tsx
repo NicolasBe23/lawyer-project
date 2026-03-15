@@ -12,7 +12,7 @@ import { ProcessStatusBadge } from "@/components/process/ProcessStatusBadge";
 import { useTranslations } from "next-intl";
 import SplitText from "@/components/ui/SplitText";
 import { ShowMorePagination } from "@/components/ui/ShowMorePagination";
-import { DEFAULT_SHOW_MORE_PAGE_SIZE } from "@/lib/constants/pagination";
+import { DEFAULT_SHOW_MORE_PAGE_SIZE } from "@/components/constants/page";
 
 export default function ProcessesPage() {
   const t = useTranslations();
@@ -32,14 +32,14 @@ export default function ProcessesPage() {
     () =>
       [...processes].sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       ),
-    [processes]
+    [processes],
   );
 
   const visibleProcesses = useMemo(
     () => sortedProcesses.slice(0, visibleCount),
-    [sortedProcesses, visibleCount]
+    [sortedProcesses, visibleCount],
   );
 
   const hasMoreProcesses = visibleCount < sortedProcesses.length;
@@ -146,8 +146,8 @@ export default function ProcessesPage() {
                   setVisibleCount((prev) =>
                     Math.min(
                       prev + DEFAULT_SHOW_MORE_PAGE_SIZE,
-                      sortedProcesses.length
-                    )
+                      sortedProcesses.length,
+                    ),
                   )
                 }
               />

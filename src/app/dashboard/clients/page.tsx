@@ -10,7 +10,7 @@ import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import SplitText from "@/components/ui/SplitText";
 import { ShowMorePagination } from "@/components/ui/ShowMorePagination";
-import { DEFAULT_SHOW_MORE_PAGE_SIZE } from "@/lib/constants/pagination";
+import { DEFAULT_SHOW_MORE_PAGE_SIZE } from "@/components/constants/page";
 
 export default function ClientsPage() {
   const t = useTranslations();
@@ -31,14 +31,14 @@ export default function ClientsPage() {
       [...clients].sort(
         (a, b) =>
           new Date(b.attributes.createdAt).getTime() -
-          new Date(a.attributes.createdAt).getTime()
+          new Date(a.attributes.createdAt).getTime(),
       ),
-    [clients]
+    [clients],
   );
 
   const visibleClients = useMemo(
     () => sortedClients.slice(0, visibleCount),
-    [sortedClients, visibleCount]
+    [sortedClients, visibleCount],
   );
 
   const hasMoreClients = visibleCount < sortedClients.length;
@@ -113,7 +113,10 @@ export default function ClientsPage() {
             hasMore={hasMoreClients}
             onShowMore={() =>
               setVisibleCount((prev) =>
-                Math.min(prev + DEFAULT_SHOW_MORE_PAGE_SIZE, sortedClients.length)
+                Math.min(
+                  prev + DEFAULT_SHOW_MORE_PAGE_SIZE,
+                  sortedClients.length,
+                ),
               )
             }
           />
