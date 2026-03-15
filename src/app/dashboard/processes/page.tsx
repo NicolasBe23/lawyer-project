@@ -3,7 +3,7 @@
 import { Loading } from "@/components/ui/loading";
 import { Process } from "@/types/types";
 import { getAllProcesses } from "@/services/getAllProcesses";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,10 +11,13 @@ import { Plus, Eye, Briefcase } from "lucide-react";
 import { ProcessStatusBadge } from "@/components/process/ProcessStatusBadge";
 import { useTranslations } from "next-intl";
 import SplitText from "@/components/ui/SplitText";
+import { ShowMorePagination } from "@/components/ui/ShowMorePagination";
+import { DEFAULT_SHOW_MORE_PAGE_SIZE } from "@/lib/constants/pagination";
 
 export default function ProcessesPage() {
   const t = useTranslations();
   const [processes, setProcesses] = useState<Process[]>([]);
+  const [visibleCount, setVisibleCount] = useState(DEFAULT_SHOW_MORE_PAGE_SIZE);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -24,6 +27,22 @@ export default function ProcessesPage() {
       setLoading(false);
     });
   }, []);
+
+  const sortedProcesses = useMemo(
+    () =>
+      [...processes].sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      ),
+    [processes]
+  );
+
+  const visibleProcesses = useMemo(
+    () => sortedProcesses.slice(0, visibleCount),
+    [sortedProcesses, visibleCount]
+  );
+
+  const hasMoreProcesses = visibleCount < sortedProcesses.length;
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("pt-BR");
@@ -76,7 +95,7 @@ export default function ProcessesPage() {
             </p>
           ) : (
             <div className="space-y-4">
-              {processes.map((process) => (
+              {visibleProcesses.map((process) => (
                 <div
                   key={process.id}
                   className="flex items-center justify-between p-4 border rounded-lg transition-colors"
@@ -120,6 +139,18 @@ export default function ProcessesPage() {
                   </Button>
                 </div>
               ))}
+
+              <ShowMorePagination
+                hasMore={hasMoreProcesses}
+                onShowMore={() =>
+                  setVisibleCount((prev) =>
+                    Math.min(
+                      prev + DEFAULT_SHOW_MORE_PAGE_SIZE,
+                      sortedProcesses.length
+                    )
+                  )
+                }
+              />
             </div>
           )}
         </CardContent>

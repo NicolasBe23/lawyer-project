@@ -50,29 +50,35 @@ export const getProcessById = async (
     }
 
     let allSchedules = processData?.schedules || [];
+    const currentProcessId = processData.id;
 
+    // Always fetch schedules directly by process to ensure linked schedules appear.
+    const processSchedulesResponse = await fetch(
+      `${API_URL}/schedules?populate[client]=*&populate[process]=*&filters[process][id][$eq]=${currentProcessId}`
+    );
+
+    if (processSchedulesResponse.ok) {
+      const processSchedulesData = await processSchedulesResponse.json();
+      const processSchedules = processSchedulesData.data || [];
+      const existingIds = allSchedules.map((s: Schedule) => s.id);
+      const newSchedules = processSchedules.filter(
+        (s: Schedule) => !existingIds.includes(s.id)
+      );
+      allSchedules = [...allSchedules, ...newSchedules];
+    }
+
+    // Include client-level schedules without process link (existing behavior).
     if (processData?.client?.id) {
+      const currentClientId = processData.client.id;
       const clientSchedulesResponse = await fetch(
-        `${API_URL}/schedules?populate[client]=*&populate[process]=*&filters[client][id][$eq]=${processData.client.id}`
+        `${API_URL}/schedules?populate[client]=*&populate[process]=*&filters[client][id][$eq]=${currentClientId}`
       );
 
       if (clientSchedulesResponse.ok) {
         const clientSchedulesData = await clientSchedulesResponse.json();
         const clientSchedules = clientSchedulesData.data || [];
-
-        const currentProcessId = processData.id;
-        const currentClientId = processData.client.id;
-
         const relevantSchedules = clientSchedules.filter(
-          (schedule: Schedule) => {
-            const scheduleProcessId = schedule.process?.id;
-            const scheduleClientId = schedule.client?.id;
-
-            return (
-              scheduleProcessId === currentProcessId ||
-              (!scheduleProcessId && scheduleClientId === currentClientId)
-            );
-          }
+          (schedule: Schedule) => !schedule.process?.id
         );
 
         const existingIds = allSchedules.map((s: Schedule) => s.id);

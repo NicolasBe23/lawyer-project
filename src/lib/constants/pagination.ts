@@ -1,0 +1,1 @@
+export const DEFAULT_SHOW_MORE_PAGE_SIZE = 10;

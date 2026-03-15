@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,66 +8,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loading } from "@/components/ui/loading";
-import { Client } from "@/types/types";
-import { getAllClients } from "@/services/getAllClients";
-import { createProcess } from "@/services/createProcess";
+import { useAddProcessPage } from "@/lib/useAddProcessPage";
 
 export default function AddProcessPage() {
   const t = useTranslations();
-  const router = useRouter();
-
-  const [clients, setClients] = useState<Client[]>([]);
-  const [loadingClients, setLoadingClients] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    processNumber: "",
-    title: "",
-    description: "",
-    startDate: "",
-    client: "",
-  });
-
-  useEffect(() => {
-    const loadClients = async () => {
-      try {
-        const { data, error } = await getAllClients();
-        if (error) {
-          toast.error(error);
-          return;
-        }
-        setClients(data);
-      } finally {
-        setLoadingClients(false);
-      }
-    };
-
-    loadClients();
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const { data, error } = await createProcess({
-      processNumber: formData.processNumber.trim(),
-      title: formData.title.trim(),
-      description: formData.description.trim() || undefined,
-      processStatus: "active",
-      startDate: formData.startDate,
-      client: formData.client ? Number(formData.client) : undefined,
-    });
-
-    setIsSubmitting(false);
-
-    if (error || !data) {
-      toast.error(t("processes.errorCreatingProcess"));
-      return;
-    }
-
-    toast.success(t("processes.processCreatedSuccessfully"));
-    const processIdentifier = data.documentId || data.id;
-    router.push(`/dashboard/processes/${processIdentifier}`);
-  };
+  const {
+    clients,
+    loadingClients,
+    isSubmitting,
+    formData,
+    setFormData,
+    handleSubmit,
+    handleBack,
+  } = useAddProcessPage();
 
   if (loadingClients) {
     return (
@@ -86,14 +36,16 @@ export default function AddProcessPage() {
         <Button
           variant="outline"
           className="cursor-pointer mb-4"
-          onClick={() => router.back()}
+          onClick={handleBack}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
         </Button>
       </div>
 
-      <h1 className="text-3xl font-bold cursor-default">{t("processes.newProcess")}</h1>
+      <h1 className="text-3xl font-bold cursor-default">
+        {t("processes.newProcess")}
+      </h1>
 
       <Card>
         <CardHeader>
@@ -103,7 +55,9 @@ export default function AddProcessPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="processNumber">{t("processes.process")} *</Label>
+                <Label htmlFor="processNumber">
+                  {t("processes.process")} *
+                </Label>
                 <Input
                   id="processNumber"
                   value={formData.processNumber}
@@ -123,7 +77,10 @@ export default function AddProcessPage() {
                   type="date"
                   value={formData.startDate}
                   onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, startDate: e.target.value }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      startDate: e.target.value,
+                    }))
                   }
                   required
                 />
@@ -181,14 +138,15 @@ export default function AddProcessPage() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.back()}
+                onClick={handleBack}
                 disabled={isSubmitting}
+                className="cursor-pointer"
               >
                 {t("common.cancel")}
               </Button>
               <Button
                 type="submit"
-                className="bg-gray-900 hover:bg-gray-800"
+                className="bg-gray-900 hover:bg-gray-800 cursor-pointer"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? t("common.loading") : t("common.save")}

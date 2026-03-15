@@ -1,11 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/ui/loading";
 import { ArrowLeft } from "lucide-react";
-import { Client, Process, Schedule } from "@/types/types";
 import {
   ClientHeader,
   ClientBasicInfo,
@@ -15,83 +12,26 @@ import {
   DeleteClientModal,
   EditClientModal,
 } from "@/components/client-detail";
-import { toast } from "sonner";
-import {
-  fetchClientData,
-  deleteClient,
-  updateClient,
-} from "@/lib/helpers/clientHelpers";
 import { formatDate, formatDateTime } from "@/lib/helpers/dateHelpers";
-import { useTranslations } from "next-intl";
+import { useClientDetailsPage } from "@/lib/useClientDetailsPage";
+
 export default function ClientPage() {
-  const t = useTranslations();
-  const params = useParams();
-  const router = useRouter();
-  const clientId = params.id as string;
-
-  const [client, setClient] = useState<Client | null>(null);
-  const [processes, setProcesses] = useState<Process[]>([]);
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [actionLoading, setActionLoading] = useState(false);
-
-  useEffect(() => {
-    loadClientData();
-  }, [clientId]);
-
-  const loadClientData = async () => {
-    try {
-      setLoading(true);
-      const data = await fetchClientData(clientId);
-      setClient(data.client);
-      setProcesses(data.processes);
-      setSchedules(data.schedules);
-    } catch {
-      setError(t("clients.errorLoadingClientData"));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDeleteClient = async () => {
-    if (!client) return;
-
-    try {
-      setActionLoading(true);
-      await deleteClient(clientId);
-      toast.success(t("clients.clientDeletedSuccessfully"));
-      router.push("/dashboard/clients");
-    } catch {
-      toast.error(t("clients.errorDeletingClient"));
-    } finally {
-      setActionLoading(false);
-      setShowDeleteModal(false);
-    }
-  };
-
-  const handleEditClient = async (
-    clientData: Partial<Client["attributes"]>,
-  ) => {
-    if (!client) return;
-
-    try {
-      setActionLoading(true);
-      const updatedClient = await updateClient(clientId, clientData);
-      if (updatedClient) {
-        setClient(updatedClient);
-        toast.success(t("clients.clientUpdatedSuccessfully"));
-        setShowEditModal(false);
-      }
-    } catch {
-      toast.error(t("clients.errorUpdatingClient"));
-    } finally {
-      setActionLoading(false);
-    }
-  };
+  const {
+    client,
+    processes,
+    schedules,
+    loading,
+    error,
+    showDeleteModal,
+    showEditModal,
+    actionLoading,
+    setShowDeleteModal,
+    setShowEditModal,
+    handleDeleteClient,
+    handleEditClient,
+    goBackToClients,
+    t,
+  } = useClientDetailsPage();
 
   if (loading) {
     return (
@@ -107,7 +47,7 @@ export default function ClientPage() {
         <p className="text-red-500 mb-4">
           {error || t("clients.clientNotFound")}
         </p>
-        <Button onClick={() => router.back()}>
+        <Button onClick={goBackToClients}>
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
         </Button>
@@ -119,7 +59,7 @@ export default function ClientPage() {
     <div className="container mx-auto p-2 space-y-6">
       <ClientHeader
         client={client}
-        onBack={() => router.back()}
+        onBack={goBackToClients}
         onEdit={() => setShowEditModal(true)}
         onDelete={() => setShowDeleteModal(true)}
         formatDate={formatDate}

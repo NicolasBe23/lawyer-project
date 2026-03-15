@@ -3,16 +3,19 @@
 import { Loading } from "@/components/ui/loading";
 import { Client } from "@/types/types";
 import { getAllClients } from "@/services/getAllClients";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import SplitText from "@/components/ui/SplitText";
+import { ShowMorePagination } from "@/components/ui/ShowMorePagination";
+import { DEFAULT_SHOW_MORE_PAGE_SIZE } from "@/lib/constants/pagination";
 
 export default function ClientsPage() {
   const t = useTranslations();
   const [clients, setClients] = useState<Client[]>([]);
+  const [visibleCount, setVisibleCount] = useState(DEFAULT_SHOW_MORE_PAGE_SIZE);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -22,6 +25,23 @@ export default function ClientsPage() {
       setLoading(false);
     });
   }, []);
+
+  const sortedClients = useMemo(
+    () =>
+      [...clients].sort(
+        (a, b) =>
+          new Date(b.attributes.createdAt).getTime() -
+          new Date(a.attributes.createdAt).getTime()
+      ),
+    [clients]
+  );
+
+  const visibleClients = useMemo(
+    () => sortedClients.slice(0, visibleCount),
+    [sortedClients, visibleCount]
+  );
+
+  const hasMoreClients = visibleCount < sortedClients.length;
 
   if (loading) {
     return (
@@ -55,8 +75,8 @@ export default function ClientsPage() {
       {clients.length === 0 ? (
         <p>{t("clients.noClientsFound")}</p>
       ) : (
-        <div className=" flex flex-col">
-          {clients.map((client) => (
+        <div className=" flex flex-col gap-3">
+          {visibleClients.map((client) => (
             <div
               key={client.id}
               className="p-3 py-5 border-b shadow-sm border-gray-400 rounded-lg flex justify-between items-center hover:bg-gray-300 hover:rounded-lg cursor-pointer transition-colors duration-200"
@@ -88,6 +108,15 @@ export default function ClientsPage() {
               </span>
             </div>
           ))}
+
+          <ShowMorePagination
+            hasMore={hasMoreClients}
+            onShowMore={() =>
+              setVisibleCount((prev) =>
+                Math.min(prev + DEFAULT_SHOW_MORE_PAGE_SIZE, sortedClients.length)
+              )
+            }
+          />
         </div>
       )}
     </div>

@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 
 const API_URL =
-  process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
+  process.env.STRAPI_API_URL ||
+  process.env.NEXT_PUBLIC_STRAPI_API_URL ||
+  "http://localhost:1337";
 
 const AUTH_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 

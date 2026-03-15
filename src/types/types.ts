@@ -407,3 +407,17 @@ export interface ExtendedProcessDocumentsProps extends ProcessDocumentsProps {
 export interface DashboardContentProps {
   user: User;
 }
+
+export interface EditProcessModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  process: Process;
+  isLoading?: boolean;
+  onSave: (data: {
+    processNumber: string;
+    title: string;
+    description?: string;
+    startDate: string;
+    completionDate?: string;
+  }) => Promise<void>;
+}

@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const STRAPI_URL =
-  process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
+  process.env.STRAPI_API_URL ||
+  process.env.NEXT_PUBLIC_STRAPI_API_URL ||
+  "http://localhost:1337";
 
 const buildForwardHeaders = (req: NextRequest, token: string) => {
   const headers = new Headers();
@@ -54,6 +56,22 @@ const forwardToStrapi = async (
 
   const strapiRes = await fetch(targetUrl, requestInit);
   const responseBody = await strapiRes.arrayBuffer();
+
+  if (strapiRes.status === 401) {
+    const unauthorizedResponse = NextResponse.json(
+      { error: { message: "Session expired. Please login again." } },
+      { status: 401 }
+    );
+    unauthorizedResponse.cookies.set("strapi_session", "", {
+      maxAge: 0,
+      path: "/",
+    });
+    unauthorizedResponse.cookies.set("strapi_user", "", {
+      maxAge: 0,
+      path: "/",
+    });
+    return unauthorizedResponse;
+  }
 
   const responseHeaders = new Headers();
   const responseContentType = strapiRes.headers.get("content-type");

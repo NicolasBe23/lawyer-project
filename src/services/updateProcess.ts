@@ -24,3 +24,34 @@ export const updateProcessStatus = async (
     };
   }
 };
+
+export const updateProcessDetails = async (
+  processId: string,
+  data: {
+    processNumber?: string;
+    title?: string;
+    description?: string;
+    startDate?: string;
+    completionDate?: string;
+  }
+): Promise<{
+  data: Process | null;
+  error: string | null;
+}> => {
+  try {
+    const response = await processService.update(processId, data);
+    return {
+      data: response.data?.data || null,
+      error: null,
+    };
+  } catch (err: any) {
+    const errorMessage =
+      err?.response?.data?.error?.message ||
+      err?.message ||
+      "Failed to update process";
+    return {
+      data: null,
+      error: errorMessage,
+    };
+  }
+};

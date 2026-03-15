@@ -11,6 +11,7 @@
     "description": "Description",
     "close": "Close",
     "save": "Save",
+    "showMore": "Show more",
     "na": "N/A"
   },
   "register": {
@@ -132,6 +133,8 @@
     "current": "Current",
     "processStatusUpdatedTo": "Process status updated to {status}",
     "failedToUpdateProcessStatus": "Failed to update process status",
+    "processUpdatedSuccessfully": "Process updated successfully.",
+    "failedToUpdateProcess": "Failed to update process",
     "errorCreatingProcess": "Error creating process.",
     "processCreatedSuccessfully": "Process created successfully.",
     "completed": "Completed"

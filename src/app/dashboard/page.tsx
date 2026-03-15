@@ -4,7 +4,9 @@ import { DashboardContent } from "@/components/dashboard/DashboardContent";
 import { User } from "@/types/types";
 
 const API_URL =
-  process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
+  process.env.STRAPI_API_URL ||
+  process.env.NEXT_PUBLIC_STRAPI_API_URL ||
+  "http://localhost:1337";
 
 const getAuthenticatedUser = async (token: string): Promise<User | null> => {
   try {

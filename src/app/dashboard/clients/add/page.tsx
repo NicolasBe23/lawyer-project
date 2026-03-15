@@ -1,37 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
-import { Client } from "@/types/types";
 import { ClientForm } from "@/components/client-detail/ClientForm";
-import { createClient } from "@/lib/helpers/clientHelpers";
-import { toast } from "sonner";
-import { useTranslations } from "next-intl";
+import { useAddClientPage } from "@/lib/useAddClientPage";
 
 export default function AddClientPage() {
-  const t = useTranslations();
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleCreateClient = async (
-    clientData: Partial<Client["attributes"]>,
-  ) => {
-    try {
-      setIsLoading(true);
-      const newClient = await createClient(clientData);
-      if (newClient) {
-        toast.success(t("clients.clientCreatedSuccessfully"));
-        router.push(`/dashboard/clients/${newClient.id}`);
-      }
-    } catch {
-      toast.error(t("clients.errorCreatingClient"));
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { t, isLoading, handleCreateClient, goBackToClients } =
+    useAddClientPage();
 
   return (
     <div className="container mx-auto p-2 space-y-6">
@@ -39,7 +16,7 @@ export default function AddClientPage() {
         <Button
           variant="outline"
           className="cursor-pointer mb-4"
-          onClick={() => router.back()}
+          onClick={goBackToClients}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
@@ -58,7 +35,7 @@ export default function AddClientPage() {
             onSubmit={handleCreateClient}
             isLoading={isLoading}
             submitText={t("clients.createClient")}
-            onCancel={() => router.back()}
+            onCancel={goBackToClients}
           />
         </CardContent>
       </Card>

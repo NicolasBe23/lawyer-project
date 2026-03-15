@@ -6,7 +6,9 @@ import {
 
 const API_PROXY_URL = "/api/strapi";
 const STRAPI_ASSET_URL =
-  process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:1337";
+  process.env.NEXT_PUBLIC_STRAPI_ASSET_URL ||
+  process.env.NEXT_PUBLIC_STRAPI_API_URL ||
+  "http://localhost:1337";
 
 const getErrorMessageFromResponse = async (
   response: Response,
