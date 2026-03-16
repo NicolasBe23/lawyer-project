@@ -26,7 +26,10 @@ export const clientService = {
 };
 
 export const processService = {
-  getAll: () => strapiApi.get<StrapiResponse<Process>>("/processes?populate=*"),
+  getAll: () =>
+    strapiApi.get<StrapiResponse<Process>>(
+      "/processes?populate=*&sort[0]=createdAt:desc"
+    ),
   getById: (id: string) =>
     strapiApi.get<StrapiSingleResponse<Process>>(`/processes/${id}?populate=*`),
   getByDocumentId: (documentId: string) =>
@@ -45,7 +48,9 @@ export const processService = {
 
 export const documentService = {
   getAll: () =>
-    strapiApi.get<StrapiResponse<DocumentData>>("/process-documents?populate=*"),
+    strapiApi.get<StrapiResponse<DocumentData>>(
+      "/process-documents?populate=*&sort[0]=createdAt:desc"
+    ),
   getById: (id: string) =>
     strapiApi.get<StrapiSingleResponse<DocumentData>>(
       `/process-documents/${id}?populate=*`
@@ -58,7 +63,10 @@ export const documentService = {
 };
 
 export const scheduleService = {
-  getAll: () => strapiApi.get<StrapiResponse<Schedule>>("/schedules?populate=*"),
+  getAll: () =>
+    strapiApi.get<StrapiResponse<Schedule>>(
+      "/schedules?populate=*&sort[0]=createdAt:desc"
+    ),
   getById: (id: string) =>
     strapiApi.get<StrapiSingleResponse<Schedule>>(`/schedules/${id}?populate=*`),
   getByClient: (clientId: string) =>

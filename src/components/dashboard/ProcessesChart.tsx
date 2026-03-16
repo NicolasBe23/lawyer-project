@@ -13,13 +13,13 @@ export const ProcessesChart = ({ stats }: ProcessesChartProps) => {
       name: t("dashboard.active"),
       value: stats.activeProcesses,
       icon: PlayCircle,
-      color: COLORS[0],
+      color: COLORS[1],
     },
     {
       name: t("dashboard.completed"),
       value: stats.processes - stats.activeProcesses,
       icon: CheckCircle,
-      color: COLORS[1],
+      color: COLORS[0],
     },
     { name: t("dashboard.pending"), value: 0, icon: Clock, color: COLORS[2] },
   ];

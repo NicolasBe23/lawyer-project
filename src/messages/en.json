@@ -12,6 +12,7 @@
     "close": "Close",
     "save": "Save",
     "showMore": "Show more",
+    "filters": "Filters",
     "na": "N/A"
   },
   "register": {
@@ -107,7 +108,11 @@
     "deleteClientConfirmation": "Are you sure you want to delete the client \"{clientName}\"? This action cannot be undone and will also delete all associated processes, schedules, and documents.",
     "deleting": "Deleting...",
     "editClient": "Edit Client",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "filterAll": "Show all",
+    "filterActive": "Active",
+    "filterInactive": "Inactive",
+    "searchByName": "Search client"
   },
   "processes": {
     "title": "Processes",
@@ -137,7 +142,9 @@
     "failedToUpdateProcess": "Failed to update process",
     "errorCreatingProcess": "Error creating process.",
     "processCreatedSuccessfully": "Process created successfully.",
-    "completed": "Completed"
+    "completed": "Completed",
+    "filterAll": "All statuses",
+    "searchByNameOrNumber": "Search process"
   },
   "schedules": {
     "title": "Schedules",

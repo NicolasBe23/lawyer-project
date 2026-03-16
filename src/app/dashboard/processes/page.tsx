@@ -1,7 +1,7 @@
 "use client";
 
 import { Loading } from "@/components/ui/loading";
-import { Process } from "@/types/types";
+import { ListFilterOption, Process, ProcessFilter } from "@/types/types";
 import { getAllProcesses } from "@/services/getAllProcesses";
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
@@ -12,14 +12,23 @@ import { ProcessStatusBadge } from "@/components/process/ProcessStatusBadge";
 import { useTranslations } from "next-intl";
 import SplitText from "@/components/ui/SplitText";
 import { ShowMorePagination } from "@/components/ui/ShowMorePagination";
-import { DEFAULT_SHOW_MORE_PAGE_SIZE } from "@/components/constants/page";
+import {
+  DEFAULT_SHOW_MORE_PAGE_SIZE,
+  PROCESS_FILTER_OPTIONS,
+} from "@/components/constants/page";
+import { ListFilterDropdown } from "@/components/ui/ListFilterDropdown";
+import { ListSearchInput } from "@/components/ui/ListSearchInput";
 
 export default function ProcessesPage() {
   const t = useTranslations();
   const [processes, setProcesses] = useState<Process[]>([]);
   const [visibleCount, setVisibleCount] = useState(DEFAULT_SHOW_MORE_PAGE_SIZE);
+  const [processFilter, setProcessFilter] = useState<ProcessFilter>("all");
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
 
   useEffect(() => {
     getAllProcesses().then((res) => {
@@ -28,21 +37,34 @@ export default function ProcessesPage() {
     });
   }, []);
 
-  const sortedProcesses = useMemo(
+  const filteredProcesses = useMemo(
     () =>
-      [...processes].sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      ),
-    [processes],
+      processes.filter((process) => {
+        const matchesSearch =
+          normalizedSearchTerm.length === 0 ||
+          process.title.toLowerCase().includes(normalizedSearchTerm) ||
+          process.processNumber.toLowerCase().includes(normalizedSearchTerm);
+        if (!matchesSearch) return false;
+
+        if (processFilter === "all") return true;
+        return process.processStatus === processFilter;
+      }),
+    [processes, processFilter, normalizedSearchTerm],
   );
 
   const visibleProcesses = useMemo(
-    () => sortedProcesses.slice(0, visibleCount),
-    [sortedProcesses, visibleCount],
+    () => filteredProcesses.slice(0, visibleCount),
+    [filteredProcesses, visibleCount],
   );
 
-  const hasMoreProcesses = visibleCount < sortedProcesses.length;
+  const filteredProcessesCount = filteredProcesses.length;
+  const hasMoreProcesses = visibleCount < filteredProcessesCount;
+
+  const processFilterOptions: ListFilterOption<ProcessFilter>[] =
+    PROCESS_FILTER_OPTIONS.map((option) => ({
+      value: option.value,
+      label: t(option.labelKey),
+    }));
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("pt-BR");
@@ -70,13 +92,32 @@ export default function ProcessesPage() {
           className="text-2xl"
         />
 
-        <Button
-          className="cursor-pointer bg-gray-900 hover:bg-gray-800"
-          onClick={() => router.push("/dashboard/processes/add")}
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          {t("processes.newProcess")}
-        </Button>
+        <ListSearchInput
+          value={searchTerm}
+          onChange={(value) => {
+            setSearchTerm(value);
+            setVisibleCount(DEFAULT_SHOW_MORE_PAGE_SIZE);
+          }}
+          placeholder={t("processes.searchByNameOrNumber")}
+        />
+        <div className="flex items-center gap-2">
+          <ListFilterDropdown
+            value={processFilter}
+            options={processFilterOptions}
+            onChange={(value) => {
+              setProcessFilter(value);
+              setVisibleCount(DEFAULT_SHOW_MORE_PAGE_SIZE);
+            }}
+          />
+
+          <Button
+            className="cursor-pointer bg-gray-900 hover:bg-gray-800"
+            onClick={() => router.push("/dashboard/processes/add")}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            {t("processes.newProcess")}
+          </Button>
+        </div>
       </div>
 
       <Card>
@@ -84,12 +125,12 @@ export default function ProcessesPage() {
           <CardTitle className="flex items-center space-x-2">
             <Briefcase className="w-5 h-5" />
             <span>
-              {t("processes.allProcesses")} ({processes.length})
+              {t("processes.allProcesses")} ({filteredProcessesCount})
             </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {processes.length === 0 ? (
+          {filteredProcessesCount === 0 ? (
             <p className="text-muted-foreground text-center py-8">
               {t("processes.noProcessesFound")}
             </p>
@@ -146,7 +187,7 @@ export default function ProcessesPage() {
                   setVisibleCount((prev) =>
                     Math.min(
                       prev + DEFAULT_SHOW_MORE_PAGE_SIZE,
-                      sortedProcesses.length,
+                      filteredProcessesCount,
                     ),
                   )
                 }

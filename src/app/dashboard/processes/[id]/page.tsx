@@ -39,11 +39,7 @@ export default function ProcessPage() {
   if (error || !process) {
     return (
       <div className="container mx-auto p-2">
-        <Button
-          variant="outline"
-          onClick={goBackToProcesses}
-          className="mb-4"
-        >
+        <Button variant="outline" onClick={goBackToProcesses} className="mb-4">
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
         </Button>
@@ -66,22 +62,22 @@ export default function ProcessPage() {
           {t("common.back")}
         </Button>
 
-        <ProcessStatusChanger
-          processId={String(process.id)}
-          currentStatus={process.processStatus}
-          onStatusChange={handleStatusChange}
-        />
-      </div>
+        <div className="flex items-center space-x-2">
+          <ProcessStatusChanger
+            processId={String(process.id)}
+            currentStatus={process.processStatus}
+            onStatusChange={handleStatusChange}
+          />
 
-      <div className="flex justify-end">
-        <Button
-          variant="outline"
-          className="cursor-pointer"
-          onClick={() => setShowEditModal(true)}
-        >
-          <Pencil className="w-4 h-4 mr-2" />
-          {t("common.edit")}
-        </Button>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={() => setShowEditModal(true)}
+          >
+            <Pencil className="w-4 h-4 mr-2" />
+            {t("common.edit")}
+          </Button>
+        </div>
       </div>
 
       <div className="flex items-center justify-between">

@@ -421,3 +421,24 @@ export interface EditProcessModalProps {
     completionDate?: string;
   }) => Promise<void>;
 }
+
+export type ClientFilter = "all" | "active" | "inactive";
+
+export type ProcessFilter = "all" | "active" | "completed" | "archived";
+
+export type ListFilterOption<T extends string> = {
+  value: T;
+  label: string;
+};
+
+export interface ListFilterDropdownProps<T extends string> {
+  value: T;
+  options: ListFilterOption<T>[];
+  onChange: (value: T) => void;
+}
+
+export interface ListSearchInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+}

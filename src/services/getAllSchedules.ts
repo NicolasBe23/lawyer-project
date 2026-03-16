@@ -7,7 +7,7 @@ export const getAllSchedules = async (): Promise<{
   error: string | null;
 }> => {
   try {
-    const res = await fetch(`${API_URL}/schedules?populate=*`);
+    const res = await fetch(`${API_URL}/schedules?populate=*&sort[0]=createdAt:desc`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

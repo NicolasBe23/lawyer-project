@@ -9,7 +9,7 @@ export const getAllDocuments = async (): Promise<{
 }> => {
   try {
     const res = await fetch(
-      `${API_URL}/process-documents?populate[process][populate][0]=client&populate[file]=*`
+      `${API_URL}/process-documents?populate[process][populate][0]=client&populate[file]=*&sort[0]=createdAt:desc`
     );
 
     if (!res.ok) {

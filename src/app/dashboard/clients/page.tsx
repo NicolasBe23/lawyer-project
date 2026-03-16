@@ -1,7 +1,7 @@
 "use client";
 
 import { Loading } from "@/components/ui/loading";
-import { Client } from "@/types/types";
+import { Client, ClientFilter, ListFilterOption } from "@/types/types";
 import { getAllClients } from "@/services/getAllClients";
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
@@ -10,14 +10,23 @@ import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import SplitText from "@/components/ui/SplitText";
 import { ShowMorePagination } from "@/components/ui/ShowMorePagination";
-import { DEFAULT_SHOW_MORE_PAGE_SIZE } from "@/components/constants/page";
+import {
+  CLIENT_FILTER_OPTIONS,
+  DEFAULT_SHOW_MORE_PAGE_SIZE,
+} from "@/components/constants/page";
+import { ListFilterDropdown } from "@/components/ui/ListFilterDropdown";
+import { ListSearchInput } from "@/components/ui/ListSearchInput";
 
 export default function ClientsPage() {
   const t = useTranslations();
   const [clients, setClients] = useState<Client[]>([]);
   const [visibleCount, setVisibleCount] = useState(DEFAULT_SHOW_MORE_PAGE_SIZE);
+  const [clientFilter, setClientFilter] = useState<ClientFilter>("all");
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
 
   useEffect(() => {
     getAllClients().then((res) => {
@@ -26,22 +35,34 @@ export default function ClientsPage() {
     });
   }, []);
 
-  const sortedClients = useMemo(
+  const filteredClients = useMemo(
     () =>
-      [...clients].sort(
-        (a, b) =>
-          new Date(b.attributes.createdAt).getTime() -
-          new Date(a.attributes.createdAt).getTime(),
-      ),
-    [clients],
+      clients.filter((client) => {
+        const matchesSearch =
+          normalizedSearchTerm.length === 0 ||
+          client.attributes.name.toLowerCase().includes(normalizedSearchTerm);
+        if (!matchesSearch) return false;
+
+        if (clientFilter === "all") return true;
+        if (clientFilter === "active") return client.attributes.active === true;
+        return client.attributes.active === false;
+      }),
+    [clients, clientFilter, normalizedSearchTerm],
   );
 
   const visibleClients = useMemo(
-    () => sortedClients.slice(0, visibleCount),
-    [sortedClients, visibleCount],
+    () => filteredClients.slice(0, visibleCount),
+    [filteredClients, visibleCount],
   );
 
-  const hasMoreClients = visibleCount < sortedClients.length;
+  const filteredClientsCount = filteredClients.length;
+  const hasMoreClients = visibleCount < filteredClientsCount;
+
+  const clientFilterOptions: ListFilterOption<ClientFilter>[] =
+    CLIENT_FILTER_OPTIONS.map((option) => ({
+      value: option.value,
+      label: t(option.labelKey),
+    }));
 
   if (loading) {
     return (
@@ -64,15 +85,34 @@ export default function ClientsPage() {
           textAlign="left"
           className="text-2xl"
         />
-        <Button
-          className="cursor-pointer bg-gray-900 hover:bg-gray-800"
-          onClick={() => router.push("/dashboard/clients/add")}
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          {t("clients.addClient")}
-        </Button>
+        <ListSearchInput
+          value={searchTerm}
+          onChange={(value) => {
+            setSearchTerm(value);
+            setVisibleCount(DEFAULT_SHOW_MORE_PAGE_SIZE);
+          }}
+          placeholder={t("clients.searchByName")}
+        />
+        <div className="flex items-center gap-2">
+          <ListFilterDropdown
+            value={clientFilter}
+            options={clientFilterOptions}
+            onChange={(value) => {
+              setClientFilter(value);
+              setVisibleCount(DEFAULT_SHOW_MORE_PAGE_SIZE);
+            }}
+          />
+
+          <Button
+            className="cursor-pointer bg-gray-900 hover:bg-gray-800"
+            onClick={() => router.push("/dashboard/clients/add")}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            {t("clients.addClient")}
+          </Button>
+        </div>
       </div>
-      {clients.length === 0 ? (
+      {filteredClientsCount === 0 ? (
         <p>{t("clients.noClientsFound")}</p>
       ) : (
         <div className=" flex flex-col gap-3">
@@ -115,7 +155,7 @@ export default function ClientsPage() {
               setVisibleCount((prev) =>
                 Math.min(
                   prev + DEFAULT_SHOW_MORE_PAGE_SIZE,
-                  sortedClients.length,
+                  filteredClientsCount,
                 ),
               )
             }

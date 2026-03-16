@@ -12,6 +12,7 @@
     "close": "Fechar",
     "save": "Salvar",
     "showMore": "Mostrar mais",
+    "filters": "Filtros",
     "na": "N/A"
   },
   "register": {
@@ -107,7 +108,11 @@
     "deleteClientConfirmation": "Tem certeza que deseja deletar o cliente \"{clientName}\"? Esta acao nao pode ser desfeita e tambem removera todos os processos, agendamentos e documentos associados.",
     "deleting": "Deletando...",
     "editClient": "Editar cliente",
-    "saveChanges": "Salvar alteracoes"
+    "saveChanges": "Salvar alteracoes",
+    "filterAll": "Mostrar todos",
+    "filterActive": "Ativos",
+    "filterInactive": "Inativos",
+    "searchByName": "Buscar cliente"
   },
   "processes": {
     "title": "Processos",
@@ -137,7 +142,9 @@
     "failedToUpdateProcess": "Falha ao atualizar processo",
     "errorCreatingProcess": "Erro ao criar processo.",
     "processCreatedSuccessfully": "Processo criado com sucesso.",
-    "completed": "Concluido"
+    "completed": "Concluido",
+    "filterAll": "Todos os status",
+    "searchByNameOrNumber": "Buscar processo"
   },
   "schedules": {
     "title": "Agendamentos",

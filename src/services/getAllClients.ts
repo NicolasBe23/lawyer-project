@@ -7,7 +7,7 @@ export const getAllClients = async (): Promise<{
   error: string | null;
 }> => {
   try {
-    const res = await fetch(`${API_URL}/clients`);
+    const res = await fetch(`${API_URL}/clients?sort[0]=createdAt:desc`);
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

@@ -31,7 +31,10 @@ export const getProcessById = async (
 
         if (fallbackResponse.ok) {
           const fallbackData = await fallbackResponse.json();
-          processData = fallbackData.data?.[0] || null;
+          processData =
+            (fallbackData.data || []).find(
+              (process: Process) => process.id === Number(id)
+            ) || null;
         }
       }
     } else {
@@ -41,7 +44,10 @@ export const getProcessById = async (
 
       if (byDocumentIdResponse.ok) {
         const byDocumentIdData = await byDocumentIdResponse.json();
-        processData = byDocumentIdData.data?.[0] || null;
+        processData =
+          (byDocumentIdData.data || []).find(
+            (process: Process) => process.documentId === id
+          ) || null;
       }
     }
 
