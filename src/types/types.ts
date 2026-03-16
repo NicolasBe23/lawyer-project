@@ -198,6 +198,7 @@ export interface DeleteDocumentModalProps {
 
 export interface DocumentsHeaderProps {
   processId: string | null;
+  showBackButton: boolean;
   onBackClick: () => void;
   onAddClick: () => void;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
@@ -39,6 +39,15 @@ export const useDocumentsPage = () => {
   );
 
   const fileInputRefs = useRef<{ [key: number]: HTMLInputElement | null }>({});
+
+  const associatedProcessIdentifier = useMemo(() => {
+    if (processId) return processId;
+
+    const firstAssociatedProcess = documents.find((doc) => doc.process)?.process;
+    if (!firstAssociatedProcess) return null;
+
+    return firstAssociatedProcess.documentId || String(firstAssociatedProcess.id);
+  }, [processId, documents]);
 
   const loadDocuments = useCallback(async () => {
     setLoading(true);
@@ -200,7 +209,11 @@ export const useDocumentsPage = () => {
   };
 
   const handleBackClick = () => {
-    router.push(`/dashboard/processes/${processId}`);
+    if (associatedProcessIdentifier) {
+      router.push(`/dashboard/processes/${associatedProcessIdentifier}`);
+      return;
+    }
+    router.push("/dashboard/processes");
   };
 
   const closeEditModal = () => {
@@ -215,6 +228,7 @@ export const useDocumentsPage = () => {
 
   return {
     processId,
+    associatedProcessIdentifier,
     documents,
     loading,
     error,

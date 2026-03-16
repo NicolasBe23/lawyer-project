@@ -15,6 +15,7 @@ export default function DocumentsPage() {
   const t = useTranslations();
   const {
     processId,
+    associatedProcessIdentifier,
     documents,
     loading,
     error,
@@ -54,6 +55,7 @@ export default function DocumentsPage() {
     <div className="container mx-auto p-2 space-y-6">
       <DocumentsHeader
         processId={processId}
+        showBackButton={Boolean(associatedProcessIdentifier)}
         onBackClick={handleBackClick}
         onAddClick={() => setShowCreateModal(true)}
       />

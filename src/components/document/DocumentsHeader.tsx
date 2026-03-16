@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 export const DocumentsHeader = ({
   processId,
+  showBackButton,
   onBackClick,
   onAddClick,
 }: DocumentsHeaderProps) => {
@@ -13,7 +14,7 @@ export const DocumentsHeader = ({
     <>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          {processId && (
+          {showBackButton && (
             <Button
               variant="outline"
               onClick={onBackClick}
