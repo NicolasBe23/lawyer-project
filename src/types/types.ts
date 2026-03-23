@@ -111,6 +111,8 @@ export interface DashboardStats {
   schedules: number;
   clientsThisMonth: number;
   activeProcesses: number;
+  completedProcesses: number;
+  archivedProcesses: number;
   schedulesThisWeek: number;
   newDocuments: number;
 }

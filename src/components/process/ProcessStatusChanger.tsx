@@ -32,19 +32,19 @@ export const ProcessStatusChanger = ({
       value: "active",
       label: t("dashboard.active"),
       icon: CheckCircle,
-      color: "text-green-600",
+      color: "status-icon-active",
     },
     {
       value: "completed",
       label: t("dashboard.completed"),
       icon: CheckCircle,
-      color: "text-blue-600",
+      color: "status-icon-completed",
     },
     {
       value: "archived",
       label: t("dashboard.archived"),
       icon: Archive,
-      color: "text-gray-600",
+      color: "status-icon-archived",
     },
   ];
 

@@ -53,7 +53,6 @@
     "clientsByMonths": "Clientes por meses",
     "processesByStatus": "Processos por status",
     "completed": "Completados",
-    "pending": "Pendentes",
     "lastClients": "Últimos clientes",
     "loadingClients": "Carregando clientes...",
     "noClientFound": "Nenhum cliente encontrado.",

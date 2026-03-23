@@ -41,6 +41,12 @@ export const useGetDashboardStats = () => {
         const activeProcesses = processes.filter((p: Process) => {
           return p.processStatus === "active";
         });
+        const completedProcesses = processes.filter((p: Process) => {
+          return p.processStatus === "completed";
+        });
+        const archivedProcesses = processes.filter((p: Process) => {
+          return p.processStatus === "archived";
+        });
 
         setStats({
           clients: clients.length,
@@ -57,6 +63,8 @@ export const useGetDashboardStats = () => {
           ).length,
 
           activeProcesses: activeProcesses.length,
+          completedProcesses: completedProcesses.length,
+          archivedProcesses: archivedProcesses.length,
 
           schedulesThisWeek: schedules.filter((s: Schedule) => {
             const date = new Date();

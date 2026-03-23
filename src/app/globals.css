@@ -76,6 +76,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --process-status-active: #10b981;
+  --process-status-completed: #3b82f6;
+  --process-status-archived: #f59e0b;
+  --process-status-active-soft: rgba(16, 185, 129, 0.15);
+  --process-status-completed-soft: rgba(59, 130, 246, 0.15);
+  --process-status-archived-soft: rgba(245, 158, 11, 0.15);
 }
 
 .dark {
@@ -118,6 +124,35 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .status-badge-active {
+    background-color: var(--process-status-active-soft);
+    color: var(--process-status-active);
+  }
+
+  .status-badge-completed {
+    background-color: var(--process-status-completed-soft);
+    color: var(--process-status-completed);
+  }
+
+  .status-badge-archived {
+    background-color: var(--process-status-archived-soft);
+    color: var(--process-status-archived);
+  }
+
+  .status-icon-active {
+    color: var(--process-status-active);
+  }
+
+  .status-icon-completed {
+    color: var(--process-status-completed);
+  }
+
+  .status-icon-archived {
+    color: var(--process-status-archived);
   }
 }
 

@@ -4,7 +4,11 @@ import { CheckCircle, PlayCircle, Clock } from "lucide-react";
 import { ProcessesChartProps } from "@/types/types";
 import { useTranslations } from "next-intl";
 
-const COLORS = ["#3b82f6", "#10b981", "#f59e0b"];
+const STATUS_COLORS = {
+  active: "var(--process-status-active)",
+  completed: "var(--process-status-completed)",
+  archived: "var(--process-status-archived)",
+};
 
 export const ProcessesChart = ({ stats }: ProcessesChartProps) => {
   const t = useTranslations();
@@ -13,15 +17,20 @@ export const ProcessesChart = ({ stats }: ProcessesChartProps) => {
       name: t("dashboard.active"),
       value: stats.activeProcesses,
       icon: PlayCircle,
-      color: COLORS[1],
+      color: STATUS_COLORS.active,
     },
     {
       name: t("dashboard.completed"),
-      value: stats.processes - stats.activeProcesses,
+      value: stats.completedProcesses,
       icon: CheckCircle,
-      color: COLORS[0],
+      color: STATUS_COLORS.completed,
     },
-    { name: t("dashboard.pending"), value: 0, icon: Clock, color: COLORS[2] },
+    {
+      name: t("dashboard.archived"),
+      value: stats.archivedProcesses,
+      icon: Clock,
+      color: STATUS_COLORS.archived,
+    },
   ];
 
   return (
