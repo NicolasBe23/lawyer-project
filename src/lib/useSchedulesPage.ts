@@ -32,6 +32,24 @@ export const useSchedulesPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCreatingSchedule, setIsCreatingSchedule] = useState(false);
 
+  const openSchedulesForDate = useCallback(
+    (clickedDate: string) => {
+      const schedulesForDate = schedules.filter(
+        (schedule) => getDateKey(schedule.dateTime) === clickedDate
+      );
+
+      setSelectedDate(clickedDate);
+
+      if (schedulesForDate.length > 0) {
+        setSelectedDateSchedules(schedulesForDate);
+        setIsDetailsModalOpen(true);
+      } else {
+        setIsCreateModalOpen(true);
+      }
+    },
+    [schedules]
+  );
+
   const loadSchedules = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -54,22 +72,9 @@ export const useSchedulesPage = () => {
 
   const handleDateClick = useCallback(
     (info: { dateStr: string }) => {
-      const clickedDate = info.dateStr;
-
-      const schedulesForDate = schedules.filter(
-        (schedule) => getDateKey(schedule.dateTime) === clickedDate
-      );
-
-      setSelectedDate(clickedDate);
-
-      if (schedulesForDate.length > 0) {
-        setSelectedDateSchedules(schedulesForDate);
-        setIsDetailsModalOpen(true);
-      } else {
-        setIsCreateModalOpen(true);
-      }
+      openSchedulesForDate(info.dateStr);
     },
-    [schedules]
+    [openSchedulesForDate]
   );
 
   const handleCreateSchedule = useCallback(
@@ -157,10 +162,12 @@ export const useSchedulesPage = () => {
     setIsCreateModalOpen,
     setIsDetailsModalOpen,
     handleDateClick,
+    openSchedulesForDate,
     handleCreateSchedule,
     handleDeleteSchedule,
     handleMarkCompleted,
     handleMarkNotCompleted,
     handleCreateNewFromDetails,
+    schedules,
   };
 };

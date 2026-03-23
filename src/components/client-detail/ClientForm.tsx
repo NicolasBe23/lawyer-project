@@ -42,7 +42,7 @@ export const ClientForm = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="name">{t("clients.name")} *</Label>
           <Input
@@ -65,7 +65,7 @@ export const ClientForm = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="phoneNumber">{t("clients.phoneNumber")}</Label>
           <PhoneInput
@@ -120,12 +120,12 @@ export const ClientForm = ({
         <Label htmlFor="active">{t("clients.active")}</Label>
       </div>
 
-      <div className="flex justify-end space-x-2 pt-6">
+      <div className="flex flex-col-reverse gap-2 pt-6 sm:flex-row sm:justify-end">
         {onCancel && (
           <Button
             type="button"
             variant="outline"
-            className="cursor-pointer"
+            className="w-full cursor-pointer sm:w-auto"
             onClick={onCancel}
             disabled={isLoading}
           >
@@ -133,7 +133,7 @@ export const ClientForm = ({
           </Button>
         )}
         <Button
-          className="cursor-pointer bg-gray-900 hover:bg-gray-800"
+          className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 sm:w-auto"
           type="submit"
           disabled={isLoading}
         >

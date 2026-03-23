@@ -12,28 +12,34 @@ export const ClientHeader = ({
   const t = useTranslations();
   return (
     <>
-      <div className="flex justify-start mb-8">
+      <div className="mb-8 flex justify-start">
         <Button variant="outline" className="cursor-pointer" onClick={onBack}>
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
         </Button>
       </div>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">{client.attributes.name}</h1>
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="min-w-0">
+          <h1 className="wrap-break-word text-2xl font-bold sm:text-3xl">
+            {client.attributes.name}
+          </h1>
           <p className="text-muted-foreground">
             {t("clients.clientSince")} {formatDate(client.attributes.createdAt)}
           </p>
         </div>
-        <div className="flex space-x-2">
-          <Button variant="outline" className="cursor-pointer" onClick={onEdit}>
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:space-x-0">
+          <Button
+            variant="outline"
+            className="w-full cursor-pointer sm:w-auto"
+            onClick={onEdit}
+          >
             <Edit className="w-4 h-4 mr-2" />
             {t("common.edit")}
           </Button>
           <Button
             variant="destructive"
-            className="cursor-pointer"
+            className="w-full cursor-pointer sm:w-auto"
             onClick={onDelete}
           >
             <Trash2 className="w-4 h-4 mr-2" />

@@ -85,7 +85,7 @@ export const ProcessStatusChanger = ({
         <Button
           variant="outline"
           disabled={isLoading}
-          className="flex items-center gap-2"
+          className="flex w-full items-center justify-between gap-2 sm:w-auto"
         >
           {currentStatusOption && (
             <currentStatusOption.icon

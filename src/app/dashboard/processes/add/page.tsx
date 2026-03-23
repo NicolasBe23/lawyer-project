@@ -43,7 +43,7 @@ export default function AddProcessPage() {
         </Button>
       </div>
 
-      <h1 className="text-3xl font-bold cursor-default">
+      <h1 className="cursor-default text-2xl font-bold sm:text-3xl">
         {t("processes.newProcess")}
       </h1>
 
@@ -53,7 +53,7 @@ export default function AddProcessPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="processNumber">
                   {t("processes.process")} *
@@ -134,19 +134,19 @@ export default function AddProcessPage() {
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-4">
+            <div className="flex flex-col-reverse gap-2 pt-4 sm:flex-row sm:justify-end">
               <Button
                 type="button"
                 variant="outline"
                 onClick={handleBack}
                 disabled={isSubmitting}
-                className="cursor-pointer"
+                className="w-full cursor-pointer sm:w-auto"
               >
                 {t("common.cancel")}
               </Button>
               <Button
                 type="submit"
-                className="bg-gray-900 hover:bg-gray-800 cursor-pointer"
+                className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 sm:w-auto"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? t("common.loading") : t("common.save")}

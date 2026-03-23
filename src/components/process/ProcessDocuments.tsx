@@ -29,7 +29,7 @@ export const ProcessDocuments = ({
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle className="flex items-center space-x-2">
             <FileText className="w-5 h-5" />
             <span>{t("processes.processDocuments")}</span>
@@ -37,7 +37,7 @@ export const ProcessDocuments = ({
           <Button
             variant="outline"
             size="sm"
-            className="cursor-pointer"
+            className="w-full cursor-pointer sm:w-auto"
             onClick={handleViewAllDocuments}
           >
             <ExternalLink className="w-4 h-4 mr-2" />
@@ -53,9 +53,9 @@ export const ProcessDocuments = ({
             {documents.map((doc) => (
               <div
                 key={doc.id}
-                className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors"
+                className="flex flex-col gap-3 rounded-lg border p-3 transition-colors hover:bg-accent/50 sm:flex-row sm:items-center sm:justify-between"
               >
-                <div>
+                <div className="min-w-0">
                   <p className="font-medium">{doc.title}</p>
                   <p className="text-sm text-muted-foreground">
                     {doc.description}
@@ -68,6 +68,7 @@ export const ProcessDocuments = ({
                   <Button
                     variant="outline"
                     size="sm"
+                    className="w-full sm:w-auto"
                     onClick={(e) => handleOpenFile(e, doc.file as StrapiFile)}
                   >
                     <Eye className="w-4 h-4 mr-2" />

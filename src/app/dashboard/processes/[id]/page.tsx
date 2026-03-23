@@ -52,17 +52,17 @@ export default function ProcessPage() {
 
   return (
     <div className="container mx-auto p-2 space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <Button
           variant="outline"
           onClick={goBackToProcesses}
-          className="cursor-pointer"
+          className="w-full cursor-pointer sm:w-auto"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
         </Button>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
           <ProcessStatusChanger
             processId={String(process.id)}
             currentStatus={process.processStatus}
@@ -71,7 +71,7 @@ export default function ProcessPage() {
 
           <Button
             variant="outline"
-            className="cursor-pointer"
+            className="w-full cursor-pointer sm:w-auto"
             onClick={() => setShowEditModal(true)}
           >
             <Pencil className="w-4 h-4 mr-2" />
@@ -80,9 +80,11 @@ export default function ProcessPage() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl">{process.title}</h1>
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="min-w-0">
+          <h1 className="wrap-break-word text-2xl sm:text-3xl">
+            {process.title}
+          </h1>
           <p className="text-muted-foreground">
             {t("processes.process")}: Nº {process.processNumber}
           </p>

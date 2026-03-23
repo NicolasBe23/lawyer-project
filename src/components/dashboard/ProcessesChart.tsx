@@ -59,7 +59,7 @@ export const ProcessesChart = ({ stats }: ProcessesChartProps) => {
           </PieChart>
         </ResponsiveContainer>
 
-        <div className="flex gap-6 mt-4">
+        <div className="mt-4 flex w-full flex-wrap justify-center gap-4">
           {processesByStatus.map((status, idx) => (
             <div key={idx} className="flex items-center gap-2">
               <status.icon size={16} color={status.color} />

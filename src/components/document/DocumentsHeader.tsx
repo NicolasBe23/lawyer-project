@@ -12,20 +12,20 @@ export const DocumentsHeader = ({
   const t = useTranslations();
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
           {showBackButton && (
             <Button
               variant="outline"
               onClick={onBackClick}
-              className="cursor-pointer"
+              className="w-full cursor-pointer sm:w-auto"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t("documents.backToProcess")}
             </Button>
           )}
         </div>
-        <Button onClick={onAddClick} className="cursor-pointer">
+        <Button onClick={onAddClick} className="w-full cursor-pointer sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
           {t("documents.addDocument")}
         </Button>

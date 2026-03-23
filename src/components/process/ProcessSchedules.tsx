@@ -19,9 +19,9 @@ export const ProcessSchedules = ({ schedules }: ProcessSchedulesProps) => {
             {schedules.map((schedule) => (
               <div
                 key={schedule.id}
-                className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50"
+                className="flex flex-col gap-3 rounded-lg border p-3 hover:bg-accent/50 sm:flex-row sm:items-center sm:justify-between"
               >
-                <div>
+                <div className="min-w-0">
                   <p className="font-medium">{schedule.title}</p>
                   {schedule.description && (
                     <p className="text-sm text-muted-foreground">
@@ -38,7 +38,7 @@ export const ProcessSchedules = ({ schedules }: ProcessSchedulesProps) => {
                   )}
                 </div>
                 <span
-                  className={`px-2 py-1 rounded-full text-xs ${
+                  className={`self-start rounded-full px-2 py-1 text-xs sm:self-auto ${
                     schedule.completed
                       ? "bg-green-100 text-green-800"
                       : "bg-blue-100 text-blue-800"

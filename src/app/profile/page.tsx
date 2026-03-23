@@ -54,11 +54,11 @@ export default function ProfilePage() {
   if (loading) return <Loading text={t("common.loading")} size="md" />;
 
   return (
-    <div className="mx-auto bg-white p-12 rounded-lg shadow w-full gap-8 flex flex-col">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 rounded-lg bg-white p-4 shadow sm:p-8 md:p-12">
       <div>
         <Button
           variant="outline"
-          className="cursor-pointer"
+          className="w-full cursor-pointer sm:w-auto"
           onClick={() => router.push("/dashboard")}
         >
           <ArrowLeft size={20} /> {t("profile.backToDashboard")}
@@ -92,7 +92,7 @@ export default function ProfilePage() {
         </div>
 
         <Button
-          className="cursor-pointer bg-gray-900 hover:bg-gray-800"
+          className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 sm:w-auto"
           onClick={handleSave}
           disabled={saving}
         >

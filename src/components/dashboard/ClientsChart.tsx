@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  BarChart,
+  Bar,
   LineChart,
   Line,
   XAxis,
@@ -42,20 +44,46 @@ export const ClientsChart = ({ clientsData }: ClientsChartProps) => {
         <CardTitle>{t("dashboard.clientsByMonths")}</CardTitle>
       </CardHeader>
       <CardContent className="h-72">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={clientsByMonth}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis domain={[0, 20]} ticks={[0, 5, 10, 15, 20]} tickCount={5} />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="clients"
-              stroke="#2563eb"
-              strokeWidth={2}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <div className="h-full sm:hidden">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={clientsByMonth}
+              margin={{ top: 8, right: 12, left: 12, bottom: 8 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" interval={1} tickMargin={8} />
+              <YAxis hide />
+              <Tooltip />
+              <Bar
+                dataKey="clients"
+                fill="#2563eb"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={20}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="hidden h-full sm:block">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={clientsByMonth}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis
+                domain={[0, 20]}
+                ticks={[0, 5, 10, 15, 20]}
+                tickCount={5}
+              />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="clients"
+                stroke="#2563eb"
+                strokeWidth={2}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

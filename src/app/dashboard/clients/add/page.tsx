@@ -22,7 +22,7 @@ export default function AddClientPage() {
           {t("common.back")}
         </Button>
       </div>
-      <h1 className="text-3xl font-bold cursor-default">
+      <h1 className="cursor-default text-2xl font-bold sm:text-3xl">
         {t("clients.addNewClient")}
       </h1>
 

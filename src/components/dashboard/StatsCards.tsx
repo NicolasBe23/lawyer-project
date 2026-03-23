@@ -6,8 +6,8 @@ import { useTranslations } from "next-intl";
 export const StatsCards = ({ stats }: StatsCardsProps) => {
   const t = useTranslations();
   return (
-    <div className="grid grid-cols-4 gap-6">
-      <Link href="/dashboard/clients">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      <Link href="/dashboard/clients" className="min-w-0">
         <StatCard
           title={t("dashboard.clients")}
           value={stats.clients}
@@ -16,7 +16,7 @@ export const StatsCards = ({ stats }: StatsCardsProps) => {
           iconColor="text-blue-600"
         />
       </Link>
-      <Link href="/dashboard/processes">
+      <Link href="/dashboard/processes" className="min-w-0">
         <StatCard
           title={t("dashboard.processes")}
           value={stats.processes}
@@ -25,7 +25,7 @@ export const StatsCards = ({ stats }: StatsCardsProps) => {
           iconColor="text-green-600"
         />
       </Link>
-      <Link href="/dashboard/schedules">
+      <Link href="/dashboard/schedules" className="min-w-0">
         <StatCard
           title={t("dashboard.schedules")}
           value={stats.schedules}
@@ -34,7 +34,7 @@ export const StatsCards = ({ stats }: StatsCardsProps) => {
           iconColor="text-yellow-600"
         />
       </Link>
-      <Link href="/dashboard/documents">
+      <Link href="/dashboard/documents" className="min-w-0">
         <StatCard
           title={t("dashboard.documents")}
           value={stats.documents}

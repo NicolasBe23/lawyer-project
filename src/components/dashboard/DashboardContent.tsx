@@ -34,21 +34,21 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
 
       <StatsCards stats={stats ?? ({} as DashboardStats)} />
 
-      <div className="grid grid-cols-5 gap-6">
-        <div className="col-span-3">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-6">
+        <div className="min-w-0 lg:col-span-3">
           <ClientsChart clientsData={clientsData} />
         </div>
-        <div className="col-span-2">
+        <div className="min-w-0 lg:col-span-2">
           <ProcessesChart stats={stats ?? ({} as DashboardStats)} />
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6 mt-6">
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
         <RecentClientsCard />
         <RecentProcessesCard />
       </div>
 
-      <div className="grid grid-cols-2 gap-6 mt-6">
+      <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
         <UpcomingSchedulesCard />
         <PendingDocumentsCard />
       </div>

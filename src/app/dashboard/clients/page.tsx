@@ -74,7 +74,7 @@ export default function ClientsPage() {
 
   return (
     <div>
-      <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-6">
+      <div className="mb-6 flex w-full flex-col gap-3 border-b-2 border-gray-300 p-2 pb-4 md:flex-row md:items-center md:justify-between">
         <SplitText
           text={t("clients.title")}
           tag="h1"
@@ -85,15 +85,15 @@ export default function ClientsPage() {
           textAlign="left"
           className="text-2xl"
         />
-        <ListSearchInput
-          value={searchTerm}
-          onChange={(value) => {
-            setSearchTerm(value);
-            setVisibleCount(DEFAULT_SHOW_MORE_PAGE_SIZE);
-          }}
-          placeholder={t("clients.searchByName")}
-        />
-        <div className="flex items-center gap-2">
+        <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center">
+          <ListSearchInput
+            value={searchTerm}
+            onChange={(value) => {
+              setSearchTerm(value);
+              setVisibleCount(DEFAULT_SHOW_MORE_PAGE_SIZE);
+            }}
+            placeholder={t("clients.searchByName")}
+          />
           <ListFilterDropdown
             value={clientFilter}
             options={clientFilterOptions}
@@ -104,7 +104,7 @@ export default function ClientsPage() {
           />
 
           <Button
-            className="cursor-pointer bg-gray-900 hover:bg-gray-800"
+            className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 md:w-auto"
             onClick={() => router.push("/dashboard/clients/add")}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -115,11 +115,11 @@ export default function ClientsPage() {
       {filteredClientsCount === 0 ? (
         <p>{t("clients.noClientsFound")}</p>
       ) : (
-        <div className=" flex flex-col gap-3">
+        <div className="flex flex-col gap-3">
           {visibleClients.map((client) => (
             <div
               key={client.id}
-              className="p-3 py-5 border-b shadow-sm border-gray-400 rounded-lg flex justify-between items-center hover:bg-gray-300 hover:rounded-lg cursor-pointer transition-colors duration-200"
+              className="flex cursor-pointer flex-col items-start justify-between gap-3 rounded-lg border-b border-gray-400 p-3 py-5 shadow-sm transition-colors duration-200 hover:rounded-lg hover:bg-gray-300 sm:flex-row sm:items-center"
               onClick={() => router.push(`/dashboard/clients/${client.id}`)}
             >
               <div className="flex flex-col gap-2">
@@ -132,7 +132,7 @@ export default function ClientsPage() {
                 </p>
               </div>
               <span
-                className={`px-2 py-1 rounded-full text-xs ${
+                className={`self-start rounded-full px-2 py-1 text-xs sm:self-auto ${
                   client.attributes.active === true
                     ? "bg-green-100 text-green-800"
                     : client.attributes.active === false

@@ -24,7 +24,10 @@ export const ListFilterDropdown = <T extends string>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="cursor-pointer">
+        <Button
+          variant="outline"
+          className="w-full cursor-pointer justify-between md:w-auto"
+        >
           <Filter className="w-4 h-4 mr-2" />
           {t("common.filters")}: {currentLabel}
           <ChevronDown className="w-4 h-4 ml-2" />

@@ -80,7 +80,7 @@ export default function ProcessesPage() {
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between items-center p-2 border-b-2 border-gray-300 pb-4 w-full mb-6">
+      <div className="mb-6 flex w-full flex-col gap-3 border-b-2 border-gray-300 p-2 pb-4 md:flex-row md:items-center md:justify-between">
         <SplitText
           text={t("processes.myProcesses")}
           tag="h1"
@@ -92,15 +92,15 @@ export default function ProcessesPage() {
           className="text-2xl"
         />
 
-        <ListSearchInput
-          value={searchTerm}
-          onChange={(value) => {
-            setSearchTerm(value);
-            setVisibleCount(DEFAULT_SHOW_MORE_PAGE_SIZE);
-          }}
-          placeholder={t("processes.searchByNameOrNumber")}
-        />
-        <div className="flex items-center gap-2">
+        <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center">
+          <ListSearchInput
+            value={searchTerm}
+            onChange={(value) => {
+              setSearchTerm(value);
+              setVisibleCount(DEFAULT_SHOW_MORE_PAGE_SIZE);
+            }}
+            placeholder={t("processes.searchByNameOrNumber")}
+          />
           <ListFilterDropdown
             value={processFilter}
             options={processFilterOptions}
@@ -111,7 +111,7 @@ export default function ProcessesPage() {
           />
 
           <Button
-            className="cursor-pointer bg-gray-900 hover:bg-gray-800"
+            className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 md:w-auto"
             onClick={() => router.push("/dashboard/processes/add")}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -139,10 +139,10 @@ export default function ProcessesPage() {
               {visibleProcesses.map((process) => (
                 <div
                   key={process.id}
-                  className="flex items-center justify-between p-4 border rounded-lg transition-colors"
+                  className="flex flex-col gap-4 rounded-lg border p-4 transition-colors md:flex-row md:items-center md:justify-between"
                 >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-2 flex flex-wrap items-center gap-3">
                       <h4 className="font-semibold text-lg">{process.title}</h4>
                       <ProcessStatusBadge status={process.processStatus} />
                     </div>
@@ -168,7 +168,7 @@ export default function ProcessesPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="ml-4 cursor-pointer"
+                    className="w-full cursor-pointer md:ml-4 md:w-auto"
                     onClick={() => {
                       const processIdentifier =
                         process.documentId || process.id;
