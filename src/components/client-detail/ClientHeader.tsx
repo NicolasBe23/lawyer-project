@@ -13,7 +13,11 @@ export const ClientHeader = ({
   return (
     <>
       <div className="mb-8 flex justify-start">
-        <Button variant="outline" className="cursor-pointer" onClick={onBack}>
+        <Button
+          variant="outline"
+          className="w-full cursor-pointer sm:w-auto"
+          onClick={onBack}
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
         </Button>

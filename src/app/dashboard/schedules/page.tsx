@@ -16,7 +16,7 @@ import { useEffect, useMemo, useState } from "react";
 const getDateKey = (dateTime: string) => {
   const scheduleDateTime = new Date(dateTime);
   const localDate = new Date(
-    scheduleDateTime.getTime() - scheduleDateTime.getTimezoneOffset() * 60000
+    scheduleDateTime.getTime() - scheduleDateTime.getTimezoneOffset() * 60000,
   );
   return localDate.toISOString().split("T")[0];
 };
@@ -50,9 +50,9 @@ export default function CalendarPage() {
     () =>
       [...schedules].sort(
         (a, b) =>
-          new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime()
+          new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime(),
       ),
-    [schedules]
+    [schedules],
   );
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function CalendarPage() {
           delay={30}
           duration={0.7}
           ease="power2.out"
-          textAlign="left"
+          textAlign="center"
           className="text-2xl"
         />
         <SplitText
@@ -83,7 +83,7 @@ export default function CalendarPage() {
           delay={30}
           duration={0.7}
           ease="power2.out"
-          textAlign="left"
+          textAlign="center"
           className="text-gray-600"
         />
       </div>
@@ -99,7 +99,7 @@ export default function CalendarPage() {
             onClick={() => {
               const today = new Date();
               const todayKey = `${today.getFullYear()}-${String(
-                today.getMonth() + 1
+                today.getMonth() + 1,
               ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
               openSchedulesForDate(todayKey);
             }}
@@ -116,16 +116,22 @@ export default function CalendarPage() {
             <div className="space-y-3">
               {mobileSchedules.map((schedule) => {
                 const dateTime = new Date(schedule.dateTime);
-                const isToday = getDateKey(schedule.dateTime) === getDateKey(new Date().toISOString());
+                const isToday =
+                  getDateKey(schedule.dateTime) ===
+                  getDateKey(new Date().toISOString());
                 return (
                   <button
                     key={schedule.id}
                     type="button"
-                    onClick={() => openSchedulesForDate(getDateKey(schedule.dateTime))}
+                    onClick={() =>
+                      openSchedulesForDate(getDateKey(schedule.dateTime))
+                    }
                     className="w-full rounded-lg border bg-white p-3 text-left shadow-sm transition-colors hover:bg-gray-50"
                   >
                     <div className="mb-2 flex items-start justify-between gap-2">
-                      <h3 className="text-sm font-semibold">{schedule.title}</h3>
+                      <h3 className="text-sm font-semibold">
+                        {schedule.title}
+                      </h3>
                       <span
                         className={`rounded-full px-2 py-1 text-xs ${
                           schedule.completed

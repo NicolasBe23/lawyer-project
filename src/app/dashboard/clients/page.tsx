@@ -82,7 +82,7 @@ export default function ClientsPage() {
           delay={30}
           duration={0.7}
           ease="power2.out"
-          textAlign="left"
+          textAlign="center"
           className="text-2xl"
         />
         <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center">

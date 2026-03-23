@@ -46,7 +46,7 @@ export const ProcessSchedules = ({ schedules }: ProcessSchedulesProps) => {
                 >
                   {schedule.completed
                     ? t("dashboard.completed")
-                    : t("dashboard.pending")}
+                    : t("dashboard.archived")}
                 </span>
               </div>
             ))}

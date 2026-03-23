@@ -88,7 +88,7 @@ export default function ProcessesPage() {
           delay={30}
           duration={0.7}
           ease="power2.out"
-          textAlign="left"
+          textAlign="center"
           className="text-2xl"
         />
 

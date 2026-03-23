@@ -15,7 +15,7 @@ export default function AddClientPage() {
       <div className="flex items-center">
         <Button
           variant="outline"
-          className="cursor-pointer mb-4"
+          className="mb-4 w-full cursor-pointer sm:w-auto"
           onClick={goBackToClients}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
