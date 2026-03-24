@@ -7,8 +7,7 @@ import { useTranslations } from "next-intl";
 import { Client } from "@/types/types";
 import { getAllClients } from "@/services/getAllClients";
 import { createProcess } from "@/services/createProcess";
-
-const API_URL = "/api/strapi";
+import { strapiApi } from "@/lib/strapi";
 
 type ProcessIdentifierCandidate = {
   id?: number | string;
@@ -87,17 +86,13 @@ export const useAddProcessPage = () => {
     // Some Strapi response shapes can omit `documentId` in the create payload.
     if (!processIdentifier) {
       try {
-        const res = await fetch(
-          `${API_URL}/processes?filters[processNumber][$eq]=${encodeURIComponent(
+        const res = await strapiApi.get(
+          `/processes?filters[processNumber][$eq]=${encodeURIComponent(
             formData.processNumber.trim()
           )}&sort[0]=createdAt:desc&pagination[pageSize]=1`
         );
-
-        if (res.ok) {
-          const responseData = await res.json();
-          const latestMatch = responseData?.data?.[0] as ProcessIdentifierCandidate;
-          processIdentifier = extractProcessIdentifier(latestMatch);
-        }
+        const latestMatch = res.data?.data?.[0] as ProcessIdentifierCandidate;
+        processIdentifier = extractProcessIdentifier(latestMatch);
       } catch {
         // Ignore fallback error and let final guard handle navigation failure.
       }

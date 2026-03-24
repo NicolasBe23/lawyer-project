@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const STRAPI_URL =
-  process.env.STRAPI_API_URL ||
-  process.env.NEXT_PUBLIC_STRAPI_API_URL ||
-  "http://localhost:1337";
+import { STRAPI_API_URL } from "@/lib/config/strapiServer";
 
 const buildForwardHeaders = (req: NextRequest, token: string) => {
   const headers = new Headers();
@@ -38,7 +34,7 @@ const forwardToStrapi = async (
   }
 
   const endpoint = path.join("/");
-  const targetUrl = `${STRAPI_URL}/api/${endpoint}${req.nextUrl.search}`;
+  const targetUrl = `${STRAPI_API_URL}/api/${endpoint}${req.nextUrl.search}`;
   const headers = buildForwardHeaders(req, token);
 
   const requestInit: RequestInit = {

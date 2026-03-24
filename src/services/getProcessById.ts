@@ -1,7 +1,6 @@
 import { Process, Schedule } from "@/types/types";
 import { blocksToText } from "@/lib/helpers/richTextHelpers";
-
-const API_URL = "/api/strapi";
+import { strapiApi } from "@/lib/strapi";
 
 export const getProcessById = async (
   id: string
@@ -17,37 +16,33 @@ export const getProcessById = async (
     const isNumericId = !isNaN(Number(id));
 
     if (isNumericId) {
-      const directResponse = await fetch(
-        `${API_URL}/processes/${id}?${populateQuery}`
-      );
-
-      if (directResponse.ok) {
-        const directData = await directResponse.json();
-        processData = directData.data || null;
-      } else {
-        const fallbackResponse = await fetch(
-          `${API_URL}/processes?filters[id][$eq]=${id}&${populateQuery}`
-        );
-
-        if (fallbackResponse.ok) {
-          const fallbackData = await fallbackResponse.json();
+      try {
+        const res = await strapiApi.get(`/processes/${id}?${populateQuery}`);
+        processData = res.data.data || null;
+      } catch {
+        try {
+          const res = await strapiApi.get(
+            `/processes?filters[id][$eq]=${id}&${populateQuery}`
+          );
           processData =
-            (fallbackData.data || []).find(
+            (res.data.data || []).find(
               (process: Process) => process.id === Number(id)
             ) || null;
+        } catch {
+          // ignore
         }
       }
     } else {
-      const byDocumentIdResponse = await fetch(
-        `${API_URL}/processes?filters[documentId][$eq]=${id}&${populateQuery}`
-      );
-
-      if (byDocumentIdResponse.ok) {
-        const byDocumentIdData = await byDocumentIdResponse.json();
+      try {
+        const res = await strapiApi.get(
+          `/processes?filters[documentId][$eq]=${id}&${populateQuery}`
+        );
         processData =
-          (byDocumentIdData.data || []).find(
+          (res.data.data || []).find(
             (process: Process) => process.documentId === id
           ) || null;
+      } catch {
+        // ignore
       }
     }
 
@@ -58,40 +53,36 @@ export const getProcessById = async (
     let allSchedules = processData?.schedules || [];
     const currentProcessId = processData.id;
 
-    // Always fetch schedules directly by process to ensure linked schedules appear.
-    const processSchedulesResponse = await fetch(
-      `${API_URL}/schedules?populate[client]=*&populate[process]=*&filters[process][id][$eq]=${currentProcessId}`
-    );
-
-    if (processSchedulesResponse.ok) {
-      const processSchedulesData = await processSchedulesResponse.json();
-      const processSchedules = processSchedulesData.data || [];
+    try {
+      const processSchedulesRes = await strapiApi.get(
+        `/schedules?populate[client]=*&populate[process]=*&filters[process][id][$eq]=${currentProcessId}`
+      );
+      const processSchedules = processSchedulesRes.data.data || [];
       const existingIds = allSchedules.map((s: Schedule) => s.id);
       const newSchedules = processSchedules.filter(
         (s: Schedule) => !existingIds.includes(s.id)
       );
       allSchedules = [...allSchedules, ...newSchedules];
+    } catch {
+      // ignore
     }
 
-    // Include client-level schedules without process link (existing behavior).
     if (processData?.client?.id) {
-      const currentClientId = processData.client.id;
-      const clientSchedulesResponse = await fetch(
-        `${API_URL}/schedules?populate[client]=*&populate[process]=*&filters[client][id][$eq]=${currentClientId}`
-      );
-
-      if (clientSchedulesResponse.ok) {
-        const clientSchedulesData = await clientSchedulesResponse.json();
-        const clientSchedules = clientSchedulesData.data || [];
+      try {
+        const clientSchedulesRes = await strapiApi.get(
+          `/schedules?populate[client]=*&populate[process]=*&filters[client][id][$eq]=${processData.client.id}`
+        );
+        const clientSchedules = clientSchedulesRes.data.data || [];
         const relevantSchedules = clientSchedules.filter(
           (schedule: Schedule) => !schedule.process?.id
         );
-
         const existingIds = allSchedules.map((s: Schedule) => s.id);
         const newSchedules = relevantSchedules.filter(
           (s: Schedule) => !existingIds.includes(s.id)
         );
         allSchedules = [...allSchedules, ...newSchedules];
+      } catch {
+        // ignore
       }
     }
 
@@ -109,14 +100,8 @@ export const getProcessById = async (
       schedules: allSchedules,
     };
 
-    return {
-      data: normalizedProcess,
-      error: null,
-    };
+    return { data: normalizedProcess, error: null };
   } catch {
-    return {
-      data: null,
-      error: "Failed to fetch process",
-    };
+    return { data: null, error: "Failed to fetch process" };
   }
 };

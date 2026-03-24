@@ -7,19 +7,6 @@ export const navigationLinks = [
   { href: "/profile", icon: User, label: "sidebar.profile" },
 ];
 
-export const getProcessStatusText = (status: string) => {
-  switch (status) {
-    case "active":
-      return "Active";
-    case "completed":
-      return "Completed";
-    case "archived":
-      return "Archived";
-    default:
-      return "Pending";
-  }
-};
-
 export const getStatusBadge = (status: string) => {
   switch (status) {
     case "completed":
@@ -30,19 +17,6 @@ export const getStatusBadge = (status: string) => {
       return "bg-blue-100 text-blue-800";
     default:
       return "bg-gray-100 text-gray-800";
-  }
-};
-
-export const getStatusText = (status: string) => {
-  switch (status) {
-    case "completed":
-      return "Completed";
-    case "overdue":
-      return "Needs Confirmation";
-    case "today":
-      return "Today";
-    default:
-      return "Upcoming";
   }
 };
 

@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { Process } from "@/types/types";
 import { getProcessById } from "@/services/getProcessById";
 import { updateProcessDetails } from "@/services/updateProcess";
+import { formatDate } from "@/lib/helpers/dateHelpers";
 
 export const useProcessDetailsPage = () => {
   const t = useTranslations();
@@ -37,10 +38,6 @@ export const useProcessDetailsPage = () => {
   useEffect(() => {
     loadProcess();
   }, [loadProcess]);
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("pt-BR");
-  };
 
   const handleStatusChange = (newStatus: string) => {
     if (!process) return;

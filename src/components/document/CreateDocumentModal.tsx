@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Upload, X, FileText } from "lucide-react";
 import { CreateDocumentModalProps, DocumentFormData } from "@/types/types";
 import { useTranslations } from "next-intl";
+import { formatFileSize } from "@/lib/helpers/fileHelpers";
 
 export const CreateDocumentModal = ({
   isOpen,
@@ -60,14 +61,6 @@ export const CreateDocumentModal = ({
     setDescription("");
     setSelectedFile(null);
     onClose();
-  };
-
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
   return (

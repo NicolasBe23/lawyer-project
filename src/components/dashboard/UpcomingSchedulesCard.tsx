@@ -4,21 +4,12 @@ import { useEffect, useState } from "react";
 import { getAllSchedules } from "@/services/getAllSchedules";
 import { Schedule } from "@/types/types";
 import { useTranslations } from "next-intl";
+import { formatDateTime } from "@/lib/helpers/dateHelpers";
+
 export const UpcomingSchedulesCard = () => {
   const t = useTranslations();
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const formatDateTime = (dateTime: string) => {
-    const date = new Date(dateTime);
-    return date.toLocaleString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   useEffect(() => {
     getAllSchedules().then((res) => {

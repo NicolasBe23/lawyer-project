@@ -3,39 +3,21 @@ import {
   blocksToText,
   descriptionToBlocks,
 } from "@/lib/helpers/richTextHelpers";
+import { strapiApi } from "@/lib/strapi";
 
-const API_PROXY_URL = "/api/strapi";
 const STRAPI_ASSET_URL =
   process.env.NEXT_PUBLIC_STRAPI_ASSET_URL ||
   process.env.NEXT_PUBLIC_STRAPI_API_URL ||
   "http://localhost:1337";
 
-const getErrorMessageFromResponse = async (
-  response: Response,
-  fallback: string,
-): Promise<string> => {
-  const contentType = response.headers.get("content-type") || "";
-
-  if (contentType.includes("application/json")) {
-    const errorData = await response.json().catch(() => ({}));
-    return errorData?.error?.message || fallback;
-  }
-
-  const errorText = await response.text().catch(() => "");
-  return errorText || fallback;
-};
-
 const normalizeDocumentData = (
-  document: DocumentData | null,
+  document: DocumentData | null
 ): DocumentData | null => {
-  if (!document) {
-    return null;
-  }
-
+  if (!document) return null;
   return {
     ...document,
     description: blocksToText(
-      (document as DocumentData & { description?: unknown }).description,
+      (document as DocumentData & { description?: unknown }).description
     ),
   };
 };
@@ -46,7 +28,7 @@ const buildDocumentPayload = (
     description?: string | null;
     process?: number;
   },
-  descriptionMode: "plain" | "blocks",
+  descriptionMode: "plain" | "blocks"
 ) => {
   const payload: {
     title?: string;
@@ -81,33 +63,21 @@ const buildDocumentPayload = (
 };
 
 export const getDocumentById = async (
-  documentId: string,
+  documentId: string
 ): Promise<{
   data: DocumentData | null;
   error: string | null;
 }> => {
   try {
-    const res = await fetch(
-      `${API_PROXY_URL}/process-documents/${documentId}?populate[process][populate][0]=client&populate[file]=*`,
+    const { data } = await strapiApi.get(
+      `/process-documents/${documentId}?populate[process][populate][0]=client&populate[file]=*`
     );
-
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-
-    const responseData = await res.json();
-    return {
-      data: normalizeDocumentData(responseData.data || null),
-      error: null,
-    };
+    return { data: normalizeDocumentData(data.data || null), error: null };
   } catch (err) {
     const errorMessage =
       err instanceof Error ? err.message : "Failed to fetch document";
     console.error("Error fetching document:", err);
-    return {
-      data: null,
-      error: errorMessage,
-    };
+    return { data: null, error: errorMessage };
   }
 };
 
@@ -120,68 +90,46 @@ export const createDocument = async (documentData: {
   error: string | null;
 }> => {
   try {
-    const baseHeaders = {
-      "Content-Type": "application/json",
-    };
+    const hasDescription =
+      typeof documentData.description === "string" &&
+      documentData.description.trim().length > 0;
 
-    let res = await fetch(`${API_PROXY_URL}/process-documents`, {
-      method: "POST",
-      headers: baseHeaders,
-      body: JSON.stringify({
+    let responseData;
+    try {
+      const res = await strapiApi.post("/process-documents", {
         data: buildDocumentPayload(documentData, "plain"),
-      }),
-    });
-
-    let errorData: any = null;
-    if (!res.ok) {
-      errorData = await res.json().catch(() => ({}));
-      const hasDescription =
-        typeof documentData.description === "string" &&
-        documentData.description.trim().length > 0;
-
+      });
+      responseData = res.data;
+    } catch (firstErr) {
       // Some Strapi setups store rich text as Blocks and reject plain strings.
       if (hasDescription) {
-        res = await fetch(`${API_PROXY_URL}/process-documents`, {
-          method: "POST",
-          headers: baseHeaders,
-          body: JSON.stringify({
-            data: buildDocumentPayload(documentData, "blocks"),
-          }),
+        const res = await strapiApi.post("/process-documents", {
+          data: buildDocumentPayload(documentData, "blocks"),
         });
+        responseData = res.data;
+      } else {
+        throw firstErr;
       }
     }
 
-    if (!res.ok) {
-      const fallbackErrorData = await res.json().catch(() => ({}));
-      const finalErrorData = fallbackErrorData?.error
-        ? fallbackErrorData
-        : errorData;
-      console.error("Create document error:", finalErrorData);
-      throw new Error(
-        finalErrorData?.error?.message || `HTTP error! status: ${res.status}`,
-      );
-    }
-
-    const responseData = await res.json();
     return {
       data: normalizeDocumentData(responseData.data || null),
       error: null,
     };
-  } catch (err) {
+  } catch (err: any) {
     const errorMessage =
-      err instanceof Error ? err.message : "Failed to create document";
+      err?.response?.data?.error?.message ||
+      err?.message ||
+      "Failed to create document";
     console.error("Error creating document:", err);
-    return {
-      data: null,
-      error: errorMessage,
-    };
+    return { data: null, error: errorMessage };
   }
 };
 
 export const updateDocument = async (
   documentId: string,
   documentData: { title?: string; description?: string | null },
-  numericId?: number,
+  numericId?: number
 ): Promise<{
   data: DocumentData | null;
   error: string | null;
@@ -195,67 +143,45 @@ export const updateDocument = async (
       }
     }
 
-    const baseHeaders = {
-      "Content-Type": "application/json",
-    };
+    const hasDescription =
+      typeof documentData.description === "string" &&
+      documentData.description.trim().length > 0;
 
-    let res = await fetch(`${API_PROXY_URL}/process-documents/${idToUse}`, {
-      method: "PUT",
-      headers: baseHeaders,
-      body: JSON.stringify({
+    let responseData;
+    try {
+      const res = await strapiApi.put(`/process-documents/${idToUse}`, {
         data: buildDocumentPayload(documentData, "plain"),
-      }),
-    });
-
-    let errorData: any = null;
-    if (!res.ok) {
-      errorData = await res.json().catch(() => ({}));
-      const hasDescription =
-        typeof documentData.description === "string" &&
-        documentData.description.trim().length > 0;
-
+      });
+      responseData = res.data;
+    } catch (firstErr) {
       // Retry with Blocks payload to support Strapi rich-text fields.
       if (hasDescription) {
-        res = await fetch(`${API_PROXY_URL}/process-documents/${idToUse}`, {
-          method: "PUT",
-          headers: baseHeaders,
-          body: JSON.stringify({
-            data: buildDocumentPayload(documentData, "blocks"),
-          }),
+        const res = await strapiApi.put(`/process-documents/${idToUse}`, {
+          data: buildDocumentPayload(documentData, "blocks"),
         });
+        responseData = res.data;
+      } else {
+        throw firstErr;
       }
     }
 
-    if (!res.ok) {
-      const fallbackErrorData = await res.json().catch(() => ({}));
-      const finalErrorData = fallbackErrorData?.error
-        ? fallbackErrorData
-        : errorData;
-      console.error("Update document error:", finalErrorData);
-      throw new Error(
-        finalErrorData?.error?.message || `HTTP error! status: ${res.status}`,
-      );
-    }
-
-    const responseData = await res.json();
     return {
       data: normalizeDocumentData(responseData.data || null),
       error: null,
     };
-  } catch (err) {
+  } catch (err: any) {
     const errorMessage =
-      err instanceof Error ? err.message : "Failed to update document";
+      err?.response?.data?.error?.message ||
+      err?.message ||
+      "Failed to update document";
     console.error("Error updating document:", err);
-    return {
-      data: null,
-      error: errorMessage,
-    };
+    return { data: null, error: errorMessage };
   }
 };
 
 export const deleteDocument = async (
   documentId: string,
-  numericId?: number,
+  numericId?: number
 ): Promise<{
   success: boolean;
   error: string | null;
@@ -269,33 +195,20 @@ export const deleteDocument = async (
       }
     }
 
-    const res = await fetch(`${API_PROXY_URL}/process-documents/${idToUse}`, {
-      method: "DELETE",
-    });
-
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-
-    return {
-      success: true,
-      error: null,
-    };
+    await strapiApi.delete(`/process-documents/${idToUse}`);
+    return { success: true, error: null };
   } catch (err) {
     const errorMessage =
       err instanceof Error ? err.message : "Failed to delete document";
     console.error("Error deleting document:", err);
-    return {
-      success: false,
-      error: errorMessage,
-    };
+    return { success: false, error: errorMessage };
   }
 };
 
 export const uploadDocumentFile = async (
   documentId: string,
   file: File,
-  numericId?: number,
+  numericId?: number
 ): Promise<{
   success: boolean;
   error: string | null;
@@ -304,20 +217,8 @@ export const uploadDocumentFile = async (
     const formData = new FormData();
     formData.append("files", file);
 
-    const uploadRes = await fetch(`${API_PROXY_URL}/upload`, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!uploadRes.ok) {
-      const errorMessage = await getErrorMessageFromResponse(
-        uploadRes,
-        `Upload failed! status: ${uploadRes.status}`,
-      );
-      throw new Error(errorMessage);
-    }
-
-    const uploadedFiles = await uploadRes.json();
+    const uploadRes = await strapiApi.post("/upload", formData);
+    const uploadedFiles = uploadRes.data;
 
     if (!uploadedFiles || uploadedFiles.length === 0) {
       throw new Error("No file was uploaded");
@@ -337,55 +238,29 @@ export const uploadDocumentFile = async (
       throw new Error("Could not get document numeric ID");
     }
 
-    const linkRes = await fetch(
-      `${API_PROXY_URL}/process-documents/${docNumericId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            file: uploadedFile.id,
-          },
-        }),
-      },
-    );
+    await strapiApi.put(`/process-documents/${docNumericId}`, {
+      data: { file: uploadedFile.id },
+    });
 
-    if (!linkRes.ok) {
-      const errorData = await linkRes.json().catch(() => ({}));
-      console.error("Link file error:", errorData);
-      throw new Error(
-        errorData?.error?.message ||
-          "File uploaded but linking failed. Please try again.",
-      );
-    }
-
-    return {
-      success: true,
-      error: null,
-    };
-  } catch (err) {
+    return { success: true, error: null };
+  } catch (err: any) {
     const errorMessage =
-      err instanceof Error ? err.message : "Failed to upload file";
+      err?.response?.data?.error?.message ||
+      err?.message ||
+      "Failed to upload file";
     console.error("Error uploading file:", err);
-    return {
-      success: false,
-      error: errorMessage,
-    };
+    return { success: false, error: errorMessage };
   }
 };
 
 export const getFileDownloadUrl = (fileUrl: string): string => {
-  if (fileUrl.startsWith("http")) {
-    return fileUrl;
-  }
+  if (fileUrl.startsWith("http")) return fileUrl;
   return `${STRAPI_ASSET_URL}${fileUrl}`;
 };
 
 export const removeDocumentFile = async (
   documentId: string,
-  numericId?: number,
+  numericId?: number
 ): Promise<{
   success: boolean;
   error: string | null;
@@ -403,40 +278,17 @@ export const removeDocumentFile = async (
       throw new Error("Could not get document numeric ID");
     }
 
-    const res = await fetch(
-      `${API_PROXY_URL}/process-documents/${docNumericId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            file: null,
-          },
-        }),
-      },
-    );
+    await strapiApi.put(`/process-documents/${docNumericId}`, {
+      data: { file: null },
+    });
 
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({}));
-      throw new Error(
-        errorData?.error?.message ||
-          `Failed to remove file. Status: ${res.status}`,
-      );
-    }
-
-    return {
-      success: true,
-      error: null,
-    };
-  } catch (err) {
+    return { success: true, error: null };
+  } catch (err: any) {
     const errorMessage =
-      err instanceof Error ? err.message : "Failed to remove file";
+      err?.response?.data?.error?.message ||
+      err?.message ||
+      "Failed to remove file";
     console.error("Error removing file:", err);
-    return {
-      success: false,
-      error: errorMessage,
-    };
+    return { success: false, error: errorMessage };
   }
 };

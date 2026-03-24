@@ -2,11 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { DashboardContent } from "@/components/dashboard/DashboardContent";
 import { User } from "@/types/types";
-
-const API_URL =
-  process.env.STRAPI_API_URL ||
-  process.env.NEXT_PUBLIC_STRAPI_API_URL ||
-  "http://localhost:1337";
+import { STRAPI_API_URL as API_URL } from "@/lib/config/strapiServer";
 
 const getAuthenticatedUser = async (token: string): Promise<User | null> => {
   try {

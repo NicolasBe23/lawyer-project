@@ -12,6 +12,12 @@ import { MapPin, User, Clock, FileText, Trash2, Check, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getStatusBadge } from "@/components/constants/page";
 import { useTranslations } from "next-intl";
+import {
+  formatDateLong,
+  formatTime,
+  isDatePast,
+  isDateToday,
+} from "@/lib/helpers/dateHelpers";
 
 export const ScheduleDetailsModal = ({
   isOpen,
@@ -32,22 +38,6 @@ export const ScheduleDetailsModal = ({
     setLocalSchedules(schedules);
   }, [schedules]);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const formatTime = (dateString: string) => {
-    return new Date(dateString).toLocaleTimeString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
   const getClientName = (schedule: Schedule): string | null => {
     if (!schedule.client) return null;
 
@@ -60,20 +50,6 @@ export const ScheduleDetailsModal = ({
     }
 
     return null;
-  };
-
-  const isDatePast = (dateString: string) => {
-    const scheduleDate = new Date(dateString);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    scheduleDate.setHours(0, 0, 0, 0);
-    return scheduleDate < today;
-  };
-
-  const isDateToday = (dateString: string) => {
-    const scheduleDate = new Date(dateString);
-    const today = new Date();
-    return scheduleDate.toDateString() === today.toDateString();
   };
 
   const getScheduleStatus = (schedule: Schedule) => {
@@ -152,7 +128,7 @@ export const ScheduleDetailsModal = ({
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
-              {t("schedules.schedulesForDate", { date: formatDate(selectedDate) })}
+              {t("schedules.schedulesForDate", { date: formatDateLong(selectedDate) })}
             </DialogTitle>
           </DialogHeader>
 

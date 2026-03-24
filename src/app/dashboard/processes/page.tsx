@@ -18,6 +18,7 @@ import {
 } from "@/components/constants/page";
 import { ListFilterDropdown } from "@/components/ui/ListFilterDropdown";
 import { ListSearchInput } from "@/components/ui/ListSearchInput";
+import { formatDate } from "@/lib/helpers/dateHelpers";
 
 export default function ProcessesPage() {
   const t = useTranslations();
@@ -65,10 +66,6 @@ export default function ProcessesPage() {
       value: option.value,
       label: t(option.labelKey),
     }));
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("pt-BR");
-  };
 
   if (loading) {
     return (
