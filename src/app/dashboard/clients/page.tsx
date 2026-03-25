@@ -73,7 +73,7 @@ export default function ClientsPage() {
   }
 
   return (
-    <div>
+    <div className="mb-4">
       <div className="mb-6 flex w-full flex-col gap-3 border-b-2 border-gray-300 p-2 pb-4 md:flex-row md:items-center md:justify-between">
         <SplitText
           text={t("clients.title")}

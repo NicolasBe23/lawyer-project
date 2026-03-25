@@ -52,7 +52,7 @@ export default function DocumentsPage() {
   }
 
   return (
-    <div className="container mx-auto p-2 space-y-6">
+    <div className="container mx-auto p-2 space-y-6 mb-4">
       <DocumentsHeader
         processId={processId}
         showBackButton={Boolean(associatedProcessIdentifier)}

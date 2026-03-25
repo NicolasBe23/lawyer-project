@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Loading } from "@/components/ui/loading";
 import { strapiApi } from "@/lib/strapi";
 import { useTranslations } from "next-intl";
+import Header from "@/components/header/page";
 
 export default function ProfilePage() {
   const t = useTranslations();
@@ -54,7 +55,7 @@ export default function ProfilePage() {
   if (loading) return <Loading text={t("common.loading")} size="md" />;
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 rounded-lg bg-white p-4 shadow sm:p-8 md:p-12">
+    <div className=" mt-4 flex w-full flex-col gap-6 rounded-lg bg-white p-4 shadow sm:p-8 md:p-12">
       <div>
         <Button
           variant="outline"

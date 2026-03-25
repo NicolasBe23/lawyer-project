@@ -64,7 +64,7 @@ export default function CalendarPage() {
   }, []);
 
   return (
-    <div>
+    <div className="mb-4">
       <div className="mb-8 flex w-full flex-col gap-2 border-b-2 border-gray-300 p-2 pb-4 md:flex-row md:items-center md:justify-between">
         <SplitText
           text={t("schedules.title")}
@@ -177,7 +177,7 @@ export default function CalendarPage() {
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <div className="min-w-[680px] md:min-w-0">
+          <div className="min-w-170 md:min-w-0">
             <FullCalendar
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
               initialView="dayGridMonth"

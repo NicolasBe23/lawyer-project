@@ -29,7 +29,7 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mb-4">
       <Header username={user.username} />
 
       <StatsCards stats={stats ?? ({} as DashboardStats)} />
