@@ -16,6 +16,7 @@ import {
 } from "@/components/constants/page";
 import { ListFilterDropdown } from "@/components/ui/ListFilterDropdown";
 import { ListSearchInput } from "@/components/ui/ListSearchInput";
+import { ClientListItem } from "@/components/client/ClientListItem";
 
 export default function ClientsPage() {
   const t = useTranslations();
@@ -116,37 +117,13 @@ export default function ClientsPage() {
         <p>{t("clients.noClientsFound")}</p>
       ) : (
         <div className="flex flex-col gap-3">
-          {visibleClients.map((client) => (
-            <div
+          {visibleClients.map((client, index) => (
+            <ClientListItem
               key={client.id}
-              className="flex cursor-pointer flex-col items-start justify-between gap-3 rounded-lg border-b border-gray-400 p-3 py-5 shadow-sm transition-colors duration-200 hover:rounded-lg hover:bg-gray-300 sm:flex-row sm:items-center"
+              client={client}
+              index={index}
               onClick={() => router.push(`/dashboard/clients/${client.id}`)}
-            >
-              <div className="flex flex-col gap-2">
-                <p className="text-sm">
-                  <strong>{t("clients.name")}:</strong> {client.attributes.name}
-                </p>
-                <p className="text-sm">
-                  <strong>{t("clients.email")}:</strong>{" "}
-                  {client.attributes.email || t("common.na")}
-                </p>
-              </div>
-              <span
-                className={`self-start rounded-full px-2 py-1 text-xs sm:self-auto ${
-                  client.attributes.active === true
-                    ? "bg-green-100 text-green-800"
-                    : client.attributes.active === false
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-gray-100 text-gray-800"
-                }`}
-              >
-                {client.attributes.active === true
-                  ? t("clients.active")
-                  : client.attributes.active === false
-                    ? t("clients.completed")
-                    : t("clients.archived")}
-              </span>
-            </div>
+            />
           ))}
 
           <ShowMorePagination

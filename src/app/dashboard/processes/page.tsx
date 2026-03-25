@@ -7,8 +7,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Eye, Briefcase } from "lucide-react";
-import { ProcessStatusBadge } from "@/components/process/ProcessStatusBadge";
+import { Plus, Briefcase } from "lucide-react";
 import { useTranslations } from "next-intl";
 import SplitText from "@/components/ui/SplitText";
 import { ShowMorePagination } from "@/components/ui/ShowMorePagination";
@@ -18,7 +17,7 @@ import {
 } from "@/components/constants/page";
 import { ListFilterDropdown } from "@/components/ui/ListFilterDropdown";
 import { ListSearchInput } from "@/components/ui/ListSearchInput";
-import { formatDate } from "@/lib/helpers/dateHelpers";
+import { ProcessListItem } from "@/components/process/ProcessListItem";
 
 export default function ProcessesPage() {
   const t = useTranslations();
@@ -133,49 +132,16 @@ export default function ProcessesPage() {
             </p>
           ) : (
             <div className="space-y-4">
-              {visibleProcesses.map((process) => (
-                <div
+              {visibleProcesses.map((process, index) => (
+                <ProcessListItem
                   key={process.id}
-                  className="flex flex-col gap-4 rounded-lg border p-4 transition-colors md:flex-row md:items-center md:justify-between"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="mb-2 flex flex-wrap items-center gap-3">
-                      <h4 className="font-semibold text-lg">{process.title}</h4>
-                      <ProcessStatusBadge status={process.processStatus} />
-                    </div>
-                    <div className="space-y-1 text-sm text-muted-foreground">
-                      <p>
-                        {t("processes.process")}: {process.processNumber}
-                      </p>
-                      <p>
-                        {t("clients.name")}:{" "}
-                        {process.client?.name || t("common.na")}
-                      </p>
-                      <p>
-                        {t("processes.start")}: {formatDate(process.startDate)}
-                      </p>
-                      {process.completionDate && (
-                        <p>
-                          {t("processes.completed")}:{" "}
-                          {formatDate(process.completionDate)}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full cursor-pointer md:ml-4 md:w-auto"
-                    onClick={() => {
-                      const processIdentifier =
-                        process.documentId || process.id;
-                      router.push(`/dashboard/processes/${processIdentifier}`);
-                    }}
-                  >
-                    <Eye className="w-4 h-4 mr-2" />
-                    {t("processes.viewDetails")}
-                  </Button>
-                </div>
+                  process={process}
+                  index={index}
+                  onViewDetails={() => {
+                    const processIdentifier = process.documentId || process.id;
+                    router.push(`/dashboard/processes/${processIdentifier}`);
+                  }}
+                />
               ))}
 
               <ShowMorePagination
