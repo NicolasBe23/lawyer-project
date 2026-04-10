@@ -34,6 +34,15 @@ export const useSchedulesPage = () => {
 
   const openSchedulesForDate = useCallback(
     (clickedDate: string) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const clicked = new Date(clickedDate + "T00:00:00");
+
+      if (clicked < today) {
+        toast.error(t("schedules.pastDateError"));
+        return;
+      }
+
       const schedulesForDate = schedules.filter(
         (schedule) => getDateKey(schedule.dateTime) === clickedDate
       );
@@ -47,7 +56,7 @@ export const useSchedulesPage = () => {
         setIsCreateModalOpen(true);
       }
     },
-    [schedules]
+    [schedules, t]
   );
 
   const loadSchedules = useCallback(async () => {

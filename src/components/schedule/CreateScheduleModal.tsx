@@ -77,9 +77,16 @@ export const CreateScheduleModal = ({
     }
   };
 
+  const minDateTime = new Date().toISOString().slice(0, 16);
+
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
+
+      if (formData.dateTime < minDateTime) {
+        toast.error(t("schedules.pastDateError"));
+        return;
+      }
 
       const scheduleData = {
         title: formData.title,
@@ -134,6 +141,7 @@ export const CreateScheduleModal = ({
               id="dateTime"
               type="datetime-local"
               value={formData.dateTime}
+              min={minDateTime}
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, dateTime: e.target.value }))
               }
