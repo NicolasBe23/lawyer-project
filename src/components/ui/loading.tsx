@@ -13,7 +13,7 @@ export function Loading({ text = "Loading...", size = "md" }: LoadingProps) {
   return (
     <div className="flex items-center gap-2">
       <div
-        className={`${sizeClasses[size]} border-2 border-black border-t-transparent rounded-full animate-spin`}
+        className={`${sizeClasses[size]} border-2 border-white border-t-transparent rounded-full animate-spin`}
       ></div>
       <span>{text}</span>
     </div>
