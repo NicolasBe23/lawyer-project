@@ -83,9 +83,8 @@ export const ProcessStatusChanger = ({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
           disabled={isLoading}
-          className="flex w-full items-center justify-between gap-2 sm:w-auto"
+          className="flex w-full items-center justify-between gap-2 sm:w-auto  bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
         >
           {currentStatusOption && (
             <currentStatusOption.icon
@@ -96,12 +95,15 @@ export const ProcessStatusChanger = ({
           <ChevronDown className="w-4 h-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent
+        align="end"
+        className="bg-gray-900 border border-white/10 shadow text-amber-50"
+      >
         {statusOptions.map((option) => (
           <DropdownMenuItem
             key={option.value}
             onClick={() => handleStatusChange(option.value)}
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-2 cursor-pointer hover:bg-gray-700"
             disabled={option.value === currentStatus}
           >
             <option.icon className={`w-4 h-4 ${option.color}`} />

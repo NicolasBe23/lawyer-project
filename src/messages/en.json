@@ -260,5 +260,168 @@
     "confirmLogout": "Confirm Logout",
     "confirmLogoutDescription": "Are you sure you want to logout? You will need to login again to access the system.",
     "loggingOut": "Logging out..."
+  },
+  "landing": {
+    "header": {
+      "switchLanguage": "Switch language",
+      "navFeatures": "Features",
+      "navHowItWorks": "How It Works",
+      "navTestimonials": "Testimonials",
+      "login": "Login",
+      "register": "Register"
+    },
+    "hero": {
+      "badge": "Complete platform for lawyers",
+      "title": "Manage your firm",
+      "titleHighlight": "with intelligence",
+      "description": "Centralize clients, cases, documents and calendar in a single platform built for lawyers who seek efficiency and organization.",
+      "ctaPrimary": "Create free account",
+      "ctaSecondary": "I already have an account",
+      "disclaimer": "No credit card required. Set up in minutes."
+    },
+    "features": {
+      "sectionTitle": "Everything your firm needs",
+      "sectionDescription": "Tools designed to simplify legal management and boost your team's productivity.",
+      "clients": {
+        "title": "Client Management",
+        "description": "Register and organize all your clients in one place. Easily access history, documents and linked cases."
+      },
+      "processes": {
+        "title": "Case Control",
+        "description": "Track every stage of legal cases with real-time status and full movement history."
+      },
+      "calendar": {
+        "title": "Smart Calendar",
+        "description": "Manage appointments, hearings and deadlines with automatic notifications so you never miss an important date."
+      },
+      "documents": {
+        "title": "Document Management",
+        "description": "Store and organize contracts, petitions and documents securely, with quick access at any time."
+      },
+      "reports": {
+        "title": "Reports & Metrics",
+        "description": "Visualize your firm's performance with charts and indicators to make strategic decisions based on data."
+      },
+      "security": {
+        "title": "Advanced Security",
+        "description": "Your data protected with end-to-end encryption and role-based access control."
+      }
+    },
+    "steps": {
+      "sectionTitle": "How it works",
+      "sectionDescription": "In three simple steps, you are already managing your firm efficiently.",
+      "cta": "Get started",
+      "step1": {
+        "title": "Create your account",
+        "description": "Sign up for free in minutes. Just provide your details and configure your firm's profile."
+      },
+      "step2": {
+        "title": "Configure and customize",
+        "description": "Add your clients, configure case workflows and adapt the system to your firm's reality."
+      },
+      "step3": {
+        "title": "Start managing",
+        "description": "With everything set up, manage clients, cases, documents and calendar in a centralized, intuitive dashboard."
+      }
+    },
+    "testimonials": {
+      "sectionTitle": "What our users say",
+      "sectionDescription": "Lawyers across Brazil already trust LawManagement to organize their firms.",
+      "rodrigo": "LawManagement completely transformed my firm's routine. I used to rely on spreadsheets and wasted so much time looking for information. Now everything is centralized and my productivity has tripled.",
+      "fernanda": "The case management is simply incredible. I can track every detail, receive deadline alerts and have never missed a hearing since. I recommend it to all my OAB colleagues.",
+      "marcelo": "I handle over 80 clients and the system handles it all effortlessly. The documents section is the standout feature — everything organized and accessible from anywhere, even on my phone.",
+      "camila": "The support is excellent and the platform is very easy to use. Within less than a week I was using it with full confidence. Highly recommended for lawyers looking to modernize their practice."
+    },
+    "banner": {
+      "title": "Ready to modernize your firm?",
+      "description": "Join hundreds of lawyers who already save hours each week with LawManagement.",
+      "ctaPrimary": "Create free account",
+      "ctaSecondary": "Login"
+    },
+    "footer": {
+      "terms": "Terms of Use",
+      "privacy": "Privacy Policy",
+      "contact": "Contact",
+      "copyright": "© {year} LawManagement. All rights reserved."
+    }
+  },
+  "terms": {
+    "title": "Terms of Use",
+    "lastUpdated": "Last updated: January 2025",
+    "backToHome": "Back to home",
+    "sections": {
+      "acceptance": {
+        "title": "1. Acceptance of Terms",
+        "content": "By accessing and using the LawManagement platform, you agree to comply with and be bound by these Terms of Use. If you do not agree with any part of these terms, you may not access the service. These terms apply to all users, including visitors, lawyers and other legal professionals who use the platform."
+      },
+      "description": {
+        "title": "2. Description of Service",
+        "content": "LawManagement is a legal management platform offering tools for organizing clients, cases, documents and schedules. The service is provided as software as a service (SaaS) and can be accessed via a web browser. We reserve the right to modify, suspend or discontinue any part of the service at any time, with prior notice where possible."
+      },
+      "registration": {
+        "title": "3. Registration and User Account",
+        "content": "To use LawManagement, you must create an account by providing accurate and complete information. You are responsible for maintaining the confidentiality of your password and for all activities carried out under your account. Notify us immediately of any unauthorized use of your account. We reserve the right to terminate accounts that violate these terms."
+      },
+      "acceptable": {
+        "title": "4. Acceptable Use",
+        "content": "You agree to use the platform only for lawful purposes and in accordance with these terms. It is expressly prohibited to: use the service for fraudulent or illegal purposes; transmit third-party data without authorization; attempt to gain unauthorized access to systems or networks; use the platform in a way that could damage, overload or compromise the service infrastructure."
+      },
+      "intellectual": {
+        "title": "5. Intellectual Property",
+        "content": "All platform content, including text, graphics, logos, icons and software, is the property of LawManagement and is protected by applicable intellectual property laws. Data entered by users remains the property of those users. By using the platform, you grant us a limited license to process and store that data as necessary to provide the service."
+      },
+      "liability": {
+        "title": "6. Limitation of Liability",
+        "content": "LawManagement is provided \"as is\" without warranties of any kind. Under no circumstances shall we be liable for indirect, incidental, special or consequential damages arising from the use or inability to use the service. Our total liability to you shall not exceed the amount paid for the service in the last three months."
+      },
+      "changes": {
+        "title": "7. Changes to Terms",
+        "content": "We reserve the right to modify these terms at any time. Changes will take effect upon publication on the platform. Continued use of the service after publication of changes constitutes acceptance of the new terms. We recommend that you periodically review these terms to stay informed of any changes."
+      },
+      "contact": {
+        "title": "8. Contact",
+        "content": "If you have questions about these Terms of Use, please contact us at: nicolasbezerra13@gmail.com. We will respond to your requests within 5 business days."
+      }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: January 2025",
+    "backToHome": "Back to home",
+    "intro": "Your privacy is important to us. This Privacy Policy explains how we collect, use and protect your information when you use LawManagement.",
+    "sections": {
+      "collect": {
+        "title": "1. Information We Collect",
+        "content": "We collect information you provide directly, such as name, email address and password at registration. We also collect data entered during platform use, such as client information, cases and documents. Usage data such as IP address, browser type and pages visited are collected automatically for security and service improvement purposes."
+      },
+      "use": {
+        "title": "2. How We Use Your Information",
+        "content": "We use your information to: provide, operate and improve the service; authenticate your identity and protect your account; send service-related notifications; respond to support requests; comply with legal obligations. We do not use your data for marketing purposes without your express consent."
+      },
+      "storage": {
+        "title": "3. Storage and Security",
+        "content": "Your data is stored on secure servers with encryption at rest and in transit. We implement appropriate technical and organizational measures to protect your information against unauthorized access, alteration, disclosure or destruction. We retain your data for as long as necessary to provide the service or as required by law."
+      },
+      "sharing": {
+        "title": "4. Data Sharing",
+        "content": "We do not sell, rent or share your personal information with third parties for commercial purposes. We may share data with service providers who assist us in operating the platform, always under confidentiality agreements. We may disclose information when required by law or to protect rights, property or safety."
+      },
+      "rights": {
+        "title": "5. Your Rights",
+        "content": "You have the right to: access your personal data; correct incomplete or inaccurate data; request deletion of your data; withdraw consent for data processing; request portability of your data. To exercise these rights, contact us at nicolasbezerra13@gmail.com."
+      },
+      "cookies": {
+        "title": "6. Cookies",
+        "content": "We use essential cookies to maintain your authenticated session and ensure the platform functions correctly. We do not use tracking cookies for advertising. You can configure your browser to refuse cookies, but this may affect the functionality of some platform features."
+      },
+      "changes": {
+        "title": "7. Changes to This Policy",
+        "content": "We may update this Privacy Policy periodically. We will notify you of significant changes by email or through a notice on the platform. Continued use of the service after changes constitutes acceptance of the revised policy."
+      },
+      "contact": {
+        "title": "8. Contact",
+        "content": "For questions about this Privacy Policy or how your data is handled, contact us at: nicolasbezerra13@gmail.com. We will respond within 5 business days."
+      }
+    }
   }
 }

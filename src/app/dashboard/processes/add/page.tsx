@@ -34,8 +34,7 @@ export default function AddProcessPage() {
     <div className="container mx-auto p-2 space-y-6">
       <div className="flex items-center">
         <Button
-          variant="outline"
-          className="cursor-pointer mb-4"
+          className="cursor-pointer mb-4 bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
           onClick={handleBack}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -47,7 +46,7 @@ export default function AddProcessPage() {
         {t("processes.newProcess")}
       </h1>
 
-      <Card>
+      <Card className="bg-gray-900 border border-white/10 shadow">
         <CardHeader>
           <CardTitle>{t("processes.title")}</CardTitle>
         </CardHeader>
@@ -107,7 +106,7 @@ export default function AddProcessPage() {
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, client: e.target.value }))
                 }
-                className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                className="w-full h-10 rounded-md border border-input bg-gray-900 px-3 py-2 text-sm"
                 required
               >
                 <option value="">Selecione um cliente</option>
@@ -137,16 +136,15 @@ export default function AddProcessPage() {
             <div className="flex flex-col-reverse gap-2 pt-4 sm:flex-row sm:justify-end">
               <Button
                 type="button"
-                variant="outline"
                 onClick={handleBack}
                 disabled={isSubmitting}
-                className="w-full cursor-pointer sm:w-auto"
+                className="w-full cursor-pointer sm:w-auto  bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
               >
                 {t("common.cancel")}
               </Button>
               <Button
                 type="submit"
-                className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 sm:w-auto"
+                className="w-full cursor-pointer bg-blue-600 hover:bg-blue-500 text-white sm:w-auto"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? t("common.loading") : t("common.save")}

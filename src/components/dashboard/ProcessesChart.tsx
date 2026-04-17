@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip } from "recharts";
+import { PieChart, Pie, ResponsiveContainer, Cell } from "recharts";
 import { CheckCircle, PlayCircle, Clock } from "lucide-react";
 import { ProcessesChartProps } from "@/types/types";
 import { useTranslations } from "next-intl";
@@ -34,7 +34,7 @@ export const ProcessesChart = ({ stats }: ProcessesChartProps) => {
   ];
 
   return (
-    <Card className="shadow-md">
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <CardTitle>{t("dashboard.processesByStatus")}</CardTitle>
       </CardHeader>
@@ -52,10 +52,6 @@ export const ProcessesChart = ({ stats }: ProcessesChartProps) => {
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
-            <Tooltip
-              contentStyle={{ borderRadius: "8px", border: "none" }}
-              formatter={(value, name) => [`${value}`, name]}
-            />
           </PieChart>
         </ResponsiveContainer>
 

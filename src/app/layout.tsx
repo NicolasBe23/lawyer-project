@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { NavigationProgress } from "@/components/providers/NavigationProgress";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -32,9 +33,11 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${montserrat.className} antialiased bg-gray-900`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <TooltipProvider>
           <NavigationProgress />
           {children}
           <Toaster />
+          </TooltipProvider>
         </NextIntlClientProvider>
       </body>
     </html>

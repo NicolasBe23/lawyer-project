@@ -31,7 +31,7 @@ export const useUser = () => {
     await fetch("/api/auth/logout", { method: "POST" });
     Cookies.remove("strapi_user");
     setUser(null);
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   return { user, loading, logout };

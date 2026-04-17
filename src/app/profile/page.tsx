@@ -55,7 +55,7 @@ export default function ProfilePage() {
   if (loading) return <Loading text={t("common.loading")} size="md" />;
 
   return (
-    <div className=" mt-4 flex w-full flex-col gap-6 rounded-lg bg-white p-4 shadow sm:p-8 md:p-12">
+    <div className="mt-4 flex w-full flex-col gap-6 rounded-lg bg-black border border-white/10 p-4 shadow sm:p-8 md:p-12">
       <div>
         <Button
           variant="outline"
@@ -93,7 +93,7 @@ export default function ProfilePage() {
         </div>
 
         <Button
-          className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 sm:w-auto"
+          className="w-full cursor-pointer bg-blue-600 hover:bg-blue-500 text-white sm:w-auto"
           onClick={handleSave}
           disabled={saving}
         >

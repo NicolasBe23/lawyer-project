@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 export const ProcessClientInfo = ({ client }: ProcessClientInfoProps) => {
   const t = useTranslations();
   return (
-    <Card>
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <User className="w-5 h-5" />
@@ -17,22 +17,30 @@ export const ProcessClientInfo = ({ client }: ProcessClientInfoProps) => {
         {client ? (
           <div className="space-y-4">
             <div>
-              <p className="text-sm text-muted-foreground">{t("clients.name")}:</p>
+              <p className="text-sm text-muted-foreground">
+                {t("clients.name")}:
+              </p>
               <p className="font-medium">{client.name}</p>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">{t("clients.email")}:</p>
+              <p className="text-sm text-muted-foreground">
+                {t("clients.email")}:
+              </p>
               <p className="font-medium">{client.email || t("common.na")}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">
                 {t("clients.phoneNumber")}:
               </p>
-              <p className="font-medium">{client.phoneNumber || t("common.na")}</p>
+              <p className="font-medium">
+                {client.phoneNumber || t("common.na")}
+              </p>
             </div>
           </div>
         ) : (
-          <p className="text-muted-foreground">{t("processes.noClientLinked")}</p>
+          <p className="text-muted-foreground">
+            {t("processes.noClientLinked")}
+          </p>
         )}
       </CardContent>
     </Card>

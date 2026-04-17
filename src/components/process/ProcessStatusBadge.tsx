@@ -15,7 +15,7 @@ export const ProcessStatusBadge = ({
       case "archived":
         return "status-badge-archived";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-700 text-gray-300";
     }
   };
 

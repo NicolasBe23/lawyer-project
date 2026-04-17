@@ -75,7 +75,7 @@ export default function ClientsPage() {
 
   return (
     <div className="mb-4">
-      <div className="mb-6 flex w-full flex-col gap-3 border-b-2 border-gray-300 p-2 pb-4 md:flex-row md:items-center md:justify-between">
+      <div className="mb-6 flex w-full flex-col gap-3 border-b border-white/10 p-2 pb-4 md:flex-row md:items-center md:justify-between">
         <SplitText
           text={t("clients.title")}
           tag="h1"
@@ -105,7 +105,7 @@ export default function ClientsPage() {
           />
 
           <Button
-            className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 md:w-auto"
+            className="w-full cursor-pointer bg-blue-600 hover:bg-blue-500 text-white md:w-auto"
             onClick={() => router.push("/dashboard/clients/add")}
           >
             <Plus className="w-4 h-4 mr-2" />

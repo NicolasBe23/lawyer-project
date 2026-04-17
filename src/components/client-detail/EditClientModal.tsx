@@ -18,7 +18,7 @@ export const EditClientModal = ({
   const t = useTranslations();
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gray-900 border border-white/10 shadow">
         <DialogHeader>
           <DialogTitle>{t("clients.editClient")}</DialogTitle>
         </DialogHeader>

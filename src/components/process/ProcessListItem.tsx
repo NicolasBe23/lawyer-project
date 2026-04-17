@@ -53,9 +53,8 @@ export const ProcessListItem = ({
           </div>
         </div>
         <Button
-          variant="outline"
           size="sm"
-          className="w-full cursor-pointer md:ml-4 md:w-auto"
+          className="w-full cursor-pointer md:ml-4 md:w-auto bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
           onClick={onViewDetails}
         >
           <Eye className="w-4 h-4 mr-2" />

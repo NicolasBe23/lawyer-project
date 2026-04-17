@@ -8,7 +8,7 @@ export const ClientBasicInfo = ({
 }: ClientBasicInfoProps) => {
   const t = useTranslations();
   return (
-    <Card>
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <User className="w-5 h-5" />

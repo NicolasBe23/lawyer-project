@@ -27,7 +27,7 @@ export const DocumentCard = ({
 }: DocumentCardProps) => {
   const t = useTranslations();
   return (
-    <Card className="hover:shadow-md transition-shadow h-full flex flex-col">
+    <Card className="hover:shadow-md transition-shadow h-full flex flex-col  bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <div className="flex items-start justify-between">
           <CardTitle className="flex items-center gap-2 text-lg">
@@ -90,18 +90,17 @@ export const DocumentCard = ({
             </div>
             <div className="flex gap-2">
               <Button
-                variant="outline"
                 size="sm"
-                className="flex-1 cursor-pointer"
+                className="flex-1 cursor-pointer "
                 onClick={(e) => onOpenFile(e, doc)}
               >
                 <ExternalLink className="w-4 h-4 mr-1" />
                 {t("documents.open")}
               </Button>
               <Button
-                variant="outline"
+                variant="destructive"
                 size="sm"
-                className="text-red-600 hover:text-red-700 cursor-pointer"
+                className="cursor-pointer "
                 onClick={(e) => onRemoveFile(e, doc)}
                 disabled={removingFileDocId === doc.id}
               >

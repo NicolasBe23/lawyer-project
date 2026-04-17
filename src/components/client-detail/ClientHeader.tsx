@@ -14,8 +14,7 @@ export const ClientHeader = ({
     <>
       <div className="mb-8 flex justify-start">
         <Button
-          variant="outline"
-          className="w-full cursor-pointer sm:w-auto"
+          className="w-full cursor-pointer sm:w-auto  bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
           onClick={onBack}
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -34,8 +33,7 @@ export const ClientHeader = ({
         </div>
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:space-x-0">
           <Button
-            variant="outline"
-            className="w-full cursor-pointer sm:w-auto"
+            className="w-full cursor-pointer sm:w-auto  bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
             onClick={onEdit}
           >
             <Edit className="w-4 h-4 mr-2" />
@@ -54,12 +52,12 @@ export const ClientHeader = ({
 
       <div className="flex items-center space-x-2">
         {client.attributes.active ? (
-          <div className="flex items-center space-x-2 bg-green-100 text-green-800 px-3 py-1 rounded-full">
+          <div className="flex items-center space-x-2 bg-green-500/15 text-green-400 px-3 py-1 rounded-full">
             <CheckCircle className="w-4 h-4" />
             <span>{t("clients.active")}</span>
           </div>
         ) : (
-          <div className="flex items-center space-x-2 bg-red-100 text-red-800 px-3 py-1 rounded-full">
+          <div className="flex items-center space-x-2 bg-red-500/15 text-red-400 px-3 py-1 rounded-full">
             <XCircle className="w-4 h-4" />
             <span>{t("clients.inactive")}</span>
           </div>

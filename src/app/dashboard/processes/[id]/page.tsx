@@ -39,7 +39,7 @@ export default function ProcessPage() {
   if (error || !process) {
     return (
       <div className="container mx-auto p-2">
-        <Button variant="outline" onClick={goBackToProcesses} className="mb-4">
+        <Button variant="outline" onClick={goBackToProcesses} className="mb-4 ">
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
         </Button>
@@ -54,9 +54,8 @@ export default function ProcessPage() {
     <div className="container mx-auto p-2 space-y-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <Button
-          variant="outline"
           onClick={goBackToProcesses}
-          className="w-full cursor-pointer sm:w-auto"
+          className="w-full cursor-pointer sm:w-auto  bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t("common.back")}
@@ -70,8 +69,7 @@ export default function ProcessPage() {
           />
 
           <Button
-            variant="outline"
-            className="w-full cursor-pointer sm:w-auto"
+            className="w-full cursor-pointer sm:w-auto  bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
             onClick={() => setShowEditModal(true)}
           >
             <Pencil className="w-4 h-4 mr-2" />

@@ -39,7 +39,7 @@ export const ClientsChart = ({ clientsData }: ClientsChartProps) => {
   });
 
   return (
-    <Card className="shadow-md">
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <CardTitle>{t("dashboard.clientsByMonths")}</CardTitle>
       </CardHeader>
@@ -50,10 +50,27 @@ export const ClientsChart = ({ clientsData }: ClientsChartProps) => {
               data={clientsByMonth}
               margin={{ top: 8, right: 12, left: 12, bottom: 8 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" interval={1} tickMargin={8} />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(255,255,255,0.08)"
+              />
+              <XAxis
+                dataKey="month"
+                interval={1}
+                tickMargin={8}
+                tick={{ fill: "#9ca3af" }}
+                axisLine={false}
+                tickLine={false}
+              />
               <YAxis hide />
-              <Tooltip />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#1f2937",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "8px",
+                  color: "#f9fafb",
+                }}
+              />
               <Bar
                 dataKey="clients"
                 fill="#2563eb"
@@ -67,14 +84,32 @@ export const ClientsChart = ({ clientsData }: ClientsChartProps) => {
         <div className="hidden h-full sm:block">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={clientsByMonth}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(255,255,255,0.08)"
+              />
+              <XAxis
+                dataKey="month"
+                tick={{ fill: "#9ca3af" }}
+                axisLine={false}
+                tickLine={false}
+              />
               <YAxis
                 domain={[0, 20]}
                 ticks={[0, 5, 10, 15, 20]}
                 tickCount={5}
+                tick={{ fill: "#9ca3af" }}
+                axisLine={false}
+                tickLine={false}
               />
-              <Tooltip />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#1f2937",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "8px",
+                  color: "#f9fafb",
+                }}
+              />
               <Line
                 type="monotone"
                 dataKey="clients"

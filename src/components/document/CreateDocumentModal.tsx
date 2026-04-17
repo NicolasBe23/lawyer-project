@@ -65,7 +65,7 @@ export const CreateDocumentModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg bg-gray-900">
         <DialogHeader>
           <DialogTitle>{t("documents.addNewDocument")}</DialogTitle>
           <DialogDescription>
@@ -139,10 +139,10 @@ export const CreateDocumentModal = ({
                   />
                   <Button
                     type="button"
-                    variant="outline"
                     size="sm"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isLoading}
+                    className="cursor-pointer"
                   >
                     {t("documents.selectFile")}
                   </Button>
@@ -154,7 +154,7 @@ export const CreateDocumentModal = ({
           <DialogFooter>
             <Button
               type="button"
-              variant="outline"
+              className=" bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700 cursor-pointer"
               onClick={handleClose}
               disabled={isLoading}
             >

@@ -10,7 +10,7 @@ export const ProcessDates = ({
 }: ProcessDatesProps) => {
   const t = useTranslations();
   return (
-    <Card>
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <Calendar className="w-5 h-5" />
@@ -19,7 +19,9 @@ export const ProcessDates = ({
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
-          <p className="text-sm text-muted-foreground">{t("processes.startDate")}:</p>
+          <p className="text-sm text-muted-foreground">
+            {t("processes.startDate")}:
+          </p>
           <p className="font-medium">{formatDate(startDate)}</p>
         </div>
         {completionDate && (

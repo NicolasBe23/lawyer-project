@@ -19,8 +19,11 @@ export const ShowMorePagination = ({
   }
 
   return (
-    <div className="flex justify-center pt-2">
-      <Button variant="outline" onClick={onShowMore}>
+    <div className="flex justify-center pt-2 ">
+      <Button
+        className="bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700 cursor-pointer"
+        onClick={onShowMore}
+      >
         {t("common.showMore")}
       </Button>
     </div>

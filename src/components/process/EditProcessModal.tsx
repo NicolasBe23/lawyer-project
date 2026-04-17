@@ -58,7 +58,7 @@ export const EditProcessModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg  bg-gray-900 border border-white/10 shadow">
         <DialogHeader>
           <DialogTitle>
             {t("common.edit")} {t("processes.process").toLowerCase()}
@@ -139,12 +139,17 @@ export const EditProcessModal = ({
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button
+              type="button"
+              variant="outline"
+              className="bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
+              onClick={onClose}
+            >
               {t("common.cancel")}
             </Button>
             <Button
               type="submit"
-              className="bg-gray-900 hover:bg-gray-800"
+              className="bg-blue-600 hover:bg-blue-500 text-white"
               disabled={isLoading || !formData.title.trim()}
             >
               {isLoading ? t("common.loading") : t("clients.saveChanges")}

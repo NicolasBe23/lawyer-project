@@ -9,14 +9,14 @@ export function StatCard({
   iconColor,
 }: StatCardProps) {
   return (
-    <Card className="shadow-md">
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{title}</CardTitle>
         <Icon className={iconColor} />
       </CardHeader>
       <CardContent>
         <p className="text-3xl font-bold">{value}</p>
-        <p className="text-sm text-gray-500">{subtitle}</p>
+        <p className="text-sm text-muted-foreground">{subtitle}</p>
       </CardContent>
     </Card>
   );

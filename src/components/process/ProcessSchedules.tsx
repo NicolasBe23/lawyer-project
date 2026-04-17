@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 export const ProcessSchedules = ({ schedules }: ProcessSchedulesProps) => {
   const t = useTranslations();
   return (
-    <Card>
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <Calendar className="w-5 h-5" />
@@ -40,8 +40,8 @@ export const ProcessSchedules = ({ schedules }: ProcessSchedulesProps) => {
                 <span
                   className={`self-start rounded-full px-2 py-1 text-xs sm:self-auto ${
                     schedule.completed
-                      ? "bg-green-100 text-green-800"
-                      : "bg-blue-100 text-blue-800"
+                      ? "bg-green-500/15 text-green-400"
+                      : "bg-blue-500/15 text-blue-400"
                   }`}
                 >
                   {schedule.completed

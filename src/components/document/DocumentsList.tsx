@@ -16,7 +16,7 @@ export const DocumentsList = ({
   formatDate,
 }: DocumentsListProps) => {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 ">
       {documents.map((doc) => (
         <DocumentCard
           key={doc.id}
@@ -39,4 +39,3 @@ export const DocumentsList = ({
     </div>
   );
 };
-

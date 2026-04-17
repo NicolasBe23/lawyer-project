@@ -27,7 +27,7 @@ export const ProcessDocuments = ({
   };
 
   return (
-    <Card>
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle className="flex items-center space-x-2">
@@ -35,12 +35,11 @@ export const ProcessDocuments = ({
             <span>{t("processes.processDocuments")}</span>
           </CardTitle>
           <Button
-            variant="outline"
             size="sm"
-            className="w-full cursor-pointer sm:w-auto"
+            className="w-full cursor-pointer sm:w-auto  bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
             onClick={handleViewAllDocuments}
           >
-            <ExternalLink className="w-4 h-4 mr-2" />
+            <ExternalLink className="w-4 h-4 mr-2 " />
             {documents && documents.length > 0
               ? t("documents.manage")
               : t("documents.add")}

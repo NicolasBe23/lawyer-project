@@ -21,7 +21,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-1 rounded-md border border-gray-200 bg-gray-50 p-1",
+        "inline-flex items-center gap-1 rounded-md border border-white/10 bg-white/5 p-1",
         className,
       )}
     >
@@ -31,7 +31,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
         variant={locale === "pt-BR" ? "default" : "outline"}
         className={cn(
           "h-7 px-3 text-xs cursor-pointer",
-          locale === "pt-BR" && "bg-gray-900 text-white hover:bg-gray-800",
+          locale === "pt-BR" && "bg-white/15 text-white hover:bg-white/20",
         )}
         onClick={() => setLocale("pt-BR")}
       >
@@ -43,7 +43,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
         variant={locale === "en" ? "default" : "outline"}
         className={cn(
           "h-7 px-3 text-xs cursor-pointer",
-          locale === "en" && "bg-gray-900 text-white hover:bg-gray-800",
+          locale === "en" && "bg-white/15 text-white hover:bg-white/20",
         )}
         onClick={() => setLocale("en")}
       >

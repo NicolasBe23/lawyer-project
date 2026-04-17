@@ -22,7 +22,7 @@ export default function Header({ username = "" }: HeaderProps) {
   const displayName = formatDisplayName(username);
 
   return (
-    <div className="flex w-full flex-col gap-2 border-b-2 border-gray-300 p-2 pb-4 items-center md:flex-row md:items-center md:justify-between">
+    <div className="flex w-full flex-col gap-2 border-b border-white/10 p-2 pb-4 items-center md:flex-row md:items-center md:justify-between">
       <SplitText
         text={t("header.helloUser", { username: displayName })}
         tag="p"

@@ -9,7 +9,7 @@ export const ClientSummary = ({
 }: ClientSummaryProps) => {
   const t = useTranslations();
   return (
-    <Card>
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <CardTitle>{t("clients.summary")}</CardTitle>
       </CardHeader>

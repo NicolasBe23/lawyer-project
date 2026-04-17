@@ -76,7 +76,7 @@ export default function ProcessesPage() {
 
   return (
     <div className="container mx-auto mb-4">
-      <div className="mb-6 flex w-full flex-col gap-3 border-b-2 border-gray-300 p-2 pb-4 md:flex-row md:items-center md:justify-between">
+      <div className="mb-6 flex w-full flex-col gap-3 border-b border-white/10 p-2 pb-4 md:flex-row md:items-center md:justify-between">
         <SplitText
           text={t("processes.myProcesses")}
           tag="h1"
@@ -107,7 +107,7 @@ export default function ProcessesPage() {
           />
 
           <Button
-            className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 md:w-auto"
+            className="w-full cursor-pointer bg-blue-600 hover:bg-blue-500 text-white md:w-auto"
             onClick={() => router.push("/dashboard/processes/add")}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -116,7 +116,7 @@ export default function ProcessesPage() {
         </div>
       </div>
 
-      <Card>
+      <Card className="bg-gray-900 border border-white/10 shadow">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Briefcase className="w-5 h-5" />

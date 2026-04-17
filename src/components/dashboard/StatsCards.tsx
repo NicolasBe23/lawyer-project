@@ -7,7 +7,7 @@ export const StatsCards = ({ stats }: StatsCardsProps) => {
   const t = useTranslations();
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-      <Link href="/dashboard/clients" className="min-w-0">
+      <Link href="/dashboard/clients" className="min-w-0 ">
         <StatCard
           title={t("dashboard.clients")}
           value={stats.clients}

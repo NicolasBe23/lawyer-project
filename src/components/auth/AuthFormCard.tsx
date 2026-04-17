@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 type AuthFormCardProps = {
   title: string;
@@ -30,10 +29,6 @@ export const AuthFormCard = ({
 }: AuthFormCardProps) => {
   return (
     <div className="relative flex items-center justify-center h-screen">
-      <div className="absolute top-4 right-4">
-        <LanguageSwitcher />
-      </div>
-
       <Card className="w-96 shadow-lg">
         <CardHeader>
           <CardTitle className="text-center">{title}</CardTitle>

@@ -10,7 +10,11 @@ type ClientListItemProps = {
   onClick: () => void;
 };
 
-export const ClientListItem = ({ client, index, onClick }: ClientListItemProps) => {
+export const ClientListItem = ({
+  client,
+  index,
+  onClick,
+}: ClientListItemProps) => {
   const t = useTranslations();
 
   return (
@@ -22,7 +26,7 @@ export const ClientListItem = ({ client, index, onClick }: ClientListItemProps) 
       initialScale={0.75}
     >
       <div
-        className="flex cursor-pointer flex-col items-start justify-between gap-3 rounded-lg border-b border-gray-400 p-3 py-5 shadow-sm transition-colors duration-200 hover:rounded-lg hover:bg-gray-300 sm:flex-row sm:items-center"
+        className="flex cursor-pointer flex-col items-start justify-between gap-3 rounded-lg border-b border-white/10 p-3 py-5 shadow-sm transition-colors duration-200 hover:rounded-lg hover:bg-gray-800 sm:flex-row sm:items-center"
         onClick={onClick}
       >
         <div className="flex flex-col gap-2">
@@ -37,10 +41,10 @@ export const ClientListItem = ({ client, index, onClick }: ClientListItemProps) 
         <span
           className={`self-start rounded-full px-2 py-1 text-xs sm:self-auto ${
             client.attributes.active === true
-              ? "bg-green-100 text-green-800"
+              ? "bg-green-500/15 text-green-400"
               : client.attributes.active === false
-                ? "bg-blue-100 text-blue-800"
-                : "bg-gray-100 text-gray-800"
+                ? "bg-blue-500/15 text-blue-400"
+                : "bg-gray-700 text-gray-300"
           }`}
         >
           {client.attributes.active === true

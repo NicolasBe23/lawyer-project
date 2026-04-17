@@ -16,16 +16,18 @@ export const DocumentsHeader = ({
         <div className="flex items-center gap-4">
           {showBackButton && (
             <Button
-              variant="outline"
               onClick={onBackClick}
-              className="w-full cursor-pointer sm:w-auto"
+              className="w-full cursor-pointer sm:w-auto  bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t("documents.backToProcess")}
             </Button>
           )}
         </div>
-        <Button onClick={onAddClick} className="w-full cursor-pointer sm:w-auto">
+        <Button
+          onClick={onAddClick}
+          className="w-full cursor-pointer sm:w-auto bg-blue-600 text-white hover:bg-blue-700"
+        >
           <Plus className="w-4 h-4 mr-2" />
           {t("documents.addDocument")}
         </Button>

@@ -10,7 +10,7 @@ export const ClientSchedules = ({
   const router = useRouter();
   const t = useTranslations();
   return (
-    <Card>
+    <Card className="bg-gray-900 border border-white/10 shadow">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <Clock className="w-5 h-5" />
@@ -39,8 +39,8 @@ export const ClientSchedules = ({
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${
                       schedule.completed
-                        ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
+                        ? "bg-green-500/15 text-green-400"
+                        : "bg-yellow-500/15 text-yellow-400"
                     }`}
                   >
                     {schedule.completed

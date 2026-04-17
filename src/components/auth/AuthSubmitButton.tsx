@@ -17,7 +17,7 @@ export const AuthSubmitButton = ({
   return (
     <Button
       type="submit"
-      className="w-full bg-gray-900 hover:bg-gray-800 cursor-pointer"
+      className="w-full bg-blue-600 hover:bg-blue-500 text-white cursor-pointer"
       disabled={loading}
     >
       {loading ? <Loading text={loadingText} size="md" /> : submitText}

@@ -31,7 +31,7 @@ export const LogoutModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md bg-gray-900 border border-white/10 shadow">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {t("logout.confirmLogout")}
@@ -44,10 +44,9 @@ export const LogoutModal = ({
         <div className="flex justify-end space-x-2 pt-4">
           <Button
             type="button"
-            variant="outline"
             onClick={onClose}
             disabled={isLoggingOut}
-            className="cursor-pointer"
+            className="cursor-pointer bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
           >
             {t("common.cancel")}
           </Button>

@@ -134,7 +134,7 @@ export const ScheduleDetailsModal = ({
 
           <div className="space-y-4">
             {localSchedules.length === 0 ? (
-              <p className="text-center text-gray-500 py-8">
+              <p className="text-center text-gray-400 py-8">
                 {t("schedules.noSchedulesForThisDate")}
               </p>
             ) : (
@@ -175,7 +175,7 @@ export const ScheduleDetailsModal = ({
                       </div>
                     </div>
 
-                    <div className="space-y-2 text-sm text-gray-600">
+                    <div className="space-y-2 text-sm text-gray-400">
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4" />
                         <span>{formatTime(schedule.dateTime)}h</span>

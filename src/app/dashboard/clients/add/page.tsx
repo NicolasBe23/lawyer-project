@@ -14,11 +14,10 @@ export default function AddClientPage() {
     <div className="container mx-auto p-2 space-y-6">
       <div className="flex items-center">
         <Button
-          variant="outline"
-          className="mb-4 w-full cursor-pointer sm:w-auto"
+          className="mb-4 w-full cursor-pointer sm:w-auto  bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
           onClick={goBackToClients}
         >
-          <ArrowLeft className="w-4 h-4 mr-2" />
+          <ArrowLeft className="w-4 h-4 mr-2 " />
           {t("common.back")}
         </Button>
       </div>
@@ -26,7 +25,7 @@ export default function AddClientPage() {
         {t("clients.addNewClient")}
       </h1>
 
-      <Card>
+      <Card className="bg-gray-900 border border-white/10 shadow">
         <CardHeader>
           <CardTitle>{t("clients.clientInformation")}</CardTitle>
         </CardHeader>

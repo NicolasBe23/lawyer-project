@@ -65,7 +65,7 @@ export default function CalendarPage() {
 
   return (
     <div className="mb-4">
-      <div className="mb-8 flex w-full flex-col gap-2 border-b-2 border-gray-300 p-2 pb-4 md:flex-row md:items-center md:justify-between">
+      <div className="mb-8 flex w-full flex-col gap-2 border-b border-white/10 p-2 pb-4 md:flex-row md:items-center md:justify-between">
         <SplitText
           text={t("schedules.title")}
           tag="h1"
@@ -84,7 +84,7 @@ export default function CalendarPage() {
           duration={0.7}
           ease="power2.out"
           textAlign="center"
-          className="text-gray-600"
+          className="text-gray-400"
         />
       </div>
 
@@ -95,7 +95,7 @@ export default function CalendarPage() {
       ) : isMobile ? (
         <div className="space-y-4">
           <Button
-            className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800"
+            className="w-full cursor-pointer bg-blue-600 hover:bg-blue-500 text-white"
             onClick={() => {
               const today = new Date();
               const todayKey = `${today.getFullYear()}-${String(
@@ -126,7 +126,7 @@ export default function CalendarPage() {
                     onClick={() =>
                       openSchedulesForDate(getDateKey(schedule.dateTime))
                     }
-                    className="w-full rounded-lg border bg-white p-3 text-left shadow-sm transition-colors hover:bg-gray-50"
+                    className="w-full rounded-lg border border-white/10 bg-gray-900 p-3 text-left shadow-sm transition-colors hover:bg-gray-800"
                   >
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <h3 className="text-sm font-semibold">
@@ -135,8 +135,8 @@ export default function CalendarPage() {
                       <span
                         className={`rounded-full px-2 py-1 text-xs ${
                           schedule.completed
-                            ? "bg-green-100 text-green-800"
-                            : "bg-blue-100 text-blue-800"
+                            ? "bg-green-500/15 text-green-400"
+                            : "bg-blue-500/15 text-blue-400"
                         }`}
                       >
                         {schedule.completed

@@ -259,5 +259,168 @@
     "confirmLogout": "Confirmar saida",
     "confirmLogoutDescription": "Tem certeza que deseja sair? Voce precisara entrar novamente para acessar o sistema.",
     "loggingOut": "Saindo..."
+  },
+  "landing": {
+    "header": {
+      "switchLanguage": "Trocar idioma",
+      "navFeatures": "Funcionalidades",
+      "navHowItWorks": "Como Funciona",
+      "navTestimonials": "Depoimentos",
+      "login": "Entrar",
+      "register": "Registrar"
+    },
+    "hero": {
+      "badge": "Plataforma completa para advogados",
+      "title": "Gerencie seu escritório",
+      "titleHighlight": "com inteligência",
+      "description": "Centralize clientes, processos, documentos e agenda em uma única plataforma desenvolvida para advogados que buscam eficiência e organização.",
+      "ctaPrimary": "Criar conta gratuita",
+      "ctaSecondary": "Já tenho uma conta",
+      "disclaimer": "Sem cartão de crédito. Configure em minutos."
+    },
+    "features": {
+      "sectionTitle": "Tudo que seu escritório precisa",
+      "sectionDescription": "Ferramentas desenvolvidas para simplificar a gestão jurídica e aumentar a produtividade da sua equipe.",
+      "clients": {
+        "title": "Gestão de Clientes",
+        "description": "Cadastre e organize todos os seus clientes em um só lugar. Acesse histórico, documentos e processos vinculados com facilidade."
+      },
+      "processes": {
+        "title": "Controle de Processos",
+        "description": "Acompanhe cada etapa dos processos jurídicos, com status em tempo real e histórico completo de movimentações."
+      },
+      "calendar": {
+        "title": "Agenda Inteligente",
+        "description": "Gerencie compromissos, audiências e prazos com notificações automáticas para nunca perder uma data importante."
+      },
+      "documents": {
+        "title": "Gestão de Documentos",
+        "description": "Armazene e organize contratos, petições e documentos de forma segura, com acesso rápido a qualquer momento."
+      },
+      "reports": {
+        "title": "Relatórios e Métricas",
+        "description": "Visualize o desempenho do seu escritório com gráficos e indicadores para tomar decisões estratégicas com dados."
+      },
+      "security": {
+        "title": "Segurança Avançada",
+        "description": "Seus dados protegidos com criptografia de ponta a ponta e controle de acesso por perfil de usuário."
+      }
+    },
+    "steps": {
+      "sectionTitle": "Como funciona",
+      "sectionDescription": "Em três etapas simples, você já está gerenciando seu escritório com eficiência.",
+      "cta": "Começar agora",
+      "step1": {
+        "title": "Crie sua conta",
+        "description": "Cadastre-se gratuitamente em poucos minutos. Basta informar seus dados e configurar o perfil do seu escritório."
+      },
+      "step2": {
+        "title": "Configure e personalize",
+        "description": "Adicione seus clientes, configure fluxos de processos e adapte o sistema à realidade do seu escritório."
+      },
+      "step3": {
+        "title": "Comece a gerenciar",
+        "description": "Com tudo configurado, gerencie clientes, processos, documentos e agenda em um painel centralizado e intuitivo."
+      }
+    },
+    "testimonials": {
+      "sectionTitle": "O que dizem nossos usuários",
+      "sectionDescription": "Advogados de todo o Brasil já confiam no LawManagement para organizar seus escritórios.",
+      "rodrigo": "O LawManagement transformou completamente a rotina do meu escritório. Antes eu usava planilhas e perdia muito tempo buscando informações. Hoje tudo está centralizado e minha produtividade triplicou.",
+      "fernanda": "A gestão de processos é simplesmente incrível. Consigo acompanhar cada caso em detalhes, recebo alertas de prazos e nunca mais perdi uma audiência. Indico para todos os colegas da OAB.",
+      "marcelo": "Atendo mais de 80 clientes e o sistema suporta tudo com leveza. A parte de documentos é o diferencial — tenho tudo organizado e acessível de qualquer lugar, até do celular.",
+      "camila": "O suporte é excelente e a plataforma é muito fácil de usar. Em menos de uma semana já estava usando com total confiança. Recomendo demais para advogados que querem modernizar o escritório."
+    },
+    "banner": {
+      "title": "Pronto para modernizar seu escritório?",
+      "description": "Junte-se a centenas de advogados que já economizam horas por semana com o LawManagement.",
+      "ctaPrimary": "Criar conta gratuita",
+      "ctaSecondary": "Fazer login"
+    },
+    "footer": {
+      "terms": "Termos de Uso",
+      "privacy": "Política de Privacidade",
+      "contact": "Contato",
+      "copyright": "© {year} LawManagement. Todos os direitos reservados."
+    }
+  },
+  "terms": {
+    "title": "Termos de Uso",
+    "lastUpdated": "Última atualização: janeiro de 2025",
+    "backToHome": "Voltar ao início",
+    "sections": {
+      "acceptance": {
+        "title": "1. Aceitação dos Termos",
+        "content": "Ao acessar e utilizar a plataforma LawManagement, você concorda em cumprir e estar vinculado a estes Termos de Uso. Se você não concordar com qualquer parte destes termos, não poderá acessar o serviço. Estes termos se aplicam a todos os usuários, incluindo visitantes, advogados e demais profissionais jurídicos que utilizam a plataforma."
+      },
+      "description": {
+        "title": "2. Descrição do Serviço",
+        "content": "O LawManagement é uma plataforma de gestão jurídica que oferece ferramentas para organização de clientes, processos, documentos e agendamentos. O serviço é disponibilizado como software como serviço (SaaS) e pode ser acessado via navegador web. Reservamo-nos o direito de modificar, suspender ou descontinuar qualquer parte do serviço a qualquer momento, mediante aviso prévio quando possível."
+      },
+      "registration": {
+        "title": "3. Cadastro e Conta de Usuário",
+        "content": "Para utilizar o LawManagement, você deve criar uma conta fornecendo informações precisas e completas. Você é responsável por manter a confidencialidade da sua senha e por todas as atividades realizadas em sua conta. Notifique-nos imediatamente em caso de uso não autorizado da sua conta. Reservamo-nos o direito de encerrar contas que violem estes termos."
+      },
+      "acceptable": {
+        "title": "4. Uso Aceitável",
+        "content": "Você concorda em utilizar a plataforma apenas para fins legais e de acordo com estes termos. É expressamente proibido: utilizar o serviço para fins fraudulentos ou ilegais; transmitir dados de terceiros sem autorização; tentar obter acesso não autorizado a sistemas ou redes; utilizar a plataforma de forma que possa danificar, sobrecarregar ou comprometer a infraestrutura do serviço."
+      },
+      "intellectual": {
+        "title": "5. Propriedade Intelectual",
+        "content": "Todo o conteúdo da plataforma, incluindo textos, gráficos, logotipos, ícones e software, é propriedade do LawManagement e está protegido pelas leis de propriedade intelectual vigentes. Os dados inseridos pelos usuários permanecem de propriedade dos respectivos usuários. Ao utilizar a plataforma, você nos concede licença limitada para processar e armazenar esses dados conforme necessário para a prestação do serviço."
+      },
+      "liability": {
+        "title": "6. Limitação de Responsabilidade",
+        "content": "O LawManagement é fornecido \"como está\", sem garantias de qualquer tipo. Em nenhuma circunstância seremos responsáveis por danos indiretos, incidentais, especiais ou consequentes decorrentes do uso ou incapacidade de uso do serviço. Nossa responsabilidade total perante você não excederá o valor pago pelo serviço nos últimos três meses."
+      },
+      "changes": {
+        "title": "7. Alterações nos Termos",
+        "content": "Reservamo-nos o direito de modificar estes termos a qualquer momento. As alterações entrarão em vigor após publicação na plataforma. O uso continuado do serviço após a publicação das alterações constitui aceitação dos novos termos. Recomendamos que você revise periodicamente estes termos para se manter informado sobre quaisquer mudanças."
+      },
+      "contact": {
+        "title": "8. Contato",
+        "content": "Em caso de dúvidas sobre estes Termos de Uso, entre em contato conosco pelo e-mail: nicolasbezerra13@gmail.com. Responderemos às suas solicitações no prazo de até 5 dias úteis."
+      }
+    }
+  },
+  "privacy": {
+    "title": "Política de Privacidade",
+    "lastUpdated": "Última atualização: janeiro de 2025",
+    "backToHome": "Voltar ao início",
+    "intro": "A sua privacidade é importante para nós. Esta Política de Privacidade explica como coletamos, usamos e protegemos suas informações ao utilizar o LawManagement.",
+    "sections": {
+      "collect": {
+        "title": "1. Informações que Coletamos",
+        "content": "Coletamos informações que você fornece diretamente, como nome, endereço de e-mail e senha no momento do cadastro. Também coletamos dados inseridos durante o uso da plataforma, como informações de clientes, processos e documentos. Dados de uso, como endereço IP, tipo de navegador e páginas acessadas, são coletados automaticamente para fins de segurança e melhoria do serviço."
+      },
+      "use": {
+        "title": "2. Como Usamos suas Informações",
+        "content": "Utilizamos suas informações para: fornecer, operar e melhorar o serviço; autenticar sua identidade e proteger sua conta; enviar notificações relacionadas ao serviço; responder a solicitações de suporte; cumprir obrigações legais. Não utilizamos seus dados para fins de marketing sem o seu consentimento expresso."
+      },
+      "storage": {
+        "title": "3. Armazenamento e Segurança",
+        "content": "Seus dados são armazenados em servidores seguros com criptografia em repouso e em trânsito. Implementamos medidas técnicas e organizacionais adequadas para proteger suas informações contra acesso não autorizado, alteração, divulgação ou destruição. Mantemos seus dados pelo tempo necessário para a prestação do serviço ou conforme exigido por lei."
+      },
+      "sharing": {
+        "title": "4. Compartilhamento de Dados",
+        "content": "Não vendemos, alugamos ou compartilhamos suas informações pessoais com terceiros para fins comerciais. Podemos compartilhar dados com prestadores de serviços que nos auxiliam na operação da plataforma, sempre sob acordos de confidencialidade. Poderemos divulgar informações quando exigido por lei ou para proteger direitos, propriedade ou segurança."
+      },
+      "rights": {
+        "title": "5. Seus Direitos (LGPD)",
+        "content": "Nos termos da Lei Geral de Proteção de Dados (LGPD), você tem o direito de: acessar seus dados pessoais; corrigir dados incompletos ou incorretos; solicitar a exclusão de seus dados; revogar o consentimento para tratamento de dados; solicitar portabilidade dos seus dados. Para exercer esses direitos, entre em contato pelo e-mail nicolasbezerra13@gmail.com."
+      },
+      "cookies": {
+        "title": "6. Cookies",
+        "content": "Utilizamos cookies essenciais para manter sua sessão autenticada e garantir o funcionamento correto da plataforma. Não utilizamos cookies de rastreamento para publicidade. Você pode configurar seu navegador para recusar cookies, mas isso pode afetar o funcionamento de algumas funcionalidades do serviço."
+      },
+      "changes": {
+        "title": "7. Alterações nesta Política",
+        "content": "Podemos atualizar esta Política de Privacidade periodicamente. Notificaremos sobre mudanças significativas por e-mail ou através de aviso na plataforma. O uso continuado do serviço após as alterações constitui aceitação da política revisada."
+      },
+      "contact": {
+        "title": "8. Contato",
+        "content": "Para dúvidas sobre esta Política de Privacidade ou sobre o tratamento dos seus dados, entre em contato: nicolasbezerra13@gmail.com. Responderemos no prazo de até 5 dias úteis."
+      }
+    }
   }
 }

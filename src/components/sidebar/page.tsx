@@ -32,7 +32,7 @@ export default function Sidebar() {
 
   const handleLogoutConfirm = useCallback(async (): Promise<void> => {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/login");
+    router.push("/");
   }, [router]);
 
   const handleLogoutCancel = useCallback(() => {
@@ -94,7 +94,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-40 border-b border-gray-200 bg-white p-3 md:hidden">
+      <div className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-gray-900 p-3 md:hidden">
         <div className="flex items-center justify-between">
           <Button
             type="button"
@@ -123,7 +123,10 @@ export default function Sidebar() {
       </aside>
 
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-        <SheetContent side="left" className="w-[280px] border-r-0 bg-gray-900 p-4 text-white">
+        <SheetContent
+          side="left"
+          className="w-70 border-r-0 bg-gray-900 p-4 text-white"
+        >
           <SheetTitle className="sr-only">Navigation menu</SheetTitle>
           <div className="flex h-full flex-col">{sidebarContent}</div>
         </SheetContent>

@@ -124,8 +124,7 @@ export const ClientForm = ({
         {onCancel && (
           <Button
             type="button"
-            variant="outline"
-            className="w-full cursor-pointer sm:w-auto"
+            className="w-full cursor-pointer sm:w-auto bg-gray-900 border border-white/10 shadow text-amber-50 hover:bg-gray-700"
             onClick={onCancel}
             disabled={isLoading}
           >
@@ -133,7 +132,7 @@ export const ClientForm = ({
           </Button>
         )}
         <Button
-          className="w-full cursor-pointer bg-gray-900 hover:bg-gray-800 sm:w-auto"
+          className="w-full cursor-pointer bg-blue-600 hover:bg-blue-500 text-white sm:w-auto"
           type="submit"
           disabled={isLoading}
         >
