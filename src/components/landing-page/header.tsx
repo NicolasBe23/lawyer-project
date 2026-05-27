@@ -21,7 +21,7 @@ export default function HeaderLP() {
             priority
             className="h-11 w-auto object-contain"
           />
-          <div className="flex flex-col leading-none font-bold text-amber-200 text-xs">
+          <div className="hidden sm:flex flex-col leading-none font-bold text-amber-200 text-xs">
             <span>Law</span>
             <span>Management</span>
           </div>
