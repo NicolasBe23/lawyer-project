@@ -15,6 +15,13 @@ export const strapiApi = axios.create({
   },
 });
 
+strapiApi.interceptors.request.use((config) => {
+  if (config.data instanceof FormData && config.headers) {
+    config.headers.delete("Content-Type");
+  }
+  return config;
+});
+
 export const clientService = {
   getAll: () => strapiApi.get<StrapiResponse<Client>>("/clients"),
   getById: (id: string) =>
